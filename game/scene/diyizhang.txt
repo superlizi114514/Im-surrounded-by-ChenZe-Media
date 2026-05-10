@@ -1,0 +1,2610 @@
+; 完蛋！我被陈泽传媒包围了
+; 第一章：陈泽的直播之路（2013-2014）
+; 第一幕：清晨的煎饼果子
+; 版本：v2.0 - A1/A2 路线实装
+
+; ============================================
+; 好感度初始化
+; ============================================
+
+label:start;
+setVar:baihei_fav=0;
+setVar:liujun_fav=0;
+setVar:laocui_fav=0;
+setVar:rongyiming_fav=0;
+; 从 userData 读取序章的选择（1=摸脖子解锁，0=未解锁）
+setVar:parallel_unlock=userData.neck_touch;
+setVar:parallel_unlock=parallel_unlock||0;
+jumpLabel:scene1;
+
+; ============================================
+; 第一幕：清晨的煎饼果子
+; ============================================
+
+label:scene1;
+
+bgm:bw.MP3;
+
+changeBg:上学路上·清晨.png;
+
+:新的一天。;
+
+:清晨的上学路上，行人稀少。;
+:路边的草丛里，有什么东西闪了一下。;
+
+; changeFigure:睡梦罗汉秘籍.png -center -transform={"scale":{"x":0.5,"y":0.5},"position":{"x":0,"y":200}};
+
+:是一本泛黄的小册子，封面上写着"睡梦罗汉"四个字。;
+
+choose:捡起来:pick_up_book|不捡:ignore_book;
+
+label:pick_up_book;
+setVar:dream_book=1;
+:我鬼使神差地弯下腰，捡起了那本小册子。;
+:触手冰凉，仿佛带着某种莫名的力量。;
+changeFigure:none -center;
+jumpLabel:scene1_classroom;
+
+label:ignore_book;
+setVar:dream_book=0;
+:我没在意，大概是哪个小孩丢掉的玩具吧。;
+changeFigure:none -center;
+jumpLabel:scene1_classroom;
+
+label:scene1_classroom;
+
+changeBg:教室早上.png;
+
+changeFigure:none -left;
+
+label:scene1_continue;
+
+playVideo:firstcgone.mp4 -skipOff;
+
+changeBg:学校操场·运动会.png;
+
+:我们每天都是如此快乐。;
+:如果非要说有什么其他新奇的话，我有个朋友的朋友拉我去做短视频。好像叫张什么尧。;
+
+changeBg:教室早上.png;
+
+:有一天。;
+
+:班主任王艳华把我俩安排在了第一排靠窗的位置。;
+:说是想要我"带带他"。;
+:从那天起，我和陈泽成了班里默认的"那对儿"。;
+:我们每天玩闹，一起玩那些你追我赶的幼稚游戏。;
+
+:坐在座位上，脖子不知道为什么痒痒的，好像有根线？;
+
+; 【脖子痒伏笔选择】
+choose:摸一下:touch_neck|不摸:ignore_neck;
+
+label:touch_neck;
+setVar:parallel_unlock=1;
+:我伸手摸了摸脖子，感觉好像又没有了。;
+:我......我在做什么？;
+:赶紧放下手，脸颊有些发烫。;
+jumpLabel:scene1_after_video;
+
+label:ignore_neck;
+setVar:parallel_unlock=0;
+:我没在意，大概是错觉吧。;
+jumpLabel:scene1_after_video;
+
+label:scene1_after_video;
+
+:早上七点二十，早自习的铃声还没有响起。;
+
+changeFigure:陈泽第一章正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"早啊，妍，你可来的真早！" -陈泽/早啊，妍，你可来的真早！.mp3;
+
+:他喘着粗气坐下来，转头冲我傻笑。;
+:然后小心翼翼地从怀里掏出热气腾腾的纸袋子递给我。;
+
+changeFigure:陈泽第一章给煎饼.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"我怕你早上没吃饭…给你带的。" -陈泽/我怕你早上没吃饭…给你带的。.mp3;
+
+:他好像还想说什么，最后只抿了抿嘴，偷偷抬眼看了我一下。;
+:正是校门口那家的煎饼果子，加蛋加肠是我每日的固定搭配。;
+:我自己都不上心的喜好，他反倒记得一清二楚。;
+
+changeFigure:陈泽第一章开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"咱俩还客气啥，跟我不用说这些。" -陈泽/咱俩还客气啥，跟我不用说这些。.mp3;
+
+:他笑了笑，眼睛弯成了月牙。;
+:我明白，那是只属于我的笑容。;
+
+:陈泽在学习上向来不开窍。;
+:可唯独在惦记我的这些小事上，总是格外用心。;
+:连我自己都常常忽略的喜好，他却记得比谁都清楚。;
+
+; ============================================
+; 第二幕：井字棋
+; ============================================
+
+label:scene2;
+
+:距离早自习还有二十分钟。;
+:陈泽邀请我玩井字棋，我同意了。;
+:陈泽从桌洞里拽出一个作业本，随便撕了一张，用笔画了一个歪歪扭扭的井字格。;
+changeFigure:井字棋.png -next;
+:我先手，在中间画了个 X。陈泽想了想，在左上角画了个 O。;
+:几个回合下来，我又赢了。;
+changeFigure:none -next;
+陈泽:"不算不算，五局三胜，再来一把。" -陈泽/不算不算，五局三胜，再来一把。.mp3;
+:他不服气，又画了一个井字格。;
+:阳光洒在他的侧脸上，睫毛很长。我看着他，突然觉得时间过得好慢，慢到我想让这一刻永远停下来。;
+:虽然他对课堂上的知识一窍不通，学了这么久也只会背三篇文言文。（出师表、马说、陋室铭）但是在这小小的井字格里，却总能想尽办法逗我开心。;
+
+changeFigure:陈泽第一章说话.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"来，重新开始。老规矩。我赢了，那你给我买一周早饭。如果你赢了……" -陈泽/来，重新开始。老规矩。我赢了，那你给我买一周早饭。如果你赢了…….mp3;
+
+; 【选择 1】
+choose:我赢了怎么样？:option1_a|我才不会输呢:option1_b;
+
+label:option1_a;
+setVar:chenze_fav=chenze_fav+2;
+:          陈泽好感度加 2，当前好感度：{chenze_fav};
+
+:我故意开口问他，心里其实满是期待。;
+
+changeFigure:陈泽第一章低头开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"那你要是赢了……我就帮你写作业。" -陈泽/那你要是赢了……我就帮你写作业.mp3;
+
+:我被他这天真的模样逗得忍不住笑出了声。;
+
+changeFigure:none -left;
+
+:算了吧，你自己的作业都是抄我的，还帮我写呢～;
+
+changeFigure:陈泽第一章正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"那……那我给你买一个月早饭还不行吗，反正我除了学习帮不上你，别的都可以帮。" -陈泽/那……那我给你买一个月早饭还不行吗，反正我除了学习帮不上你，别的都可以帮。.mp3;
+
+:旁边原本只是随口听着的同学，瞬间凑过来跟着起哄打趣。;
+:喧闹的笑声里，我的脸颊一点点发烫，红得越来越明显。;
+
+changeFigure:陈泽第一章开心咧嘴笑.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"嘿嘿，你笑什么。" -陈泽/嘿嘿，你笑什么。.mp3;
+
+jumpLabel:scene3_start;
+
+label:option1_b;
+setVar:chenze_fav=chenze_fav+1;
+:          陈泽好感度加 1，当前好感度：{chenze_fav};
+
+:我扬起下巴，一副胸有成竹的样子。;
+
+changeFigure:陈泽第一章低头开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"行啊，那我倒要看看你怎么赢我。这样吧，你要是赢了，我改帮你做一周值日。我要是赢了，你陪我去网吧……" -陈泽/行啊，那我倒要看看你怎么赢我。这样吧，你要是赢了，我改帮你做一周值日。我要是赢了，你陪我去网吧…….mp3;
+
+changeFigure:none -left;
+
+:我打断他。;
+
+王女开:"不行！" -王女开/不行！.mp3;
+
+:我白了他一眼，但心里还是松了口气。;
+
+jumpLabel:scene3_start;
+
+; ============================================
+; 第三幕：王展虎来了
+; ============================================
+
+label:scene3_start;
+
+:早自习马上开始的时候，王展虎双手插兜走进了教室。;
+:王展虎的妈妈是我们班主任王艳华，所以他在班里向来都是横行霸道的作风。;
+
+changeFigure:虎双手插兜.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+王展虎:"呦，玩的挺开心啊。" -展虎/呦，玩的挺开心啊。.mp3;
+
+changeFigure:虎开心.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+:他一把抢走我们刚才玩的井字棋纸，揉成一团，扔在地上。;
+
+changeFigure:陈泽第一章更生气.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+:陈泽脸上的笑容缓缓消失，眼底渐渐升起一丝怒气。;
+changeFigure:虎正常新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+陈泽:"你有病吧。" -陈泽/你有病吧。.mp3;
+
+:他弯腰捡起纸团，重新展开。;
+
+changeFigure:虎正常新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+王展虎:"王妍，你跟我出来一下。我有话跟你说。" -展虎/王妍，你跟我出来一下。我有话跟你说。.mp3;
+
+changeFigure:虎邀请.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+:王展虎直接无视了陈泽，伸手想拉我。;
+
+; 【选择 2】
+choose:躲开:dodge|让他拉着:let_pull;
+
+label:dodge;
+setVar:chenze_fav=chenze_fav+1;
+:          陈泽好感度加 1，当前好感度：{chenze_fav};
+
+:我下意识地往陈泽那边靠了靠。;
+:王展虎的手僵在半空中。;
+changeFigure:none -left -next;
+changeFigure:none -right -next;
+changeBg:泽推虎.png -next;
+:陈泽一个巴掌给展虎的手打了回去;
+changeBg:教室早上.png;
+
+changeFigure:虎正常新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+jumpLabel:scene4_start;
+
+label:let_pull;
+setVar:chenze_fav=chenze_fav-2;
+:          陈泽好感度减 2，当前好感度：{chenze_fav};
+
+changeFigure:虎正常新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+label:scene4_after_pull;
+:王展虎的指尖扣住我手腕的瞬间，陈泽原本抬起的身子顿了半秒。;
+:眼神里的急切慢慢沉了下去。;
+
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:他慢慢走到我面前，伸手捏住王展虎的手腕，缓慢地、一点点掰开。;
+changeFigure:none -left -next;
+changeFigure:none -right -next;
+changeBg:泽推虎.png -next;
+陈泽:"放手。" -陈泽/放手。.mp3;
+:王展虎被他的力道逼得松开手，骂骂咧咧地后退。;
+:陈泽却没再看他，只是站在我面前。;
+changeBg:教室早上.png;
+:他说完就转身走回自己的座位，背对着我，肩膀绷得很紧，再也没回头。;
+
+陈泽:"（看向我）你明明可以躲开的。" -陈泽/你明明可以躲开的。.mp3;
+
+changeFigure:none -left;
+
+jumpLabel:scene4_start;
+
+; ============================================
+; 第四幕：冲突升级
+; ============================================
+
+label:scene4_start;
+
+changeFigure:虎正常新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+王展虎:"陈泽，你他妈敢打我？" -展虎/陈泽，你他妈敢打我？.mp3;
+
+:王展虎不敢置信地指着陈泽。;
+
+changeFigure:虎指人新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+陈泽:"打你怎么了？你再动她一下试试。" -陈泽/打你怎么了？你再动她一下试试。.mp3;
+
+:陈泽从座位上站起来。;
+:空气瞬间凝固了。周围的同学都安静下来，等着看热闹。;
+
+王展虎:"行，你给我等着，真以为自己有多了不起了？" -展虎/行，你给我等着，真以为自己有多了不起了？.mp3;
+
+:王展虎转身要走，突然又回过头，恶狠狠地盯着陈泽。;
+
+changeFigure:虎指人新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+王展虎:"就你这样的，也配和我抢？我王展虎想得到的，就没有我得不到的，我们走着瞧。" -展虎/就你这样的，也配和我抢？我王展虎想得到的，就没有我得不到的，我们走着瞧。.mp3;
+
+:我能看到陈泽逐渐握紧了拳头，脖颈上青筋暴起。;
+
+王展虎:"你也不看看自己什么家庭！爸妈离婚，天天无所事事混在网吧，你真以为自己有多了不起？" -展虎/你也不看看自己什么家庭！爸妈离婚，天天无所事事混在网吧，你真以为自己有多了不起？.mp3;
+
+:斩虎一边说着，走回自己的座位，完全没把愤怒的陈泽放在眼里。;
+
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"王展虎。你再说一遍。" -陈泽/王展虎。你再说一遍。.mp3;
+
+:陈泽的声音沉得厉害，冷得像寒冬里冻透的坚冰。;
+:没有半分温度，字字都裹着压抑到极致的怒火。;
+:连周遭的空气都跟着泛起刺骨的凉意。;
+
+changeFigure:陈泽第一章更生气.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+王展虎:"我说——" -展虎/我说——.mp3;
+
+:王展虎死死地盯着陈泽，从桌子上一步一步踩了过来。;
+:一步，两步，三步……;
+:他踩过几排课桌到陈泽桌前跳下，王展虎高了陈泽大半个头。;
+:他不屑地看着陈泽，像电影里的黑社会。;
+
+changeFigure:虎巨愤怒.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+playEffect:dialog.mp3;
+
+:他扇了陈泽一巴掌。很响，整个教室都听见了。;
+playEffect:巴掌.mp3;
+:我有点紧张，想去阻拦，但又做不出什么举动。;
+
+; ============================================
+; 第五幕：陈泽还手
+; ============================================
+
+label:scene5;
+
+:此刻时间仿佛静止一般。所有人都认为陈泽应该吞下这口气。;
+:但他没有。;
+
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:他站在原地，一言不发，突然猛地抬起头一拳抡了过去。;
+
+changeFigure:陈泽第一章待挥拳.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+wait:200;
+changeFigure:陈泽第一章待挥拳中间动作.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+wait:200;
+changeFigure:陈泽第一章挥拳.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+wait:200;
+
+:正中王展虎的鼻子，血瞬间就流出来了。;
+
+changeFigure:虎被打了一拳.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+王展虎:"啊！你他妈——" -展虎/啊！你他妈——.mp3;
+
+changeFigure:虎巨愤怒.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:陈泽没给他说话机会，一把揪住王展虎的衣领，把他按在墙上。;
+
+陈泽:"我告诉你，王展虎。你再敢动她一下，我他妈弄死你。不信你就试试。" -陈泽/我告诉你，王展虎。你再敢动她一下，我他妈弄死你。不信你就试试.mp3;
+
+:陈泽的声音很小，小到只有王展虎能听到。;
+:但每个字都像一柄重锤，传进王展虎的耳朵。;
+:那是我第一次见到这样的陈泽。冷得像冰，狠得像狼。;
+
+:王展虎被吓傻了，只会点头。;
+:就在这时，上课铃响了。;
+
+label:scene6;
+
+changeFigure:虎担心新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+changeFigure:none -left;
+
+:王艳华走进教室，一眼就瞧见王展虎还在流血的鼻子，脸色立马阴沉下来。;
+
+王艳华:"怎么回事？！谁干的？！" -王艳华/怎么回事？！谁干的？！.mp3;
+
+:王展虎捂着鼻子指向陈泽，恶人先告状。;
+
+changeFigure:虎指人新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+王展虎:"他打我。" -展虎/他打我。.mp3;
+
+:王艳华的眼神像刀子一样扎在陈泽身上。;
+
+王艳华:"陈泽，你给我出来！" -王艳华/陈泽，你给我出来！.mp3;
+
+:陈泽松开手，整理了一下衣服。;
+:他看了我一眼，那眼神好像在说"没事"。;
+:他跟着老师走出来教室，背影很挺拔。;
+
+; ============================================
+; 第七幕：走廊体罚
+; ============================================
+
+label:scene7;
+
+changeBg:走廊.png;
+changeFigure:none -right;
+changeFigure:教师.png -center -transform={"scale":{"x":1.8,"y":1.8},"position":{"x":0,"y":150}};
+
+:王艳华把陈泽叫到了走廊。我透过窗户，能看到外面的情况。;
+
+王艳华:"陈泽，你是长本事了是吧？" -王艳华/陈泽，你是长本事了是吧？.mp3;
+王艳华:"平时你学习差，打扰同学，还给其他班的同学在网上配对，我都忍了你了。" -王艳华/平时你学习差，打扰同学，还给其他班的同学在网上配对，我都忍了你了。.mp3;
+王艳华:"现在变本加厉，还知道欺负同学了是吗？" -王艳华/现在变本加厉，还知道欺负同学了是吗？.mp3;
+
+:王艳华抬手就是一巴掌。陈泽没躲。;
+playEffect:巴掌.mp3;
+
+changeFigure:陈泽第一章被打脸.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}} -next;
+
+:一下，两下，三下……;
+:王艳华的手不停地打在陈泽的脸上。陈泽就那样站着，一声不吭。;
+:我看到他的嘴角渗出了血丝，但他还是没有躲。;
+
+changeFigure:陈泽第一章流鼻血.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+王艳华:"你这种学生，我教不了！把你家长叫来！" -王艳华/你这种学生，我教不了！把你家长叫来！.mp3;
+
+:陈泽始终没说话。他只是站在那，像一尊雕像。;
+:一节课四十五分钟，他就站了四十五分钟。;
+
+; 【选择 3】
+choose:过去给他送纸:give_paper|待在教室里:stay_in_class;
+
+label:give_paper;
+setVar:chenze_fav=chenze_fav+5;
+:          陈泽好感度加 5，当前好感度：{chenze_fav};
+
+:我实在看不下去了。趁着王艳华回办公室，我溜出了教室。;
+:走廊里，陈泽的脸已经肿了，嘴角还有血。;
+
+changeFigure:none -center;
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+王女开:"陈泽……" -王女开/陈泽。.mp3;
+
+:我掏出纸巾，轻轻给他擦。看着他的样子，眼里渐渐红润。;
+
+陈泽:"我没事。" -陈泽/我没事。.mp3;
+
+:他的声音很哑，但看我的眼神还是那么温柔。;
+
+王女开:"疼吗？" -王女开/疼吗？.mp3;
+
+陈泽:"不疼。你别哭就行。" -陈泽/不疼。你别哭就行.mp3;
+
+:我的眼泪突然就掉下来了。;
+
+changeFigure:陈泽第一章窘迫.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"哎呀，怎么还哭了。真没事，哥皮糙肉厚的。" -陈泽/哎呀，怎么还哭了。真没事，哥皮糙肉厚的.mp3;
+
+:他想抬手摸我的头，但手抬到一半又放下了。;
+:应该是怕血渍把我的头发弄脏。;
+
+changeFigure:none -left;
+jumpLabel:scene8_start;
+
+label:stay_in_class;
+setVar:chenze_fav=chenze_fav-3;
+:          陈泽好感度减 3，当前好感度：{chenze_fav};
+
+:我坐在教室里，心神不宁。;
+:王展虎坐在我后面，用挑衅的眼神看着我。;
+:我低下头，假装没看见，但心里一直惦记着外面的陈泽。;
+:下课铃响了。陈泽走进来的时候，脸已经肿了。;
+
+changeFigure:none -center;
+changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+王女开:"你……" -王女开/你…….mp3;
+
+陈泽:"我没事。" -陈泽/我没事。.mp3;
+
+:他狼狈不堪，心中五味杂陈，假装没事摆了摆手。;
+:他冲我笑了笑，那个笑容比哭还难看。;
+:但那是我见过最温暖的笑容。;
+
+changeFigure:none -left;
+
+; ============================================
+; 第八幕：章末选择
+; ============================================
+
+label:scene8_start;
+
+changeBg:教室早上.png;
+changeFigure:none;
+
+:这件事后，陈泽被全校通报批评。;
+:王展虎请了一周的病假，没有来上学。;
+:王艳华看陈泽的眼神，像看一个仇人。但陈泽从来不正眼看她。;
+
+:我有时候会想，这样的日子，什么时候是个头。;
+
+:我开始胡思乱想，突然灵光一闪";
+
+setVar:showConditionVar=dream_book;
+setVar:enableConditionVar=dream_book;
+choose:(showConditionVar>=1)[enableConditionVar>=1]->进入陈泽的梦（无法返回）:dream_entry|继续主线:scene8_continue;
+
+label:dream_entry;
+
+changeFigure:none;
+changeBg:black;
+
+jumpLabel:dream_start;
+
+label:scene8_continue;
+
+changeFigure:陈泽第一章正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:陈泽走到我面前，脸上还带着伤。;
+
+陈泽:"妍。" -陈泽/妍。.mp3;
+
+changeFigure:none -left;
+
+:陈泽突然叫我。;
+
+陈泽:"敢不敢跟我一起创业，咱们一起干直播。" -陈泽/敢不敢跟我一起创业，咱们一起干直播。.mp3;
+
+:陈泽走到我面前。;
+
+changeFigure:陈泽第一章正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+; 【最终选择】
+setVar:showConditionVar=parallel_unlock;
+setVar:enableConditionVar=parallel_unlock;
+choose:(showConditionVar>=1)[enableConditionVar>=1]->平行宇宙觉醒（记得存档哦 XD）:parallel_universe|跟他去:live_stream|再等等吧:wait|其实，我已经有打算了:solo;
+
+label:live_stream;
+
+:我点了点头。;
+
+王女开:"好，去做直播。我们一起。" -王女开/好，去做直播。我们一起。.mp3;
+
+:陈泽笑了，是发自内心的笑。;
+:他伸手握住我的手。;
+
+陈泽:"有你那句话就够了。其他的，哥来扛。" -陈泽/有你那句话就够了。其他的，哥来扛。.mp3;
+
+changeFigure:none -left;
+
+jumpLabel:a1_scene2;
+
+; ============================================
+; A1 辍学线：第二幕 母亲发现
+; ============================================
+
+label:a1_scene2;
+
+changeBg:陈泽老家客厅.png;
+changeFigure:none;
+
+:那天晚上，母亲破天荒地提前下班回家。;
+
+:我推开家门时，客厅的灯亮着。母亲坐在沙发上，面前摆着我的书包——里面是我的课本和笔记。;
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（声音很冷）小妍，过来。" -配角/小妍，过来.mp3;
+
+:我的心跳漏了一拍。;
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（把一张纸拍在桌上）这是你们班主任今天给我打的电话。说你不想上学了，要跟那个陈泽去做什么直播？" -配角/这是你们班主任今天给我打的电话。说你不想上学了，要跟那个陈泽去做什么直播？.mp3;
+
+choose:是他逼我的:a1_mother_blame|是我自己想做的:a1_mother_defend|沉默:a1_mother_silent;
+
+label:a1_mother_blame;
+setVar:chenze_fav=chenze_fav-5;
+:【陈泽好感度减5，当前：{chenze_fav}】;
+jumpLabel:a1_mother_continue;
+
+label:a1_mother_defend;
+setVar:chenze_fav=chenze_fav+3;
+:【陈泽好感度加3，当前：{chenze_fav}】;
+jumpLabel:a1_mother_continue;
+
+label:a1_mother_silent;
+:【无变化】;
+jumpLabel:a1_mother_continue;
+
+label:a1_mother_continue;
+
+changeFigure:王母愤怒.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（猛地站起来，椅子发出刺耳的摩擦声）你说什么？" -配角/你说什么？.mp3;
+王母:"你才初二！你不读书你想干什么？！" -配角/你才初二！你不读书你想干什么？！.mp3;
+
+王女开:"（握紧拳头）我想跟陈泽一起做直播。他打游戏很厉害，我们可以做视频，可以赚钱……" -王女开/我想跟陈泽一起做直播。他打游戏很厉害，我们可以做视频，可以赚钱…….mp3;
+
+王母:"（打断，声音很冷）直播？就那个父母离婚谁都不要的孩子？就那个整天在网吧混的小混混？" -配角/直播？就那个父母离婚谁都不要的孩子？就那个整天在网吧混的小混混？.mp3;
+
+王女开:"（声音发抖）他不是小混混……他对我很好……" -王女开/他不是小混混……他对我很好…….mp3;
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（一巴掌扇过来）" -配角/（一巴掌扇过来）.mp3;
+playEffect:巴掌.mp3;
+
+playEffect:摔手机.mp3;
+
+:我的脸火辣辣地疼。;
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"你再说一遍？！" 
+
+choose:我没错:a1_mother_fight|对不起:a1_mother_compromise|……:a1_mother_silent2;
+
+label:a1_mother_fight;
+
+王女开:"（眼泪掉下来，但声音很坚定）我没错。妈，你可以打我，但我不会改变主意。" -王女开/我没错。妈，你可以打我，但我不会改变主意。.mp3;
+
+changeFigure:王母愤怒.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（气得手发抖）好，好，好。你有本事。" -配角/好，好，好。你有本事.mp3;
+王母:"（从抽屉里拿出一张纸）这是补习班的报名表，我已经给你报好了。从明天开始，你哪儿也不许去，就在家学习。" -配角/这是补习班的报名表，我已经给你报好了。从明天开始，你哪儿也不许去，就在家学习。.mp3;
+
+王女开:"（摇摇头）妈，我不去。" -王女开/妈，我不去。.mp3;
+
+王母:"（盯着我，声音很冷）你不去是吧？" -配角/你不去是吧？.mp3;
+王母:"好。你今天走出这个门，就别再回来。" -配角/好。你今天走出这个门，就别再回来.mp3;
+
+:我站在原地，手脚冰凉。;
+
+王女开:"……对不起，妈。" -王女开/……对不起，妈.mp3;
+
+:我转身，走出了家门。;
+
+:身后是母亲的怒吼，是椅子倒地的声音，是我十六年来最熟悉的那个家的声音。;
+
+:但这次，我没有回头。;
+
+setVar:chenze_fav=chenze_fav+5;
+
+jumpLabel:a1_scene3;
+
+label:a1_mother_compromise;
+
+王女开:"（低下头）对不起……" -王女开/对不起…….mp3;
+
+:母亲叹了口气，把我拉进房间。;
+
+:那晚，我们谁也没有说话。;
+
+changeBg:placeholder_living_room.png;
+
+:第二天早上，母亲红着眼睛坐在沙发上，面前摆着一张银行卡。;
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（声音沙哑）小妍，你过来。" -配角/小妍，你过来.mp3;
+
+:我走过去，母亲拉着我的手，把银行卡塞进我手心。;
+
+王母:"这里面有五万块钱，是我这些年攒的。" -配角/这里面有五万块钱，是我这些年攒的。.mp3;
+
+王女开:"（愣住了）妈，这……" -王女开/妈，这…….mp3;
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（打断，眼眶红了）妈不是不管你，妈是怕你走弯路。" -配角/妈不是不管你，妈是怕你走弯路.mp3;
+
+王母:"但你看重的东西，妈不想让你放弃。" -配角/但你看重的东西，妈不想让你放弃。.mp3;
+
+王母:"（声音哽咽）你要是真想去，就去吧。要是有一天累了，就回家，妈永远在这里等你。" -配角/你要是真想去，就去吧。要是有一天累了，就回家，妈永远在这里等你。.mp3;
+
+王女开:"（眼泪掉下来，跪在地上）妈……谢谢你……但我不能要你的钱。" -王女开/妈……谢谢你……但我不能要你的钱。.mp3;
+
+王女开:"（抬起头，眼神坚定）妈，我用我的性命跟你保证——我一定会好好的，不会让你失望。" -王女开/妈，我用我的性命跟你保证——我一定会好好的，不会让你失望。.mp3;
+
+:母亲把我扶起来，拍了拍我的背，很轻，很温柔。;
+
+:那是我第一次发现，母亲的头发里，已经有了几根银丝。;
+
+changeFigure:none -center;
+changeBg:black;
+
+setVar:chenze_fav=chenze_fav+5;
+
+jumpLabel:a1_scene3;
+
+label:a1_mother_silent2;
+
+王女开:"……" -王女开/…….mp3;
+
+:母亲盯着我看了很久，最终叹了口气。;
+
+:那晚，我被关在家里，不许出门。;
+
+jumpLabel:a1_scene3;
+
+; ============================================
+; A1 辍学线：第三幕 小臭屋
+; ============================================
+
+label:a1_scene3;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:陈泽住的地方不大，一个单间，一张床，一张桌子，堆满了泡面盒和饮料瓶。;
+
+:他把这里叫做"小臭屋"。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（看着我，眼神复杂）你真出来了？" -陈泽/你真出来了？.mp3;
+
+王女开:"（点点头）嗯。" -王女开/……嗯。.mp3;
+
+陈泽:"（沉默了几秒）你妈……" -陈泽/你妈…….mp3;
+
+王女开:"（摇摇头）没事了。我已经跟妈说好了，她会同意我的。" -王女开/没事了。我已经跟妈说好了，她会同意我的。.mp3;
+
+:陈泽没再说话。他伸手把我拉进怀里，很用力，像要把我揉进身体里。;
+
+陈泽:"（声音很哑）妍，我不会让你后悔的。" -陈泽/妍，我不会让你后悔的。.mp3;
+
+choose:我相信你:a1_embrace_trust|……嗯:a1_embrace_silent|我不知道:a1_embrace_doubt;
+
+label:a1_embrace_trust;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度加5，当前：{chenze_fav}】;
+
+王女开:"（把头埋在他胸口）我相信你。" -王女开/我相信你。.mp3;
+
+jumpLabel:a1_embrace_end;
+
+label:a1_embrace_silent;
+setVar:chenze_fav=chenze_fav+2;
+:【陈泽好感度加2，当前：{chenze_fav}】;
+
+王女开:"……嗯。" -王女开/……嗯。.mp3;
+
+jumpLabel:a1_embrace_end;
+
+label:a1_embrace_doubt;
+setVar:chenze_fav=chenze_fav-3;
+:【陈泽好感度减3，当前：{chenze_fav}】;
+
+王女开:"我不知道。" -王女开/……我不知道.mp3;
+
+jumpLabel:a1_embrace_end;
+
+label:a1_embrace_end;
+
+:他的心跳很快，一下，两下，三下……;
+
+:和陈泽在一起的日子，每天都很开心。;
+
+:无论他说什么做什么，每一个笑容每一句话，都像一缕温暖的阳光照在我身上，那么幸福快乐。;
+
+jumpLabel:a1_scene4;
+
+; ============================================
+; A1 辍学线：第四幕 最难的时候
+; ============================================
+
+label:a1_scene4;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:刚开始直播，直播间就只有寥寥几人，弹幕上也极少有人互动。;
+
+:收入自然也非常低迷。;
+
+:最难的时候，为了几个 Q 币，陈泽也只能给直播间的老铁磕头，恳求老铁们赞助一点。;
+
+changeFigure:小臭屋陈泽很开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（对着摄像头，低着头）谢谢老铁送的礼物，谢谢……" -陈泽/谢谢老铁送的礼物，谢谢…….mp3;
+
+:我坐在床边，看着他的背影，眼泪止不住地流。;
+
+王女开:"（小声）阿泽，要不……我们回去吧。" -王女开/阿泽，要不……我们回去吧。.mp3;
+
+changeFigure:小臭屋陈泽思考.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（猛地回头，眼睛很红）你说什么？" -陈泽/你说什么？.mp3;
+
+choose:我们回去吧:a1_giveup|我是说……再坚持一下:a1_persist;
+
+label:a1_giveup;
+
+:王女开:"（擦掉眼泪）我们回去吧。";
+
+:陈泽盯着我看了很久，最终点了点头。;
+
+:我们回到了各自的家，直播梦碎了。;
+
+:【BE 结局：梦碎】;
+
+changeFigure:none -left;
+jumpLabel:ending_ch1;
+
+label:a1_persist;
+setVar:chenze_fav=chenze_fav+3;
+:【陈泽好感度加3，当前：{chenze_fav}】;
+
+王女开:"（擦掉眼泪，挤出一个笑容）我是说……再坚持一下。总会好起来的。" -王女开/我是说……再坚持一下。总会好起来的。.mp3;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（盯着我看了几秒，然后笑了）嗯。会好起来的。" -陈泽/嗯。会好起来的。.mp3;
+陈泽:"等我火了，给你买大房子，不用再住这个小臭屋。" -陈泽/等我火了，给你买大房子，不用再住这个小臭屋。.mp3;
+
+王女开:"（摇摇头）我不怕一起住小臭屋。我只怕……你没有在我身边。" -王女开/我不怕一起住小臭屋。我只怕……你没有在我身边。.mp3;
+
+:陈泽走过来，坐在我身边，伸手把我搂进怀里。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（轻声）我不会走的。这辈子都不会。" -陈泽/我不会走的。这辈子都不会。.mp3;
+
+jumpLabel:a1_scene5;
+
+; ============================================
+; A1 辍学线：第五幕 陈泽加入
+; ============================================
+
+label:a1_scene5;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+playEffect:dialog.mp3;
+
+:这个时候门外传来了敲门声。陈泽从电脑前抬起头，走过去开门。;
+
+:门外站着一个男生。;
+:后来我才知道，他就是黑白，网上 ID 叫"折木奉太郎"。;
+:当时陈泽在互联网上已经有十几万粉丝，游戏 ID"最强走砍"。;
+:那段时间陈泽经常能在游戏中匹配到黑白，两人渐渐熟络。;
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+
+陈泽:"（走过来）对了，给你介绍一下。" -陈泽/对了，给你介绍一下。.mp3;
+陈泽:"这我女朋友，王女开。" -陈泽/这我女朋友，王妍。.mp3;
+陈志涛:"（看向我）哦，嫂子好。" -黑白/哦，嫂子好。.mp3;
+陈泽:"这是黑白，网上 ID 叫折木奉太郎。" -陈泽/这是黑白，网上 ID 叫折木奉太郎。.mp3;
+陈泽:"当时看我直播有十几万粉丝，因为经常能在游戏里面碰见，后来我俩就加了好友经常一起玩了。" -陈泽/当时看我直播有十几万粉丝，因为经常能在游戏里面碰见，后来我俩就加了好友经常一起玩了。.mp3;
+
+陈志涛:"英雄联盟最强走砍，不是我吹。" -黑白/英雄联盟最强走砍，不是我吹。.mp3;
+
+choose:握手:a1_baihei_handshake|点头:a1_baihei_nod|不回应:a1_baihei_ignore;
+
+label:a1_baihei_handshake;
+setVar:baihei_fav=baihei_fav+2;
+wait:1;
+
+:          陈泽好感度加 2，当前好感度：{baihei_fav};
+jumpLabel:a1_baihei_continue;
+
+label:a1_baihei_nod;
+:【无变化】;
+jumpLabel:a1_baihei_continue;
+
+label:a1_baihei_ignore;
+setVar:baihei_fav=baihei_fav-1;
+wait:1;
+
+:          陈泽好感度减 1，当前好感度：{baihei_fav};
+jumpLabel:a1_baihei_continue;
+
+label:a1_baihei_continue;
+
+:我握住他的手，感受到他眼神里的探究。;
+
+陈志涛:泽哥这就是你说的小臭屋？？" -黑白/泽哥，这就是你说的……小臭屋？.mp3;
+
+changeFigure:陈志涛惊讶.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（笑骂）滚蛋。" -陈泽/滚蛋。.mp3;
+
+陈志涛:"泽哥，我认真说的。我做代练也没什么前途，以后咱俩一起做直播呗。" -黑白/泽哥，我认真说的。我做代练也没什么前途，以后咱俩一起做直播呗。.mp3;
+
+changeFigure:小臭屋陈泽思考.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（愣了一下）你认真的？" -陈泽/你认真的？.mp3;
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（点点头）认真的。你打游戏厉害，但不会拍视频。我会。" -黑白/认真的。你打游戏厉害，但不会拍视频。我会。.mp3;
+陈志涛:"再说了，最强走砍不能只有自己。" -黑白/再说了，最强走砍不能只有自己。.mp3;
+陈志涛:"得有个专业团队。" -黑白/得有个专业团队。.mp3;
+
+changeFigure:陈志涛歪头.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（看向我）嫂子会什么？" -黑白/嫂子会什么？.mp3;
+
+changeFigure:陈志涛歪头.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+choose:我会写字:a1_baihei_write|我……不太会:a1_baihei_notsure|我负责让你们显得有文化:a1_baihei_culture;
+
+label:a1_baihei_write;
+setVar:chenze_fav=chenze_fav+1;
+setVar:baihei_fav=baihei_fav+1;
+:【陈志涛好感度加1，陈泽好感度加1】;
+jumpLabel:a1_baihei_end;
+
+label:a1_baihei_notsure;
+:【无变化】;
+jumpLabel:a1_baihei_end;
+
+label:a1_baihei_culture;
+setVar:chenze_fav=chenze_fav+2;
+setVar:baihei_fav=baihei_fav+3;
+:【陈泽好感度加2，黑白好感度加3】;
+
+王女开:"我负责让你们显得有文化。" -王女开/我负责让你们显得有文化。.mp3;
+
+陈泽:"（笑出声）可以，嫂子有意思。" -陈泽/可以，嫂子有意思。.mp3;
+
+changeFigure:陈志涛微笑.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（伸手要打我）你他妈跟谁学的。" -陈泽/你他妈跟谁学的。.mp3;
+
+王女开:"（躲开，笑了）跟你学的。" -王女开/跟你学的.mp3;
+
+jumpLabel:a1_baihei_end;
+
+label:a1_baihei_end;
+
+:那一刻，我突然觉得，或许……这样的选择也不算太糟。;
+
+:三个人，一个房间，一份外卖。;
+
+:我们开始想尽办法做出节目。;
+
+:从一个小小的游戏视频开始，互联网开始出现了阴阳玉佩的传说……;
+
+; ============================================
+; A1 辍学线：第三幕 直播起步·三人同行
+; ============================================
+
+label:a1_scene3_new;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:直播开始两周，观看人数依旧寥寥无几。;
+:陈泽打得很认真，但观众还是只有几十人。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（盯着屏幕，皱眉）这号就几个免费英雄，连个像样的皮肤都没有。太影响手感了。" -陈泽/这号就几个免费英雄，连个像样的皮肤都没有。太影响手感了。.mp3;
+
+changeFigure:陈志涛歪头.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"没事，群里发消息，问老铁借一个呗。";
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+playEffect:dialog.mp3;
+
+:陈泽撇了眼手机，点开微信。;
+
+陈志涛:"（念出来）"芝士酸奶申请添加您为好友"" -黑白/芝士酸奶申请添加您为好友.mp3;
+陈志涛:"（凑过来）通过呗，万一是哪个女粉丝呢。" -黑白/通过呗，万一是哪个女粉丝呢。.mp3;
+
+:陈泽通过了好友申请。;
+
+陈泽:"（打字）"真的假的？不会骗我吧？"" -陈泽/真的假的？不会骗我吧？.mp3;
+
+:对方很快回复了。;
+
+陈泽:"（继续念）"放心吧，我自己的号，你就用吧。看你直播玩的挺好的，一直很喜欢你，能帮到你我也很开心的。"" -陈泽/放心吧，我自己的号，你就用吧。看你直播玩的挺好的，一直很喜欢你，能帮到你我也很开心的。.mp3;
+
+:对方给发来了自己号的皮肤截图。;
+
+陈泽:"（眼睛一亮）500 皮肤？这么大方？" -陈泽/500 皮肤？这么大方？.mp3;
+
+changeFigure:陈志涛惊讶.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（凑更近）哎我，这头像，小女孩吧！" -黑白/哎我，这头像，小女孩吧！.mp3;
+
+changeFigure:小臭屋陈泽低头.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（挠挠头）这……合适吗？" -陈泽/这……合适吗？.mp3;
+
+; 【玩家选项】
+choose:借吧，反正只是打游戏:borrow_account_yes|不太好吧，万一是骗子:borrow_account_no|……你想借就借:borrow_account_silent;
+
+label:borrow_account_yes;
+setVar:rongyiming_fav=rongyiming_fav+1;
+:【荣一鸣好感度加 1，当前：{rongyiming_fav}】;
+王女开:"（小声）借吧，反正只是打游戏。" -王女开/借吧，反正只是打游戏。.mp3;
+jumpLabel:borrow_account_continue;
+
+label:borrow_account_no;
+setVar:rongyiming_fav=rongyiming_fav-1;
+:【荣一鸣好感度减 1，当前：{rongyiming_fav}】;
+王女开:"（犹豫）不太好吧，万一是骗子。" -王女开/不太好吧，万一是骗子。.mp3;
+jumpLabel:borrow_account_continue;
+
+label:borrow_account_silent;
+:【无变化】;
+王女开:"……你想借就借。" -王女开/你想借就借。.mp3;
+jumpLabel:borrow_account_continue;
+
+label:borrow_account_continue;
+
+陈泽点点头
+
+:陈泽回复了"谢谢"，随后对方发来了账号和密码。;
+
+; ============================================
+; 第二幕：线下见面邀约
+; ============================================
+
+label:a1_scene3_meetup;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:那一周，陈泽用芝士酸奶的号打直播。;
+:500 皮肤的号，什么英雄都有，陈泽打得风生水起。;
+:直播间人数从几十，涨到了几百。;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（看着弹幕）哎呦，芝士酸奶也在呢啊。感谢奥，直播间哥们们，芝士酸奶就是现在这个游戏账号的号主，大伙替我感谢一下。" -陈泽/哎呦，芝士酸奶也在呢啊。感谢奥，直播间哥们们，芝士酸奶就是现在这个游戏账号的号主，大伙替我感谢一下。.mp3;
+
+:弹幕瞬间刷屏。;
+:【弹幕】芝士酸奶牛逼！;
+:【弹幕】嫂子大气！;
+
+:陈泽手机震动，是芝士酸奶的微信。;
+
+陈泽:"（念出来）不用谢，打得不错。对了泽哥，有机会咱们见一面呗，咱俩好像离得挺近的呢。" -陈泽/不用谢，打得不错。对了泽哥，有机会咱们见一面呗，咱俩好像离得挺近的呢。.mp3;
+
+changeFigure:小臭屋陈泽思考.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（愣了一下）见面？" -陈泽/见面？.mp3;
+
+; 【玩家选项】
+choose:去吧，人家帮了你:meetup_yes|不太好吧，万一是坏人:meetup_no|……你想去就去:meetup_silent;
+
+label:meetup_yes;
+setVar:rongyiming_fav=rongyiming_fav+1;
+:【荣一鸣好感度加 1，当前：{rongyiming_fav}】;
+王女开:"（犹豫了一下，笑）去吧，人家帮了你。" -王女开/去吧，人家帮了你。.mp3;
+jumpLabel:meetup_continue;
+
+label:meetup_no;
+setVar:rongyiming_fav=rongyiming_fav-2;
+:【荣一鸣好感度减 2，当前：{rongyiming_fav}】;
+王女开:"（皱眉）不太好吧，万一是坏人。" -王女开/不太好吧，万一是坏人。.mp3;
+jumpLabel:meetup_continue;
+
+label:meetup_silent;
+:【无变化】;
+王女开:"……你想去就去。" -王女开/……你想去就去。.mp3;
+jumpLabel:meetup_continue;
+
+label:meetup_continue;
+
+changeFigure:小臭屋陈泽低头.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（看着我）妍，你别多想啊，就是，感谢一下吃个饭。" -陈泽/妍，你别多想啊，就是，感谢一下吃个饭。.mp3;
+
+changeFigure:陈志涛歪头.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（嘿嘿笑）哥，你这桃花运可以啊，这头像这网名，绝对是个大美女。账号五百个皮肤，绝对也有钱。整个一白富美吗这不是。" -黑白/哥，你这桃花运可以啊，这头像这网名，绝对是个大美女。账号五百个皮肤，绝对也有钱。整个一白富美吗这不是。.mp3;
+陈志涛:"（嘿嘿笑）哥，你这算不算私联粉丝啊？" -黑白/哥，你这算不算私联粉丝啊？.mp3;
+
+changeFigure:小臭屋陈泽愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（踹了陈志涛一脚）滚蛋。" -陈泽/滚蛋。.mp3;
+
+changeFigure:none -left;
+changeFigure:none -right;
+
+:陈泽约了芝士酸奶在网吧门口见面。;
+:我虽然同意了，但好奇心作祟，我还是决定跟他一起去。;
+
+; ============================================
+; 第三幕：芝士酸奶真容（名场面）
+; ============================================
+
+label:a1_scene3_yoghurt_reveal;
+
+changeBg:网吧.png;
+changeFigure:none;
+
+:网吧门口，一个长发女生背对着我们站着。;
+:瀑布般的长发，一直垂到腰间，穿着一身休闲装，从我的视角看，个头甚至看着和陈泽差不多高了。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（紧张地搓搓手）那个……芝士酸奶？" -陈泽/那个……芝士酸奶？.mp3;
+
+:女生转过身来。;
+
+playVideo: 荣一鸣奔现.mp4 -skipOff;
+
+playEffect:dialog.mp3;
+
+:一张堆满了笑容，但是长满胡须的脸。;
+
+changeFigure:none -left;
+
+:陈泽的笑容僵住了。;
+
+陈泽:"……" -陈泽/…….mp3;
+
+changeFigure:荣一鸣胡子.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+芝士酸奶:"（略带粗糙的男声）泽哥好，泽哥好，我是芝士酸奶。" -荣一鸣/泽哥好，泽哥好，我是芝士酸奶。.mp3;
+
+:芝士酸奶是个男生，一脸凌乱的胡须，走近后一对比，甚至比陈泽还高了不少。;
+
+changeFigure:荣一鸣胡子.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+芝士酸奶:"（伸出手）我叫荣一鸣，网名芝士酸奶。" -荣一鸣/我叫荣一鸣，网名芝士酸奶。.mp3;
+
+changeFigure:小臭屋陈泽低头.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（握也不是，不握也不是）你……你是男的？" -陈泽/你……你是男的？.mp3;
+
+changeFigure:荣一鸣胡子.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+荣一鸣:"（心虚地看了一眼我，拉过陈泽，低声说道）哥，号是我网上认的一个"好哥哥"的，我管他叫老公才借我的，借过来不也都给你玩了吗。" -荣一鸣/哥，号是我网上认的一个好哥哥的，我管他叫老公才借我的，借过来不也都给你玩了吗。.mp3;
+
+:陈泽一脸无语。;
+
+changeFigure:荣一鸣胡子.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+荣一鸣:"（搂住陈泽肩膀）咋了泽哥，看见我这么激动吗，怎么还结巴了。" -荣一鸣/咋了泽哥，看见我这么激动吗，怎么还结巴了。.mp3;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（干笑）没有没有……谢谢你的号。" -陈泽/没有没有……谢谢你的号。.mp3;
+
+changeFigure:荣一鸣胡子.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+荣一鸣:"（摆摆手）多大点事。以后有啥需要帮忙的，吱一声。" -荣一鸣/多大点事。以后有啥需要帮忙的，吱一声。.mp3;
+
+:荣一鸣走后，陈泽松了口气。;
+
+changeFigure:none -center;
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（看我）妍，我真不知道他是男的……" -陈泽/妍，我真不知道他是男的…….mp3;
+
+; 【玩家选项】
+choose:我又没生气:cheese_not_mad|……谁知道呢:cheese_who_knows|你挺失望的吧:cheese_disappointed;
+
+label:cheese_not_mad;
+setVar:rongyiming_fav=rongyiming_fav+2;
+:【荣一鸣好感度加 2，当前：{rongyiming_fav}】;
+王女开:"（别过头）我又没生气。" -王女开/我又没生气。.mp3;
+jumpLabel:cheese_end;
+
+label:cheese_who_knows;
+setVar:rongyiming_fav=rongyiming_fav-1;
+:【荣一鸣好感度减 1，当前：{rongyiming_fav}】;
+王女开:"（低下头）……谁知道呢。" -王女开/……谁知道呢。.mp3;
+jumpLabel:cheese_end;
+
+label:cheese_disappointed;
+setVar:rongyiming_fav=rongyiming_fav-3;
+:【荣一鸣好感度减 3，当前：{rongyiming_fav}】;
+王女开:"（看着他）你挺失望的吧。" -王女开/你挺失望的吧。.mp3;
+jumpLabel:cheese_end;
+
+label:cheese_end;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（拉起我的手，似笑非笑地偏过头看我）吃醋了吗？" -陈泽/吃醋了吗？.mp3;
+
+changeFigure:none -left;
+
+王女开:"（转过来看着他）没有！" -王女开/没有！.mp3;
+
+:陈泽笑了，是那种"我就知道"的笑容。;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"放心，哥心里只有你一个。" -陈泽/放心，哥心里只有你一个。.mp3;
+
+:和荣一鸣见面的几天后
+
+changeFigure:none -left;
+changeBg:小臭屋·内部.png;
+
+; ============================================
+; 第四幕：陈泽的朋友——刘朔军
+; ============================================
+
+label:a1_scene3_liujun;
+
+changeFigure:none;
+changeBg:小臭屋·内部.png;
+
+:直播刚结束，陈泽揉了揉太阳穴。
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（叹气）白，你有没有朋友能直播拉过来一起玩两把的，多做做节目效果。" -陈泽/白，你有没有朋友能直播拉过来一起玩两把的，多做做节目效果。.mp3;
+
+changeFigure:none -left;
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（靠在椅子上）我问问，应该是没问题。" -黑白/我问问，应该是没问题。.mp3;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"行，你看看，尽量熟悉一点的奥。" -陈泽/行，你看看，尽量熟悉一点的奥。.mp3;
+
+changeFigure:none -left;
+changeFigure:陈志涛思考.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（想了想）行，你这么说，我正好有个朋友。平时修网线的，但是打游戏也是一把好手，我去联系。" -黑白/行，你这么说，我正好有个朋友。平时修网线的，但是打游戏也是一把好手，我去联系。.mp3;
+
+changeFigure:none -right;
+
+:两天后。
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:黑白进屋，在陈泽旁边坐下。
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（看向陈泽）泽哥，前两天说的那个人我问了，现在他正好有时间，咱们一起玩两把试试啊。" -黑白/泽哥，前两天说的那个人我问了，现在他正好有时间，咱们一起玩两把试试啊。.mp3;
+
+changeFigure:小臭屋陈泽说话.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"行啊，那你让人家上号呗，咱们玩两把，玩的效果好就聊聊以后一起做直播。" -陈泽/行啊，那你让人家上号呗，咱们玩两把，玩的效果好就聊聊以后一起做直播。.mp3;
+
+changeFigure:none -left;
+changeFigure:none -right;
+
+:陈泽、黑白还有我，都各自登录账号进入房间，加入语音聊天。
+
+陈泽:"哎兄弟兄弟，能听见吗兄弟。" -陈泽/哎兄弟兄弟，能听见吗兄弟？.mp3;
+
+刘朔军:"哎兄弟能听见兄弟。" -刘朔军/哎兄弟能听见兄弟。.mp3;
+
+:听起来怎么这么老？听起来好像有四十岁了。
+
+:陈泽关闭麦克风，扭过头，不敢置信地看向黑白。
+
+changeFigure:小臭屋陈泽惊讶.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（声音高了两个度，充满震惊）我让你找个熟悉点的，你给你爹找来了？" -陈泽/我让你找个熟悉点的，你给你爹找来了？.mp3;
+
+:黑白马上开始给陈泽解释。
+
+陈志涛:"（一着急有点磕巴）哥，他，他就是单纯嗓音重点，显着老，他和咱差不多岁数。" -黑白/哥，他，他就是单纯嗓音重点，显着老，他和咱差不多岁数。.mp3;
+
+:【连麦语音对话】
+
+陈志涛:"那个军，这个是泽哥，另一个是王女开……" -黑白/那个军，这个是泽哥，另一个是王妍…….mp3;
+
+刘朔军:"哎呦，这是泽哥的女朋友吧，你好你好……" -刘朔军/哎呦，这是泽哥的女朋友吧，你好你好…….mp3;
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（打断了刘朔军的话）开打吧，人齐了。" -黑白/开打吧，人齐了。.mp3;
+
+刘朔军:"（顿了一下，略显尴尬）啊，那什么，那咱们开呗，玩两把。" -刘朔军/啊，那什么，那咱们开呗，玩两把。.mp3;
+
+changeFigure:none -left;
+changeFigure:none -right;
+
+:刘朔军没怎么说话，只是默默地打游戏。;
+:但他的技术确实好，意识也到位。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（打完游戏）刘朔军是吧，技术不错啊。" -陈泽/刘朔军是吧，技术不错啊。.mp3;
+
+changeFigure:刘朔军微笑.png -center -transform={"scale":{"x":0.8,"y":0.8},"position":{"x":0,"y":130}};
+
+刘朔军:"（语音，还是那个浑厚的声音）还行，随便玩玩。" -刘朔军/还行，随便玩玩。.mp3;
+
+; 【玩家选项】
+choose:语音活跃交流:liujun_voice_active|正常打字交流:liujun_text_normal|并不想与刘朔军有交流:liujun_silent;
+
+label:liujun_voice_active;
+setVar:liujun_fav=liujun_fav+3;
+:【刘朔军好感度加 3，当前：{liujun_fav}】;
+王女开:"（凑到麦克风）军哥你声音好有磁性啊，游戏也打得好！" -王女开/军哥你声音好有磁性啊，游戏也打得好！.mp3;
+
+changeFigure:刘朔军开心.png -center -transform={"scale":{"x":0.8,"y":0.8},"position":{"x":0,"y":130}};
+
+刘朔军:"（笑）过奖了，有空一起玩。" -刘朔军/过奖了，有空一起玩。.mp3;
+jumpLabel:liujun_continue;
+
+label:liujun_text_normal;
+setVar:liujun_fav=liujun_fav+1;
+:【刘朔军好感度加 1，当前：{liujun_fav}】;
+王女开:"（打字）军哥技术真好，有空一起玩。" -王女开/军哥技术真好，有空一起玩。.mp3;
+刘朔军:"（回复）嗯，有空一起。" -刘朔军/嗯，有空一起。.mp3;
+jumpLabel:liujun_continue;
+
+label:liujun_silent;
+:【无变化】;
+王女开:"（没说话，只是看着他们打）" -王女开/（没说话，只是看着他们打）.mp3;
+jumpLabel:liujun_continue;
+
+label:liujun_continue;
+
+changeFigure:none -left;
+changeFigure:none -right;
+
+; ============================================
+; 第五幕：选择支——是否拉刘朔军入伙
+; ============================================
+
+label:a1_scene3_liujun_recruit;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:刘朔军下线后，房间内三人取下耳机。
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（点点头）我想拉他正式入伙，跟咱们一块干。" -陈泽/我想拉他正式入伙，跟咱们一块干。.mp3;
+
+:陈泽看向我。;
+
+changeFigure:none -left;
+changeFigure:none -right;
+
+陈泽:"妍，你觉得呢？" -陈泽/妍，你觉得呢？.mp3;
+
+; 【玩家选项】
+choose:选刘朔军（进入刘朔军线，团队 +1):liujun_recruit_yes|不选刘朔军（进入隐藏线，与刘朔军失之交臂）:liujun_recruit_no;
+
+label:liujun_recruit_yes;
+setVar:liujun_fav=liujun_fav+5;
+setVar:team_liujun=true;
+王女开:"嗯，我觉得可以试试。" -王女开/嗯，我觉得可以试试。.mp3;
+陈泽:"（笑了）行，那就这么定了。" -陈泽/行，那就这么定了。.mp3;
+:那时的我们都不知道，这个决定，会改变很多人的命运。";
+jumpLabel:liujun_recruit_end;
+
+label:liujun_recruit_no;
+setVar:team_liujun=false;
+王女开:"（犹豫）……我不知道。" -王女开/……我不知道.mp3;
+陈泽:"（想了想）也是，咱这小地方，也不知道能不能养得活这么多人。" -陈泽/也是，咱这小地方，也不知道能不能养得活这么多人。.mp3;
+陈志涛:"（没说话，低头抽烟，罐子里的烟蒂又多了一颗。）";
+:那时的我们都不知道，这个决定，意味着什么。;
+jumpLabel:liujun_recruit_hidden;
+
+label:liujun_recruit_hidden;
+
+:【隐藏画面：刘朔军的人生线】;
+
+changeBg:placeholder_living_room.png;
+changeFigure:none;
+
+:多年后，刘朔军还在客户家里修网线。;
+:他爬过无数个屋顶，接过无数个电话，说过无数句"您好，这边是宽带维修"。;
+:他的人生，始终没有和互联网产生交集。;
+:除了那天下午与陈泽三人组队打的一场游戏，他们之间再也没有联系。;
+
+changeFigure:刘朔军低头.png -center -transform={"scale":{"x":0.8,"y":0.8},"position":{"x":0,"y":130}};
+
+刘朔军:"那天眼睁睁看着他们火了，说一点都不羡慕是假的。但有时候我在想，如果那天我能主动加入，走上了另一条路……" -刘朔军/那天眼睁睁看着他们火了，说一点都不羡慕是假的。但有时候我在想，如果那天我能主动加入，走上了另一条路…….mp3;
+
+:现在坐在镜头前的，会不会是我？;
+
+:有些人，一旦错过，就是一辈子。;
+
+:💔 刘朔军线关闭（可在后续章节重新解锁）;
+
+jumpLabel:liujun_recruit_end;
+
+label:liujun_recruit_end;
+
+; ============================================
+; 第六幕：18.8 的皇冠——崔立伟登场
+; ============================================
+
+label:a1_scene3_laocui_crown;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+playEffect:gift.mp3;
+
+changeFigure:小臭屋陈泽思考.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（看着屏幕，然后眼睛突然瞪大了）感谢'崔哥最帅'送的……皇冠？！" -陈泽/感谢'崔哥最帅'送的……皇冠？！.mp3;
+
+:那是一个价值 18.8 元的皇冠礼物，在当时的直播间里，算是"巨款"了。;
+
+陈泽:"哎呀我草感谢我崔哥！！！崔哥大气！播间老铁给我崔哥点点关注奥！" -陈泽/哎呀我草感谢我崔哥！！！崔哥大气！播间老铁给我崔哥点点关注奥！.mp3;
+
+:【弹幕】卧槽皇冠！;
+:【弹幕】皇冠×999！;
+:【弹幕】泽哥舔起来！;
+
+陈泽:"（扒拉着礼物榜单）崔哥是哪位大哥？老铁们，给崔哥艾特出来！" -陈泽/崔哥是哪位大哥？老铁们，给崔哥艾特出来！.mp3;
+
+:陈泽看到弹幕。;
+
+陈泽:"（念出来）小泽啊，我也是做直播的，看你直播挺有意思的，有机会咱们认识认识。" -陈泽/小泽啊，我也是做直播的，看你直播挺有意思的，有机会咱们认识认识。.mp3;
+
+:陈泽管他叫崔哥，但谁也想不到，多年以后会有另一种怎样的变化。;
+
+陈泽:"（激动）崔哥，你有啥想要的？我给你安排！" -陈泽/崔哥，你有啥想要的？我给你安排！.mp3;
+
+陈泽:"（念弹幕）不用不用，你就好好直播，我挺爱看的。对了泽弟，你直播到几点？" -陈泽/不用不用，你就好好直播，我挺爱看的。对了泽弟，你直播到几点？.mp3;
+
+陈泽:"（回复）一般到晚上十点。" -陈泽/一般到晚上十点。.mp3;
+
+陈泽:"（念弹幕）我以后会经常来。" -陈泽/行，那我天天来。.mp3;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:陈泽很开心，他感受到了来自粉丝的支持。;
+
+changeFigure:none -left;
+
+; ============================================
+; 第七幕：崔立伟真容
+; ============================================
+
+label:a1_scene3_laocui_meet;
+
+changeBg:网吧.png;
+changeFigure:none;
+
+:一周后，崔立伟说要来见见陈泽。;
+:陈泽第一次线下见大哥，兴奋得一晚上没睡好。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（紧张中透露了些兴奋，一直在镜子前捋衣服）妍，你说我穿啥好？人家可是给我刷了皇冠的大哥！" -陈泽/妍，你说我穿啥好？人家可是给我刷了皇冠的大哥！.mp3;
+
+changeFigure:none -left;
+
+:我看见他翻出大半的衣帽，不禁觉得这副样子有点可爱。;
+
+王女开:"（帮他整理着装）就穿这个吧，挺好的，别紧张嘛。" -王女开/就穿这个吧，挺好的，别紧张嘛。.mp3;
+
+:陈泽穿的是件黑色连帽卫衣，黑白刚给他买的。;
+:巧的是，那天崔立伟也穿了件连帽卫衣，灰色的。;
+
+崔立伟:"（远远走来，笑着招手）小泽！" -崔立伟/小泽！.mp3;
+
+changeFigure:崔立伟微笑.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（兴奋地迎上去）崔哥！" -陈泽/崔哥.mp3;
+
+:两人抱了一下，像多年未见的兄弟。;
+
+changeFigure:崔立伟微笑.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+崔立伟:"（目光投向我）这位是……" -崔立伟/这位是…….mp3;
+
+陈泽:"（站近我，笑）嗯崔哥，这我对象王女开。" -陈泽/嗯崔哥，这我对象王妍。.mp3;
+
+changeFigure:崔立伟说话.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+崔立伟:"（对我点点头）你好，我是崔立伟，是这样的，我呢也是搞直播的，账号就叫'崔哥最帅'，你们平常也可以多来我直播间玩玩嘛，就当交个朋友了。" -崔立伟/你好，我是崔立伟，是这样的，我呢也是搞直播的，账号就叫'崔哥最帅'，你们平常也可以多来我直播间玩玩嘛，就当交个朋友了。.mp3;
+
+; 【玩家选项】
+choose:崔哥好:laocui_hello|点头示意:laocui_nod|……你好:laocui_silent;
+
+label:laocui_hello;
+setVar:laocui_fav=laocui_fav+1;
+:【崔立伟好感度加 1，当前：{laocui_fav}】;
+王女开:"（笑）崔哥好。" -王女开/崔哥好。.mp3;
+jumpLabel:laocui_continue;
+
+label:laocui_nod;
+:【无变化】;
+王女开:"（点点头）" -王女开/（点点头）.mp3;
+jumpLabel:laocui_continue;
+
+label:laocui_silent;
+setVar:laocui_fav=laocui_fav-1;
+:【崔立伟好感度减 1，当前：{laocui_fav}】;
+王女开:"（低下头）……你好。" -王女开/……你好。.mp3;
+jumpLabel:laocui_continue;
+
+label:laocui_continue;
+
+:崔立伟笑了，是那种很接地气的、让人舒服的笑容。;
+
+changeFigure:崔立伟微笑.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+崔立伟:"（对陈泽）小泽啊，你这直播有潜力，我看好你。咱都是同行，以后多交流。" -崔立伟/小泽啊，你这直播有潜力，我看好你。咱都是同行，以后多交流。.mp3;
+
+陈泽:"（挠头）崔哥你别夸我了，我都不好意思了。" -陈泽/崔哥你别夸我了，我都不好意思了。.mp3;
+
+changeFigure:崔立伟说话.png -center -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+崔立伟:"（搂住陈泽肩膀）咱俩谁跟谁，别叫崔哥了，就叫哥就行。" -崔立伟/咱俩谁跟谁，别叫崔哥了，就叫哥就行。.mp3;
+
+陈泽:"（笑）哥。" -陈泽/哥。.mp3;
+
+:那时的我们都不知道，这个"哥"，一叫就是很多年。;
+
+changeFigure:none;
+changeBg:小臭屋·内部.png;
+
+; ============================================
+; 第八幕：章末选择
+; ============================================
+
+label:a1_scene3_final;
+
+:送走崔立伟后，我和陈泽站在门口，他愣了一会，好像在想什么。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（看着天空）妍，你说咱这直播，能火吗？" -陈泽/妍，你说咱这直播，能火吗？.mp3;
+
+changeFigure:none -left;
+
+; 【玩家选项】
+choose:一定能火:final_fire_sure|我不知道:final_dont_know|慢慢来吧:final_slow;
+
+label:final_fire_sure;
+setVar:chenze_fav=chenze_fav+3;
+:【陈泽好感度加 3，当前：{chenze_fav}】;
+王女开:"（一起望向天空）一定能火的，只要我们坚持下去，一定会的。" -王女开/一定能火的，只要我们坚持下去，一定会的。.mp3;
+jumpLabel:final_end;
+
+label:final_dont_know;
+:【无变化】;
+王女开:"（低下头）我不知道。" -王女开/……我不知道.mp3;
+jumpLabel:final_end;
+
+label:final_slow;
+setVar:chenze_fav=chenze_fav+1;
+:【陈泽好感度加 1，当前：{chenze_fav}】;
+王女开:"（笑了笑）慢慢来吧。" -王女开/慢慢来吧。.mp3;
+jumpLabel:final_end;
+
+label:final_end;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（轻轻揽过我的肩膀）嗯，我不会放弃的。等我火了，给你买大房子，再不用住这小臭屋了。" -陈泽/嗯，我不会放弃的。等我火了，给你买大房子，再不用住这小臭屋了。.mp3;
+
+王女开:"那我也还是一样的回答。（靠在他肩膀上）我不怕一起住小臭屋，我只怕……身边没有你。" -王女开/那我也还是一样的回答。（靠在他肩膀上）我不怕一起住小臭屋，我只怕……身边没有你。.mp3;
+
+:陈泽没说话，只是把我搂得更紧了些。;
+:那时的我们，都不知道未来该怎么走，会变成什么样。;
+:但我们知道，只要能在一起，就什么都不怕。;
+
+changeFigure:none -left;
+changeBg:black;
+
+playVideo:买大房子.mp4 -skipOff;
+
+:❤️ 当前陈泽好感度：{chenze_fav};
+:❤️ 当前陈志涛好感度：{baihei_fav};
+:❤️ 当前荣一鸣好感度：{rongyiming_fav};
+:❤️ 当前刘朔军好感度：{liujun_fav};
+:❤️ 当前崔立伟好感度：{laocui_fav};
+
+:第一章已结束，其他线也可以去玩玩哦～谢谢您的支持！;
+
+jumpLabel:a1_scene6;
+
+; ============================================
+; A1 辍学线：第六幕 陈泽的心事
+; ============================================
+
+label:a1_scene6;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:陈志涛走后，我帮陈泽收拾桌子。;
+
+王女开:"（边擦桌子边问）陈泽……他是好人吗？" -王女开/陈泽……他是好人吗？.mp3;
+
+陈泽:"（靠在椅子上）嗯。打英雄联盟认识的。" -陈泽/嗯。打英雄联盟认识的。.mp3;
+陈泽:"那会儿我刚开始直播，有十几万粉丝。" -陈泽/那会儿我刚开始直播，有十几万粉丝。.mp3;
+陈泽:"黑白看了我直播，就来加好友一起玩。" -陈泽/黑白看了我直播，就来加好友一起玩。.mp3;
+陈泽:"他 ID 叫折木奉太郎。" -陈泽/他 ID 叫折木奉太郎。.mp3;
+
+王女开:"（停下动作）他……他知道我们的事？" -王女开/他……他知道我们的事？.mp3;
+
+陈泽:"（睁开眼睛，看着我）知道。" -陈泽/知道。.mp3;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（站起来，走到我面前）妍，有件事我得告诉你。" -陈泽/妍，有件事我得告诉你。.mp3;
+陈泽:"黑白他……可能也对你有点意思。" -陈泽/黑白他……可能也对你有点意思。.mp3;
+
+choose:怎么可能:a1_baihei_how|那又怎样:a1_baihei_socare|……我知道:a1_baihei_know;
+
+label:a1_baihei_how;
+setVar:baihei_fav=baihei_fav+1;
+:【陈泽好感度加1】;
+jumpLabel:a1_baihei_heart_end;
+
+label:a1_baihei_socare;
+setVar:baihei_fav=baihei_fav+2;
+:【陈泽好感度加2】;
+jumpLabel:a1_baihei_heart_end;
+
+label:a1_baihei_know;
+setVar:baihei_fav=baihei_fav+3;
+setVar:chenze_fav=chenze_fav+1;
+:【陈泽好感度加3，陈泽好感度加1】;
+
+王女开:"（低下头）他看我的眼神……不太一样。" -王女开/他看我的眼神……不太一样。.mp3;
+
+陈泽:"（沉默了几秒）你要是觉得不舒服，我以后不让他来了。" -陈泽/你要是觉得不舒服，我以后不让他来了。.mp3;
+
+王女开:"（摇摇头）不用。" -王女开/不用。.mp3;
+
+jumpLabel:a1_baihei_heart_end;
+
+label:a1_baihei_heart_end;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:陈泽伸手摸了摸我的头，很轻，像怕惊扰了什么。;
+
+陈泽:"（轻声）不管发生什么，你记住——" -陈泽/不管发生什么，你记住——.mp3;
+陈泽:"这间小臭屋，永远有你一个位置。" -陈泽/这间小臭屋，永远有你一个位置。.mp3;
+
+:我抬起头，看到他的眼睛。那里面的光，从来没有熄灭过。;
+
+jumpLabel:a1_scene7;
+
+; ============================================
+; A1 辍学线：第七幕 章末选择
+; ============================================
+
+label:a1_scene7;
+
+changeBg:小臭屋·内部.png;
+changeFigure:none;
+
+:我送陈泽出门。;
+
+changeFigure:陈志涛说话.png -right -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈志涛:"（站在门口，看着我）嫂子，泽哥对你……很认真。" -黑白/嫂子，泽哥对你……很认真。.mp3;
+
+王女开:"（点点头）我知道。" -王女开/我知道。.mp3;
+
+陈志涛:"（沉默了几秒）那你呢？" -黑白/那你呢？.mp3;
+
+choose:我也一样:a1_final_same|……我不知道:a1_final_doubt|这不重要:a1_final_nothing;
+
+label:a1_final_same;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度加5】;
+
+:陈泽笑了，是那种释然的笑。;
+
+陈志涛:"那就好。泽哥他……等了你很久了。" -黑白/那就好。泽哥他……等了你很久了。.mp3;
+
+jumpLabel:a1_final_continue;
+
+label:a1_final_doubt;
+setVar:baihei_fav=baihei_fav+3;
+:【陈泽好感度加3】;
+
+:陈泽若有所思地看着我。;
+
+jumpLabel:a1_final_continue;
+
+label:a1_final_nothing;
+:【无变化】;
+
+:陈泽叹了口气，转身离开。;
+
+jumpLabel:a1_final_continue;
+
+label:a1_final_continue;
+
+changeFigure:none -right;
+changeBg:小臭屋·内部.png;
+
+:我回到屋里，陈泽还坐在电脑前，屏幕的光照在他的侧脸上。;
+
+陈泽:"（没回头）跟他说什么了？" -陈泽/跟他说什么了？.mp3;
+
+王女开:"（走到他身边，从后面抱住他）没说什么。就是告诉他，我选择的人是谁。" -王女开/没说什么。就是告诉他，我选择的人是谁。.mp3;
+
+:陈泽转过身，把我拉进怀里。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（轻声）妍，我不会放弃的。" -陈泽/妍，我不会放弃的。.mp3;
+陈泽:"不管要等多久，不管你妈怎么想——" -陈泽/不管要等多久，不管你妈怎么想——.mp3;
+陈泽:"我这辈子，就认定你了。" -陈泽/我这辈子，就认定你了。.mp3;
+
+choose:……我等你:a1_final_wait|别这样说:a1_final_dontsay|我们都冷静一下吧:a1_final_calm;
+
+label:a1_final_wait;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度加5】;
+:【提示】当前好感度：{chenze_fav}。好感度不足 35 可能无法继续推进主线哦～;
+
+王女开:"（眼眶发热，小声）阿泽，你……你别对我这么好。" -王女开/阿泽，你……你别对我这么好。.mp3;
+
+陈泽:"（笑了，是发自内心的笑）那不行。" -陈泽/那不行。.mp3;
+陈泽:"（伸手轻轻捏了捏我的脸）我对你好，天经地义。" -陈泽/我对你好，天经地义。.mp3;
+
+jumpLabel:a1_final_end;
+
+label:a1_final_dontsay;
+setVar:chenze_fav=chenze_fav+2;
+:【陈泽好感度加2】;
+
+王女开:"别这样说。" -王女开/别这样说。.mp3;
+
+陈泽:"（笑了笑）好，不说了。" -陈泽/好，不说了。.mp3;
+
+jumpLabel:a1_final_end;
+
+label:a1_final_calm;
+setVar:chenze_fav=chenze_fav-2;
+:【陈泽好感度减2】;
+
+王女开:"我们都冷静一下吧。" -王女开/我们都冷静一下吧。.mp3;
+
+陈泽:"（沉默了几秒）好。" -陈泽/好。.mp3;
+
+jumpLabel:a1_final_end;
+
+label:a1_final_end;
+
+changeFigure:none;
+
+:他松开手，转身回屋。;
+
+:门关上的那一刻，我听到里面传来陈泽打游戏的声音，还有陈泽的笑声。;
+
+:那一刻我突然明白——;
+
+:有些感情，不是分手就能结束的。;
+
+:有些选择，一旦做了，就不要后悔。;
+
+:【最终章末选择】好感度需达到 35 才能继续推进主线;
+
+jumpLabel:wait -when=chenze_fav>=35;
+jumpLabel:ending_ch1;
+
+label:wait;
+
+changeFigure:none -left;
+changeFigure:none -center;
+changeFigure:none -right;
+changeBg:学校操场·运动会.png;
+
+:中考结束了。;
+:教室里很安静，阳光透过窗户洒在空荡荡的课桌上。;
+
+:我收拾着书本，突然从桌洞深处掉出一张纸——;
+:是那张井字棋的纸，边缘已经磨损，字迹也有些模糊。;
+
+:我捡起来，指尖轻轻抚过上面的 X 和 O。;
+
+陈泽:"（声音从身后传来）还留着呢？" -陈泽/还留着呢？.mp3;
+
+:我猛地回头，陈泽站在教室门口，背着个包，头发被风吹得有些乱。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+王女开:"（把纸折好，放进兜里）……嗯。" -王女开/……嗯。.mp3;
+
+陈泽:"（走进来，站在我面前）妍，跟我走吧。" -陈泽/妍，跟我走吧。.mp3;
+
+王女开:"……去哪？" -陈泽/……去哪？.mp3;
+
+陈泽:"去大城市，做直播。我打游戏很厉害，咱不读这个破书了。" -陈泽/去大城市，做直播。我打游戏很厉害，咱不读这个破书了。.mp3;
+
+:他少了平常的吊儿郎当，多了几分认真。;
+
+王女开:"（沉默了一会儿）咱们还小……再等等吧。" -王女开/咱们还小……再等等吧。.mp3;
+
+:陈泽眼里的光暗了一下，但很快又恢复了。;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"行，听你的。反正咱们有的是时间。" -陈泽/行，听你的。反正咱们有的是时间。.mp3;
+陈泽:"（伸手摸了摸我的头）我等你，多久都等。" -陈泽/我等你，多久都等。.mp3;
+
+:他转身离开，背影很挺拔。;
+
+:我没有想到，这一等，就是很多年。;
+
+choose:别忘记我:wait_dont_forget|……嗯:wait_silent;
+
+label:wait_dont_forget;
+setVar:chenze_fav=chenze_fav+3;
+王女开:"（拉住他的衣角）别忘记我。" -陈泽/别忘记我。.mp3;
+陈泽:"（回头，笑得像个傻子）放心，这辈子忘不了。" -陈泽/放心，这辈子忘不了。.mp3;
+jumpLabel:wait_end;
+
+label:wait_silent;
+王女开:"（点点头，喉咙像是被什么堵住了）……嗯。" -王女开/……嗯。.mp3;
+jumpLabel:wait_end;
+
+label:wait_end;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度 +5 | 当前：{chenze_fav}】;
+
+changeFigure:none -left;
+changeBg:black;
+
+jumpLabel:a2_separate;
+
+; ============================================
+; A2 校园线：第二幕 分别
+; ============================================
+
+label:a2_separate;
+
+changeBg:placeholder_train_station.png;
+changeFigure:none;
+
+:陈泽要去大城市了。;
+:他说那里机会多，说他要做出点名堂来，说他等我有能力的那一天。;
+
+changeFigure:小臭屋陈泽正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（站在进站口，背着个破旧的背包）到了给我发消息。" -陈泽/到了给我发消息。.mp3;
+
+王女开:"（点点头）嗯。" -王女开/……嗯。.mp3;
+
+changeFigure:小臭屋陈泽低头.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（犹豫了一下）还有……别忘记我。" -陈泽/别忘记我。.mp3;
+
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度 +5 | 当前：{chenze_fav}】;
+
+王女开:"（眼眶发热，声音有些抖）不会的。" -王女开/不会的。.mp3;
+
+changeFigure:小臭屋陈泽开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"（笑了，是发自内心的笑）那就好。" -陈泽/那就好。.mp3;
+陈泽:"（伸手轻轻捏了捏我的脸）等我站稳脚跟，就回来接你。" -陈泽/等我站稳脚跟，就回来接你。.mp3;
+
+:他转身走进进站口，没有回头。;
+:我站在原地，直到他的身影消失在人群中。;
+
+:那一刻我突然明白——;
+:有些人，一旦分开，可能很久都见不到了。;
+
+changeFigure:none -left;
+changeBg:black;
+
+jumpLabel:a2_highschool;
+
+; ============================================
+; A2 校园线：第三幕 高中三年
+; ============================================
+
+label:a2_highschool;
+
+changeBg:家里电脑桌·夜晚.png;
+
+:高中三年，我没有谈恋爱，没有去网吧，没有做过任何出格的事。;
+:我每天上学，放学，回家，写作业。;
+:母亲很满意，说我懂事了，说我没有被那个孩子带坏。;
+
+:只有我知道，我每天打开手机，都会看一个人的直播。;
+
+changeBg:家里电脑桌·夜晚.png;
+
+:陈泽的直播间，从几百人到几千人，到几万人，到几十万人……;
+:他越来越火了。;
+
+:他的视频里，偶尔会出现一个黑发男生，叫陈泽。;
+:他们说，互联网开始出现了阴阳玉佩的传说。;
+
+:我坐在书桌前，看着屏幕里的陈泽，他笑得那么开心，那么灿烂。;
+
+changeBg:black;
+
+jumpLabel:a2_college;
+
+; ============================================
+; A2 校园线：第四幕 大学选择
+; ============================================
+
+label:a2_college;
+
+changeBg:placeholder_living_room.png;
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王母:"（拿着志愿表）想好报哪了吗？";
+
+changeFigure:王母.png -center -transform={"scale":{"x":1.6,"y":1.6},"position":{"x":0,"y":100}};
+
+王女开:"（低头看着志愿表）……本地的大学就行。" -王女开/……本地的大学就行。.mp3;
+
+王母:"本地？你考这么好的分，不去大城市？";
+
+choose:有些人在这里:stay_for_someone|这里更适合我:stay_for_self|……嗯:stay_silent;
+
+label:stay_for_someone;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度 +5 | 当前：{chenze_fav}】;
+王女开:"（小声）有些人在这里。" -王女开/有些人在这里。.mp3;
+jumpLabel:volunteer_end;
+
+label:stay_for_self;
+:【无变化】;
+王女开:"（低头）这里更适合我。" -王女开/这里更适合我。.mp3;
+jumpLabel:volunteer_end;
+
+label:stay_silent;
+:【无变化】;
+王女开:"……嗯。" -王女开/……嗯。.mp3;
+jumpLabel:volunteer_end;
+
+label:volunteer_end;
+
+:母亲没再说话，只是叹了口气。;
+
+:我知道她在想什么。;
+:她在想，那个孩子，那个让她女儿三年都忘不掉的孩子。;
+:她在想，为什么偏偏是他。;
+
+changeFigure:none -center;
+changeBg:black;
+
+jumpLabel:a2_chenze_media;
+
+; ============================================
+; A2 校园线：第五幕 陈泽传媒
+; ============================================
+
+label:a2_chenze_media;
+
+changeBg:placeholder_company_building.png;
+
+:大学毕业了。;
+:我投了很多简历，最后收到了一家公司的 offer——陈泽传媒。;
+
+:是的，他做到了。他离开了这座小城市，在大城市站稳了脚跟，甚至火遍全网。;
+:陈泽传媒，现在是这座城市最有名的 MCN 机构之一。;
+
+:我站在公司楼下，抬头看着那块巨大的招牌。;
+:招牌上，是陈泽的照片。他笑得那么自信，那么耀眼。;
+
+:我有些恍惚。;
+
+王女开:"（自言自语）我真的要进去吗？" -王女开/我真的要进去吗？.mp3;
+
+choose:进去:a2_enter|离开:a2_be_leave;
+
+label:a2_be_leave;
+
+:我转身离开了。;
+:最终，我没有勇气面对他。;
+
+changeBg:black;
+changeFigure:none;
+
+:有些人和事，一旦错过，就再也没有回头的机会。;
+
+:【BE 结局：擦肩而过】;
+
+jumpLabel:ending_ch1;
+
+label:a2_enter;
+
+:我深吸一口气，走进大楼。;
+
+:前台小姐姐看着我，露出职业化的微笑。;
+
+前台:"您好，请问有什么可以帮您？" -前台/您好，请问有什么可以帮您.mp3;
+
+王女开:"（声音很轻）我是新来的实习生，王女开。" -王女开/我是新来的实习生，王妍。.mp3;
+
+前台:"（在电脑上查了一下）好的，王小姐。您的工位是 15 楼，A 区 17 号。" -前台/好的，王小姐。您的工位是 15 楼，A 区 17 号。.mp3;
+前台:"（顿了顿）对了，您和泽哥……是同乡吗？我听说他是本地人。" -前台/对了，您和泽哥……是同乡吗？我听说他是本地人。.mp3;
+
+王女开:"（心跳漏了一拍）……算是吧。" -王女开/……算是吧。.mp3;
+
+:我没有告诉她，我和陈泽，是从小一起长大的。;
+:我没有告诉她，我曾经是他女朋友。;
+:我没有告诉她，我改了名字，就是为了不让他发现我。;
+
+changeBg:black;
+
+
+jumpLabel:a2_watch_live;
+
+; ============================================
+; A2 校园线：第六幕 每天看直播
+; ============================================
+
+label:a2_watch_live;
+
+changeBg:家里电脑桌·夜晚.png;
+
+:我每天的工作，是协助运营团队管理主播账号。;
+:工作不难，但我每天都很累。;
+
+:因为每天晚上，我都会打开一个人的直播间。;
+:陈泽的直播间。;
+
+:他从几百人的小主播，做到了现在拥有两千多万粉丝的大主播。;
+:他的直播间里，每天都有几十万人在线。;
+:他的弹幕上，都是"泽哥好帅"、"泽哥我爱你"、"泽哥看看我"。;
+
+:我坐在电脑前，看着屏幕里的他，一句话也说不出来。;
+
+:他变了，又好像没变。;
+:他还是那么爱笑，还是那么会照顾人，还是会在直播间里说些让人捧腹的话。;
+
+:只是，他身边再也没有我的位置了。;
+
+王女开:"（小声，对着屏幕）阿泽，你过得好吗？" -王女开/阿泽，你过得好吗？.mp3;
+
+:没有人回答我。;
+
+changeBg:black;
+
+jumpLabel:a2_signer;
+
+; ============================================
+; A2 校园线：第七幕 签约女主播
+; ============================================
+
+label:a2_signer;
+
+changeBg:陈泽老家客厅.png;
+
+领导:"（看着手里的简历）王女开，你愿意做主播吗？" -领导/王妍，你愿意做主播吗？.mp3;
+
+王女开:"（愣了一下）我……我没想过。" -王女开/我……我没想过。.mp3;
+
+领导:"你的形象不错，声音也好听。公司最近想推几个新人，我觉得你可以试试。" -领导/你的形象不错，声音也好听。公司最近想推几个新人，我觉得你可以试试。.mp3;
+
+王女开:"（点点头）我愿意试试。" -王女开/我愿意试试。.mp3;
+
+领导:"（笑了）好，那从下周开始，你就跟着运营团队准备开播。" -领导/好，那从下周开始，你就跟着运营团队准备开播。.mp3;
+领导:"（顿了顿）对了，你想好直播名字了吗？" -领导/对了，你想好直播名字了吗？.mp3;
+
+王女开:"（沉默了几秒）……开开吧。" -王女开/…开开吧。.mp3;
+
+:开开。;
+:那是他以前叫我的名字。;
+:女开，开开。;
+
+:我用这个名字，不是为了让他记住我。;
+:我是为了，让自己不要忘记他。;
+
+changeBg:black;
+
+jumpLabel:a2_pk;
+
+; ============================================
+; A2 校园线：第八幕 随机 PK 重逢
+; ============================================
+
+label:a2_pk;
+
+changeBg:家里电脑桌·夜晚.png;
+
+:今晚是我开播的第三十天。;
+:直播间里有几百人，不多，但也不算少。;
+
+:我习惯性地打开连麦功能，准备和随机主播 PK。;
+
+:屏幕闪烁了几下，然后出现了一个熟悉的面孔。;
+
+:是陈泽。;
+
+:我的心脏猛地停了一拍。;
+
+:陈泽看着屏幕，愣住了……;
+
+:他也愣住了。;
+
+:直播间里的弹幕瞬间爆炸。;
+
+:【弹幕】;
+:卧槽泽哥怎么了？;
+:泽哥认识对面主播？;
+:泽哥表情不对啊;
+:这女的是谁？;
+
+:陈泽张了张嘴，好像想说什么，但最后什么也没说。;
+
+陈泽:"（声音很哑）……你好，开开。" -陈泽/……你好，开开。.mp3;
+
+王女开:"（声音在抖）……你好，泽哥。" -王女开/…你好，泽哥。.mp3;
+
+:我们都选择了沉默。;
+:我们没有问对方过得好不好，没有问对方为什么会在这里，没有问对方这些年都经历了什么。;
+
+:我们只是，像两个陌生人一样，打了一场 PK。;
+:然后，下播。;
+
+changeBg:black;
+
+jumpLabel:a2_refuse;
+
+; ============================================
+; A2 校园线：第九幕 委婉的拒绝
+; ============================================
+
+label:a2_refuse;
+
+changeBg:小区楼下 晚上.png;
+
+:下播后，陈泽给我发了消息。;
+
+陈泽:"（微信）明天有空吗？一起吃个饭。" -陈泽/明天有空吗？一起吃个饭。.mp3;
+
+choose:好:a2_dinner|不太方便:a2_not_convenient;
+
+label:a2_dinner;
+
+:我答应了陈泽的邀约。;
+:那天晚上，我们聊了很多，聊这些年的经历，聊彼此的改变。;
+
+:陈泽看着我，眼神里有我熟悉的光芒。;
+
+陈泽:"妍，我们重新开始吧。" -陈泽/妍，我们重新开始吧。.mp3;
+
+:我看着他，不知道该说什么。;
+
+jumpLabel:a2_not_convenient;
+
+label:a2_not_convenient;
+
+王女开:"（微信）不太方便，最近工作比较忙。" -王女开/不太方便，最近工作比较忙。.mp3;
+
+:我没有说假话。;
+:我真的很忙，忙到没有时间面对他。;
+
+:陈泽没有再回我。;
+
+:但他还是像以前一样，经常关心我，照顾我。;
+:他会让人给我带早餐，会在我加班的时候让人送我回家，会在我生病的时候让人给我送药。;
+
+:只是，他再也没有亲自来过。;
+:我们的交集，也开始变得越来越少。;
+
+王女开:"（自言自语）我不知道我为什么没有答应他。" -王女开/我不知道我为什么没有答应他。.mp3;
+王女开:"（小声）但是我总是想，如果我答应他，会是怎样的结局呢。" -王女开/但是我总是想，如果我答应他，会是怎样的结局呢。.mp3;
+
+changeBg:black;
+
+jumpLabel:a2_years_later;
+
+; ============================================
+; A2 校园线：第十幕 多年以后
+; ============================================
+
+label:a2_years_later;
+
+changeBg:placeholder_company_building.png;
+
+:多年以后，我再次听到他的名字。;
+
+:他已经离开这座小城市，在大城市站稳了脚跟。;
+:他火遍全网，拥有两千多万粉丝，成为这个城市最有名的主播之一。;
+
+:我坐在办公室里，看着手机上的新闻推送。;
+
+:【新闻标题】《陈泽：从小城少年到全网顶流，他的故事还在继续》;
+
+:我点开新闻，看到他的照片。;
+
+:他笑得那么自信，那么耀眼，和当年那个在教室里给我带煎饼果子的少年，判若两人。;
+
+王女开:"（小声）阿泽，你真的做到了。" -王女开/阿泽，你真的做到了。.mp3;
+
+:我有些落寞。;
+:我不知道是不是后悔了当初的选择。;
+
+choose:后悔了:a2_regret|不后悔:a2_not_regret|……不知道:a2_dont_know;
+
+label:a2_regret;
+
+王女开:"（闭上眼睛，眼泪从眼角滑下来）我后悔了。" -王女开/我后悔了。.mp3;
+
+:我后悔当初没有跟他一起走。;
+:我后悔当初没有勇气面对母亲。;
+:我后悔当初推开了那顿早餐。;
+:我后悔当初，没有好好跟他说一声再见。;
+
+:陈泽，这个名字，对于我已经熟悉而又陌生了。;
+:他真的做到了，离开这座小城市，在大城市里面站稳了脚跟，甚至火遍全网。;
+
+:而我，还留在这个小地方，过着一眼能看到头的生活。;
+:我有些落寞，不知道是不是后悔了当初的选择……;
+
+changeBg:black;
+
+:有些人，一旦错过，就是一辈子。;
+:我曾经以为，时间会治愈一切。;
+:后来我才知道，时间只会让人更加怀念。;
+:陈泽，祝你一切都好。;
+:就像你曾经祝我一样。;
+
+changeBg:black;
+changeFigure:none;
+
+:【BE 结局：擦肩而过】;
+
+jumpLabel:ending_ch1;
+
+label:a2_not_regret;
+
+王女开:"（闭上眼睛，嘴角微微上扬）我不后悔。" -王女开/我不后悔。.mp3;
+
+:我不后悔当初的选择。;
+:因为如果不是那样，我也不会成为现在的自己。;
+
+:陈泽做到了，他离开了这座小城市，在大城市站稳了脚跟。;
+:而我也找到了自己的生活。;
+
+:我们都在各自的道路上，变得更好。;
+:这就够了。;
+
+changeBg:black;
+
+:有些感情，不一定要拥有。;
+:有些人，不一定要在一起。;
+:只要知道对方过得好，就够了。;
+:陈泽，祝你一切都好。;
+:就像你曾经祝我一样。;
+
+changeBg:black;
+changeFigure:none;
+
+:【NE 结局：各自安好】;
+
+jumpLabel:ending_ch1;
+
+label:a2_dont_know;
+
+王女开:"（看着窗外的天空）……不知道。" -王女开/不知道。.mp3;
+
+:我不知道是不是后悔了。;
+:我只知道，人生没有如果。;
+
+:陈泽做到了，他离开了这座小城市，在大城市站稳了脚跟。;
+:而我，还在等一个答案。;
+:等一个，可能永远不会来的答案。;
+
+changeBg:black;
+
+:有些故事，还没有结束。;
+:有些人，还在等一个机会。;
+:来日方长，我们，后会有期。;
+
+:有些故事，还没有结束。;
+:有些人，还在等一个机会。;
+:来日方长，我们，后会有期。;
+
+changeBg:black;
+changeFigure:none;
+
+:【OE 结局：来日方长】;
+
+jumpLabel:ending_ch1;
+
+label:solo;
+
+:我低下头，不知道该说什么。;
+
+王女开:"其实，我已经有打算了。" -王女开/其实，我已经有打算了。.mp3;
+
+陈泽:"什么意思？" -陈泽/什么意思？.mp3;
+
+王女开:"我有个朋友的朋友，拉我去做短视频。好像叫张什么尧。" -王女开/我有个朋友的朋友，拉我去做短视频。好像叫张什么尧。.mp3;
+
+changeFigure:小臭屋陈泽思考.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+:陈泽愣住了，脸上的笑容慢慢消失。;
+
+陈泽:"所以……你选择他，不选我？" -陈泽/所以……你选择他，不选我？.mp3;
+
+:我不知道该怎么回答。;
+
+:陈泽自嘲地笑了笑，转身离开。;
+
+changeFigure:none -left;
+
+:后来，我真的加入了张尧的团队。;
+
+changeBg:张尧背景.png;
+
+:加入团队后，我靠直播摇出了库里南。;
+
+changeBg:库里南背景.png;
+
+:某天，我们在平台上相遇。;
+
+:他看了我一眼，只当做不认识。;
+
+:我也转过身，假装没看见。;
+
+:【独美结局】;
+
+jumpLabel:ending_ch1;
+
+label:parallel_universe;
+
+changeBg:black;
+
+:突然，周围的空气开始扭曲。;
+
+changeFigure:none;
+
+:王女开的动作停滞了。;
+:她的眼神变得……陌生。;
+
+changeBg:教室背景·异变.png;
+
+:一股诡异的能量波动在教室里蔓延。;
+:同学们都没有察觉，只有陈泽愣住了。;
+
+陈泽:"你……怎么了？" -陈泽/你……怎么了？.mp3;
+
+:王女开缓缓抬起头，露出了脖子。;
+:那里有一道奇异的纹路在发光。;
+
+changeFigure:妍·宁将军.png -left;
+
+王女开:"陈泽。" -王女开/陈泽。.mp3;
+
+:声音变了。;
+:不再是那个温柔的女孩，而是一个……男人的声音。;
+
+王女开:"终于让我逮到你了吧？" -宁将军/终于让我逮到你了吧？.mp3;
+
+陈泽:"你……你是谁？" -陈泽/你……你是谁？.mp3;
+
+王女开:"我？我是宁将军。" -宁将军/我？我是宁将军。.mp3;
+
+:宁将军？;
+:陈泽的脑海里闪过一些破碎的记忆。;
+
+宁将军:"平行宇宙第 7 号，我追踪你很久了。" -宁将军/平行宇宙第 7 号，我追踪你很久了.mp3;
+
+:平行宇宙？;
+:什么鬼东西。;
+
+宁将军:"你逃了这么多世界，也该累了。" -宁将军/你逃了这么多世界，也该累了。.mp3;
+
+:王女开的嘴角扬起一抹陌生的笑。;
+
+宁将军:"都多余了老弟，爱谁谁。" -宁将军/都多余了老弟，爱谁谁。.mp3;
+
+changeBg:black;
+
+:陈泽眼前一黑。;
+:意识彻底消失。;
+
+:【达成结局：被宁将军单杀】;
+
+changeFigure:none;
+jumpLabel:ending_ch1;
+
+; ============================================
+; 梦境路线：碌碌无为
+; ============================================
+
+label:dream_start;
+
+changeBg:black;
+changeFigure:none;
+
+:【陈泽视角】;
+
+:眼前一黑，我失去了意识。;
+
+:再睁开眼时，我发现自己躺在一个陌生的出租屋里。;
+:阳光从窗帘缝隙照进来，空气中飘着灰尘。;
+
+changeBg:出租屋·白天.png;
+
+:我坐起身，头痛欲裂。;
+
+陈泽："我……这是在哪？" -陈泽/我……这是在哪？.mp3;
+
+:这不是我的房间。;
+:墙上的日历显示着 2020 年。;
+
+:我竟然穿越到了未来？;
+
+changeFigure:none;
+
+:就在这时，门被推开了。;
+:一个熟悉的身影走了进来。;
+
+:是王女开。;
+:她看起来……长大了。;
+:不再是记忆里那个穿着校服的女孩，而是一个成熟的女人。;
+
+王妍："陈泽，你醒了？";
+
+陈泽："王女开……我们……";
+
+王女开："你是不是做噩梦了？";
+
+:她走过来，伸手摸了摸我的额头。;
+
+王女开："没发烧啊。";
+
+:我愣住了。;
+
+陈泽："我们……在一起多久了？" -陈泽/我们……在一起多久了？.mp3;
+
+王女开："你睡糊涂了？都 5 年了。";
+
+:5年？;
+
+:记忆的碎片涌入脑海。;
+
+changeBg:black;
+
+:我想起来了。;
+:那天，王女开没有扔那个包。;
+:她选择了我。;
+
+:我们顺理成章地在一起了。;
+:一起学习，一起长大。;
+:后来我干了游戏主播，走上了直播道路。;
+:王妍一直在背后支持着我。;
+
+changeBg:出租屋·白天.png;
+
+:可现实是……;
+
+陈泽："我们……过得怎么样？";
+
+:王女开沉默了。;
+
+王女开："陈泽，你又要逃避吗？";
+
+:我低下头。;
+
+:是啊，游戏直播小有起色，但是也不算特别厉害。;
+
+王女开："今天游戏官方邀请你去参加比赛，你还记得吗？";
+
+陈泽："记得……";
+
+王女开："我陪你去。";
+
+:我抬起头，看着王妍坚定的眼神。;
+
+陈泽："好。";
+
+changeFigure:none;
+
+:我们出门了。;
+
+changeBg:街道·白天.png;
+
+:走在街上，阳光明媚，但我的心却沉甸甸的。;
+
+changeBg:白天街道.png;
+
+:走在路上，我的手心里全是汗。;
+
+:突然，一阵刺耳的刹车声响起。;
+
+playEffect:car_crash.mp3;
+
+:一辆车朝我们冲了过来。;
+
+:王女开先发现了。;
+
+王女开："小心！";
+
+:她一把把我推了出去。;
+
+:我重重摔在地上，眼睁睁看着车撞向了王妍。;
+
+playEffect:梦.mp3;
+
+changeBg:black;
+
+:世界安静了。;
+
+:我爬起来，冲向王妍。;
+
+陈泽："王女开！！！";
+
+:她躺在地上，一动不动。;
+:鲜血从她身下蔓延开来。;
+
+:车门开了。;
+:肇事司机下了车。;
+
+:但……那不是人。;
+
+changeFigure:绿色小精灵.png -center;
+
+:而是一个绿色的小精灵。;
+
+:他没有看躺在地上的王妍，而是径直走向我。;
+
+绿色精灵："你还想睡多久，陈泽。";
+
+:声音冰冷，不带一丝感情。;
+
+陈泽："你……你说什么？";
+
+绿色精灵："这一切，都是你的梦。";
+
+:我的梦？;
+
+绿色精灵："王妍已经走了。";
+:"在你醒来的那个出租屋里，她早就离开你了。";
+:"你们分手了，因为理念不合。";
+:"你后来依旧干着直播，只是一直默默无闻。";
+:"你接受不了这个现实，所以创造了这个梦。";
+
+陈泽："不……这不是真的……";
+
+changeFigure:绿色小精灵愤怒.png -center;
+
+绿色精灵："你还想睡多久，陈泽。";
+
+:小精灵的声音越来越远。;
+:周围的世界开始崩塌。;
+
+changeBg:black;
+
+:不——！
+
+playEffect:wake_up.mp3;
+
+:我猛地惊醒。;
+
+changeBg:出租屋·昏暗.png;
+
+:汗水浸透了睡衣。;
+:我大口喘着气，环顾四周。;
+
+:这是我的出租屋。;
+:我一个人。;
+
+changeFigure:none;
+
+:王妍不在。;
+:她早就走了。;
+
+:我们确实处上了。;
+:但很快就因为理念不合分手了。;
+:她想要稳定的生活，而我执着于直播梦想。;
+
+:后来我依旧干着直播。;
+:只是一直默默无闻罢了。;
+
+changeBg:black;
+
+:【梦结局：碌碌无为】;
+
+jumpLabel:ending_ch1;
+
+; ============================================
+; 第一章结束
+; ============================================
+
+label:ending_ch1;
+
+changeFigure:none;
+changeBg:black;
+
+intro:第一章 完;
+
+changeScene:../start.txt;
+
+end;

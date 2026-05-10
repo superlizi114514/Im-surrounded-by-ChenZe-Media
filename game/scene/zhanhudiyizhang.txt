@@ -1,0 +1,1296 @@
+; B 线第一章：初三全年（展虎线）
+; 入口条件：序章选择"分手"（扔包/跟展虎走）
+; 版本：v2.0 - 完整 B1/B2/B3 线路
+
+label:b_line_start;
+
+bgm:bw.MP3;
+
+; ============================================
+; 初始化 B 线变量
+; ============================================
+
+setVar:b1_route=false;
+setVar:b2_route=false;
+setVar:b3_route=false;
+setVar:b_chenze_hidden=false;
+setVar:b_chenze_break=false;
+
+; ============================================
+; 第一幕：开学座位表（初三上学期）
+; ============================================
+
+changeBg:教室早上.png;
+changeFigure:none;
+setTextbox:on;
+
+:初三开学第一天，教室里很热闹。;
+:同学们都在讨论暑假的趣事。;
+
+changeFigure:教师.png -center;
+
+王艳华:"安静！都坐好！" -配角/安静！都坐好！.mp3;
+王艳华:"现在开始排座位。" -配角/现在开始排座位.mp3;
+
+changeFigure:none -center;
+
+:王艳华老师开始念名字。;
+:我紧张地握紧了手心。;
+
+王艳华:"王展虎，你坐王妍旁边。" -配角/王展虎，你坐王妍旁边。.mp3;
+:我的心沉了一下。;
+
+changeFigure:陈泽第一章正常.png -left;
+
+:陈泽默默收拾书包，走向教室角落。;
+:从第一排调到了最后一排。;
+:他经过我身边时，停了一秒，又继续走了。;
+:这是第几次了？因为他，陈泽一直在角落里。;
+
+; 【选择 1】
+choose:看向陈泽的背影:look_chenze|专注于新课本:focus_book|假装没看见:pretend_nothing;
+
+label:look_chenze;
+setVar:chenze_fav=chenze_fav+5;
+setVar:zhanhu_fav=zhanhu_fav-3;
+:【陈泽好感度增加 5 | 展虎好感度降低 3 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+:我忍不住回头看向陈泽的背影。;
+:他瘦削的背影在阳光下显得有些孤单。;
+changeFigure:none -left;
+changeFigure:陈泽第一章正常.png -left;
+jumpLabel:scene1_end;
+
+label:focus_book;
+setVar:zhanhu_fav=zhanhu_fav+3;
+:【展虎好感度增加 3 | 当前展虎好感度：{zhanhu_fav}】;
+:我深吸一口气，专注于眼前的新课本。;
+:不能再想了，初三了，学习最重要。;
+jumpLabel:scene1_end;
+
+label:pretend_nothing;
+:我假装什么都没发生，坐直了身体。;
+:但心里总觉得有些不安。;
+
+label:scene1_end;
+changeBg:教室早上.png;
+changeFigure:none;
+changeFigure:虎开心.png -right;
+
+:从那天开始，展虎每天都会给我带早餐。;
+:校门口那家的煎饼果子，热乎乎的。;
+
+展虎:"给，热乎的。" -展虎/给，热乎的。.mp3;
+:他递过来一个纸袋，脸上带着讨好的笑。;
+
+; 【选择 2】
+choose:收下:accept_breakfast|谢谢不用了:decline_breakfast|我自己有:i_have_breakfast;
+
+label:accept_breakfast;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+:我接过纸袋，心里暖暖的。;
+王妍:"谢谢。" -王女开/谢谢。.mp3;
+changeFigure:虎开心.png -right;
+展虎:"跟我还客气啥。" -展虎/跟我还客气啥。.mp3;
+:他笑得很开心，眼睛都弯成了月牙。;
+jumpLabel:scene2_end;
+
+label:decline_breakfast;
+setVar:zhanhu_fav=zhanhu_fav-3;
+setVar:chenze_fav=chenze_fav+2;
+:【展虎好感度降低 3 | 陈泽好感度增加 2 | 当前展虎好感度：{zhanhu_fav} | 陈泽好感度：{chenze_fav}】;
+王妍:"谢谢，不用了。" -王女开/谢谢，不用了。.mp3;
+:我委婉地拒绝了。;
+:不想欠他太多。;
+:展虎眼里的光暗了一下。;
+changeFigure:虎担心.png -right;
+jumpLabel:scene2_end;
+
+label:i_have_breakfast;
+:我摇摇头，从书包里拿出自己的面包。;
+王妍:"我自己有。" -王女开/我自己有.mp3;
+:展虎愣了一下，还是把煎饼放在了我桌上。;
+changeFigure:虎担心.png -right;
+jumpLabel:scene2_end;
+
+label:scene2_end;
+
+changeFigure:none -right;
+
+; ============================================
+; 第三幕：放学路上（多次事件）
+; ============================================
+
+label:scene3_walk_home;
+
+changeBg:上学路上·清晨.png;
+changeFigure:none;
+changeFigure:虎双手插兜.png -left;
+
+:放学铃声响起，同学们陆续离开教室。;
+:我在车棚遇到了展虎。;
+
+展虎:"我送你回家吧。" -展虎/我送你回家吧。.mp3;
+:他推着自行车，期待地看着我。;
+
+; 【选择 3】
+choose:让他送:let_him_send|不用了想一个人走走:want_alone|嗯走吧:ok_walk;
+
+label:let_him_send;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"嗯，走吧。" -王女开/嗯，走吧。.mp3;
+:我们并肩走在回家的路上。;
+:展虎一直在说话，讲班里的趣事。;
+:我默默地听着，偶尔应一声。;
+changeFigure:虎开心.png -center;
+jumpLabel:scene3_end;
+
+label:want_alone;
+setVar:zhanhu_fav=zhanhu_fav-2;
+:【展虎好感度降低 2 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"不用了，我想一个人走走。" -王女开/不用了，我想一个人走走.mp3;
+:展虎眼里的光暗了一下。;
+changeFigure:虎担心.png -center;
+展虎:"那...好吧。" -展虎/那...好吧。.mp3;
+:他推着车，目送我离开。;
+jumpLabel:scene3_end;
+
+label:ok_walk;
+setVar:zhanhu_fav=zhanhu_fav+3;
+:【展虎好感度增加 3 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"嗯，走吧。" -王女开/嗯，走吧。.mp3;
+:夕阳把我们的影子拉得很长。;
+:展虎走在我身边，偶尔偷看我一眼。;
+changeFigure:虎开心.png -center;
+jumpLabel:scene3_end;
+
+label:scene3_end;
+
+changeFigure:none -center;
+
+; ============================================
+; 第四幕：陈泽的角落（眼神交汇事件）
+; ============================================
+
+label:scene4_chenze_corner;
+
+changeBg:教室早上.png;
+changeFigure:none;
+
+:数学课上，我回头看了一眼角落。;
+:陈泽正好抬头，我们的目光对视了一秒。;
+
+changeFigure:陈泽第一章正常.png -left;
+
+:他迅速移开视线，继续低头做题。;
+:但耳朵尖微微泛红。;
+
+; 【选择 4】
+choose:对他笑一下:smile_at_him|迅速转回头:turn_back|写纸条递给他:pass_note;
+
+label:smile_at_him;
+setVar:chenze_fav=chenze_fav+5;
+setVar:zhanhu_fav=zhanhu_fav-3;
+:【陈泽好感度增加 5 | 展虎好感度降低 3 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+:我对他轻轻笑了一下。;
+:陈泽愣了一下，然后也回了个很浅的笑。;
+changeFigure:陈泽第一章窘迫.png -left;
+jumpLabel:scene4_end;
+
+label:turn_back;
+changeFigure:none -left;
+:我迅速转回头，不敢再看他。;
+:心跳得很快，手心也出汗了。;
+jumpLabel:scene4_end;
+
+label:pass_note;
+changeFigure:none -left;
+setVar:chenze_fav=chenze_fav+8;
+setVar:zhanhu_fav=zhanhu_fav-5;
+:【陈泽好感度增加 8 | 展虎好感度降低 5 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+:我撕下一页纸，写了几个字递给他。;
+:陈泽打开纸条，看到上面写着'加油'。;
+:他的嘴角微微上扬。;
+jumpLabel:scene4_end;
+
+label:scene4_end;
+
+changeFigure:none -left;
+
+; ============================================
+; 第五幕：偶遇陈泽（车棚事件）
+; ============================================
+
+label:scene5_meet_chenze;
+
+changeBg:街道·白天.png;
+changeFigure:none;
+
+:放学后，我在车棚遇到了陈泽。;
+:他正在开锁，听到脚步声抬起头。;
+
+changeFigure:陈泽第一章正常.png -center;
+
+陈泽:"...好巧。" 
+:他的声音很轻，眼神有些躲闪。;
+
+; 【选择 5】
+choose:好巧一起走吗:walk_together|嗯我先走了:leave_now|沉默不语:silent_stand;
+
+label:walk_together;
+setVar:chenze_fav=chenze_fav+8;
+setVar:b_chenze_hidden=true;
+:【陈泽好感度增加 8 | 进入陈泽暗线标记 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"好巧，一起走吗？" -王女开/好巧，一起走吗？.mp3;
+:陈泽的眼睛亮了一下。;
+changeFigure:陈泽第一章开心.png -center;
+陈泽:"嗯...好。" 
+:我们推着车，并肩走出校门。;
+:一路上，两人都没有说话。;
+:但气氛并不尴尬。;
+jumpLabel:scene5_end;
+
+label:leave_now;
+setVar:chenze_fav=chenze_fav-3;
+:【陈泽好感度降低 3 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"嗯，我先走了。" -王女开/嗯，我先走了。.mp3;
+:我匆匆说完，推车离开了。;
+:陈泽站在原地，看着我的背影。;
+jumpLabel:scene5_end;
+
+label:silent_stand;
+:我什么都没说，只是静静地看着他。;
+:陈泽低下头，继续开锁。;
+jumpLabel:scene5_end;
+
+label:scene5_end;
+
+changeFigure:none -center;
+
+; ============================================
+; 第六幕：展虎的告白前奏（初三下学期）
+; ============================================
+
+label:scene6_zhanhu_confession_hint;
+
+changeBg:教室早上.png;
+changeFigure:none;
+changeFigure:虎正常.png -right;
+
+:初三下学期，空气里弥漫着紧张的气息。;
+:中考越来越近，同学们都在努力复习。;
+:一天放学后，展虎叫住了我。;
+
+展虎:"王妍，毕业之后...你有什么打算？" -展虎/王妍，毕业之后...你有什么打算？.mp3;
+:他的眼神很认真，不像平时那样嬉皮笑脸。;
+
+; 【选择 6】
+choose:还没想好:not_sure|可能去外地上学:go_other_school|你呢:ask_him;
+
+label:not_sure;
+setVar:zhanhu_fav=zhanhu_fav+2;
+:【展虎好感度增加 2 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"还没想好。" -王女开/还没想好。.mp3;
+展虎:"慢慢想，不急。" -展虎/慢慢想，不急。.mp3;
+:他笑了笑，但眼里有我看不懂的情绪。;
+changeFigure:虎担心.png -right;
+jumpLabel:scene6_end;
+
+label:go_other_school;
+setVar:zhanhu_fav=zhanhu_fav-3;
+:【展虎好感度降低 3 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"可能去外地上学。" -王女开/可能去外地上学。.mp3;
+展虎:"...哦。" -展虎/哦。.mp3;
+:他的脸色白了一下，很快又恢复了正常。;
+changeFigure:虎担心.png -right;
+jumpLabel:scene6_end;
+
+label:ask_him;
+setVar:zhanhu_fav=zhanhu_fav+3;
+:【展虎好感度增加 3 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"你呢？" -王女开/你呢？.mp3;
+展虎:"我？我就在县城读高中吧。" -展虎/我？我就在县城读高中吧。.mp3;
+展虎:"离家近，方便照顾我妈。" -展虎/离家近，方便照顾我妈。.mp3;
+changeFigure:虎正常.png -right;
+jumpLabel:scene6_end;
+
+label:scene6_end;
+
+changeFigure:none -right;
+
+; ============================================
+; 第七幕：陈泽的质问（初三下学期）
+; ============================================
+
+label:scene7_chenze_question;
+
+changeBg:小区楼下·白天.png;
+changeFigure:none;
+
+:那天放学，陈泽在楼下等我。;
+:他靠在墙上，手里转着自行车钥匙。;
+
+changeFigure:陈泽第一章正常.png -center;
+
+陈泽:"你...和展虎...在一起了？" -陈泽/你...和展虎...在一起了？.mp3;
+:他的声音很平静，但我听出了一丝颤抖。;
+
+; 【选择 7】
+choose:没有:not_together|和你有什么关系:none_of_your_business|嗯:yes_together;
+
+label:not_together;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度增加 5 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"没有。" -王女开/没有！.mp3;
+:陈泽松了一口气，脸上有了笑意。;
+changeFigure:陈泽第一章开心.png -center;
+陈泽:"那就好。" -陈泽/那就好。.mp3;
+jumpLabel:scene7_end;
+
+label:none_of_your_business;
+setVar:chenze_fav=chenze_fav-10;
+setVar:b_chenze_break=true;
+:【陈泽好感度降低 10 | 决裂线标记 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"和你有什么关系？" -王女开/和你有什么关系？.mp3;
+:陈泽的脸色瞬间变得苍白。;
+changeFigure:陈泽第一章惊讶.png -center;
+:他张了张嘴，最后什么都没说。;
+:转身走了。;
+jumpLabel:scene7_end;
+
+label:yes_together;
+setVar:chenze_fav=chenze_fav-5;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【陈泽好感度降低 5 | 展虎好感度增加 5 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+王妍:"嗯。" -王女开/……嗯。.mp3; -王女开/……嗯。.mp3;
+:陈泽眼里的光彻底熄灭了。;
+changeFigure:陈泽低头.png -center;
+陈泽:"...祝你们幸福。" -陈泽/...祝你们幸福.mp3;
+:他推车离开，背影有些佝偻。;
+jumpLabel:scene7_end;
+
+label:scene7_end;
+
+changeFigure:none -center;
+
+; ============================================
+; 第八幕：毕业分岔口（★分支点）
+; ============================================
+
+label:graduation_fork;
+
+changeBg:学校操场·运动会.png;
+changeFigure:none;
+
+:毕业当天下午，阳光很好。;
+:操场上有很多同学在拍照留念。;
+:展虎把我叫到操场角落。;
+:他的脸很红，手心都是汗。;
+
+changeFigure:虎邀请.png -center;
+
+展虎:"王妍，我喜欢你，从初一开始就喜欢。" -展虎/王妍，我喜欢你，从初一开始就喜欢。.mp3;
+展虎:"和我在一起吧，我们一起去外地上学。" -展虎/和我在一起吧，我们一起去外地上学。.mp3;
+
+:我愣住了，大脑一片空白。;
+
+; 检查 B3 隐藏条件
+; B3 线触发条件：展虎好感度≥38 且 陈泽好感度≤10
+setVar:showConditionVar=zhanhu_fav;
+setVar:enableConditionVar=chenze_fav;
+
+; 【最终分支】
+choose:(showConditionVar>=38)[enableConditionVar<=10]->我想转学:b3_transfer_route|我愿意和你试试:b1_sweet_route|对不起，我不能:b2_breakup_route|让我再想想:b2_breakup_route;
+
+; ============================================
+; B1 甜宠线：高中篇
+; ============================================
+
+label:b1_sweet_route;
+setVar:b1_route=true;
+
+:展虎笑了，是发自内心的笑。;
+:他伸手握住我的手，很紧，像怕我跑掉。;
+
+changeFigure:虎开心.png -center;
+
+展虎:"你放心，我不会让你后悔的。" -展虎/你放心，我不会让你后悔的。.mp3;
+:【进入 B1 甜宠线】;
+
+changeBg:教室早上.png;
+changeFigure:none;
+changeFigure:虎正常.png -right;
+
+:高中开学第一天，王艳华老师再次走上讲台。;
+:她的目光扫过教室，最后落在我们身上。;
+
+changeFigure:教师.png -center;
+
+王艳华:"王展虎，你还是坐王妍旁边吧。" -配角/王展虎，你还是坐王妍旁边吧。.mp3;
+
+:原本坐这个位置的男生默默收拾书包。;
+:他搬到后排角落时，我下意识看了一眼。;
+
+changeFigure:陈泽第一章正常.png -left;
+
+:陈泽低着头，看不清表情。;
+
+changeFigure:none -left;
+changeFigure:none -center;
+changeFigure:虎正常.png -right;
+
+:展虎察觉到我的目光，伸手捏了捏我的脸。;
+
+展虎:"看什么呢？我在这呢。" -展虎/看什么呢？我在这呢。.mp3;
+
+王妍:"没什么..." -王女开/没什么.mp3;
+
+:日子一天天过去。;
+:展虎对我很好，好到让我觉得愧疚。;
+
+:高三那年，展虎突然说想做直播。;
+
+changeBg:出租屋·白天.png;
+changeFigure:none;
+changeFigure:虎正常.png -center;
+
+展虎:"爱丽丝，我想做直播，你支持我吗？" -展虎/爱丽丝，我想做直播，你支持我吗？.mp3;
+王妍:"爱丽丝？" -王女开/爱丽丝？.mp3;
+展虎:"不知道为什么，就是想这么叫你。" -展虎/不知道为什么，就是想这么叫你。.mp3;
+展虎:"像童话里的那个女孩，美好又珍贵。" -展虎/像童话里的那个女孩，美好又珍贵。.mp3;
+
+; 【B1 选择 1】
+choose:开心接受:accept_alice|假装生气:pretend_angry|不太喜欢:dislike_alice;
+
+label:accept_alice;
+setVar:zhanhu_fav=zhanhu_fav+10;
+:【展虎好感度增加 10 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"好啊，那我就是你的爱丽丝。" -王女开/好啊，那我就是你的爱丽丝。.mp3;
+:展虎把我搂进怀里，笑得很开心。;
+changeFigure:虎开心.png -center;
+jumpLabel:b1_scene2;
+
+label:pretend_angry;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"谁是你的爱丽丝啊..." -王妍/谁是你的爱丽丝啊....mp3;
+:展虎笑得更开心了。;
+changeFigure:虎开心.png -center;
+展虎:"就是啊，你就是我的爱丽丝。" -展虎/就是啊，你就是我的爱丽丝。.mp3;
+jumpLabel:b1_scene2;
+
+label:dislike_alice;
+setVar:zhanhu_fav=zhanhu_fav-3;
+:【展虎好感度降低 3 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"别这样叫我..." -王女开/别这样叫我....mp3;
+:展虎愣了一下，然后点点头。;
+changeFigure:虎担心.png -center;
+展虎:"好，那我以后不叫了。" -展虎/好，那我以后不叫了。.mp3;
+jumpLabel:b1_scene2;
+
+label:b1_scene2;
+
+changeBg:出租屋·昏暗.png;
+changeFigure:none;
+
+:大学毕业后，我们还是选择了直播这条路。;
+:展虎每天都很努力，我也尽力帮他。;
+:直播间里，我们唱着《孤独的船》。;
+
+展虎:"大家好，我是展虎。" -展虎/大家好，我是展虎。.mp3;
+王妍:"我是...爱丽丝。" -王妍/我是...爱丽丝.mp3;
+
+:人气慢慢涨了起来。;
+
+changeBg:库里南背景.png;
+changeFigure:none;
+
+:直到那天，一封邮件打破了平静。;
+:「展虎先生，您好。我们是陈泽传媒，有兴趣合作一场直播吗？」;
+
+:陈泽...传媒？;
+
+changeBg:陈泽老家客厅.png;
+changeFigure:陈泽第一章正常.png -center;
+
+:五年后，我再次见到陈泽。;
+:他坐在宽大的办公室里，不再是当年那个角落里的男孩。;
+
+陈泽:"好久不见，王妍。" -陈泽/好久不见，王妍。.mp3;
+
+:他的声音很平静，但我听出了一丝颤抖。;
+
+; 【B1 选择 2】
+choose:答应合作:agree_cooperate|委婉拒绝:decline_cooperate|让展虎决定:let_zhanhu_decide;
+
+label:agree_cooperate;
+setVar:chenze_fav=chenze_fav+10;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【陈泽好感度增加 10 | 展虎嫉妒值增加 10 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+王妍:"可以考虑，具体怎么合作？" -王妍/可以考虑，具体怎么合作？.mp3;
+:陈泽眼里闪过一丝光。;
+changeFigure:陈泽第一章开心.png -center;
+:但我没看到展虎阴沉的脸色。;
+changeFigure:none;
+changeFigure:虎巨愤怒.png -right;
+jumpLabel:b1_scene3;
+
+label:decline_cooperate;
+setVar:zhanhu_fav=zhanhu_fav+10;
+setVar:chenze_fav=chenze_fav-5;
+:【展虎好感度增加 10 | 陈泽好感度降低 5 | 当前展虎好感度：{zhanhu_fav} | 陈泽好感度：{chenze_fav}】;
+王妍:"抱歉，我们暂时没有合作计划。" -王妍/抱歉，我们暂时没有合作计划.mp3;
+:陈泽眼里的光暗了下去。;
+changeFigure:陈泽低头.png -center;
+:展虎伸手搂住我的肩膀，露出一个得意的笑。;
+changeFigure:none;
+changeFigure:虎一脸不屑.png -right;
+jumpLabel:b1_scene3;
+
+label:let_zhanhu_decide;
+setVar:zhanhu_fav=zhanhu_fav+5;
+setVar:chenze_fav=chenze_fav-3;
+:【展虎好感度增加 5 | 陈泽好感度降低 3 | 当前展虎好感度：{zhanhu_fav} | 陈泽好感度：{chenze_fav}】;
+王妍:"这个...我得问问展虎的意见。" -王女开/这个...我得问问展虎的意见。.mp3;
+:陈泽看了看展虎，苦笑一声。;
+changeFigure:none;
+changeFigure:虎担心新.png -right;
+陈泽:"你们...感情真好。" -陈泽/你们...感情真好。.mp3;
+jumpLabel:b1_scene3;
+
+label:b1_scene3;
+
+changeBg:小区楼下 晚上.png;
+changeFigure:none;
+changeFigure:虎担心新.png -center;
+
+:回家的路上，展虎一直很沉默。;
+
+展虎:"你看到他的眼神了吗？" -展虎/你看到他的眼神了吗？.mp3;
+展虎:"他还喜欢你，我能看出来。" -展虎/他还喜欢你，我能看出来。.mp3;
+
+王妍:"你想说什么？" -王妍/你想说什么？.mp3;
+
+展虎:"王妍，你选我，对吗？" -展虎/王妍，你选我，对吗？.mp3;
+
+:他的声音有些颤抖，像个害怕失去玩具的孩子。;
+
+; 【B1 最终选择】
+choose:当然选你:choose_zhanhu|我不知道:dont_know|我们都冷静一下:calm_down;
+
+label:choose_zhanhu;
+setVar:zhanhu_fav=zhanhu_fav+15;
+:【展虎好感度增加 15 | 进入单一线结局 | 当前展虎好感度：{zhanhu_fav}】;
+
+changeBg:小区后院黄昏.png;
+changeFigure:none;
+changeFigure:虎开心.png -center;
+
+:从校服到婚纱，从同桌到夫妻。;
+:谢谢你，一直都是我的展虎。;
+
+展虎:"而你，永远是我的爱丽丝。"
+
+:陈泽没有来婚礼。;
+:听说他去了另一个城市。;
+
+:【达成结局：从路灯下到婚纱】;
+unlockEnding:b1_sweet -name:从路灯下到婚纱 -series:B 线结局;
+end;
+
+label:dont_know;
+setVar:chenze_fav=chenze_fav+5;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【陈泽好感度增加 5 | 展虎好感度降低 10 | 进入摇摆线 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+
+changeBg:black;
+changeFigure:none;
+
+:我犹豫了。;
+:这个犹豫，毁掉了一切。;
+:展虎转身离开，再也没有回头。;
+:陈泽说我不值得。;
+:直播间关了。;
+:我也走了。;
+
+:【达成结局：一无所有】;
+unlockEnding:b1_greedy -name:一无所有 -series:B 线结局;
+end;
+
+label:calm_down;
+setVar:chenze_fav=chenze_fav+3;
+setVar:zhanhu_fav=zhanhu_fav-5;
+:【陈泽好感度增加 3 | 展虎好感度降低 5 | 当前陈泽好感度：{chenze_fav} | 展虎好感度：{zhanhu_fav}】;
+
+changeBg:black;
+changeFigure:none;
+
+:我们都需要冷静一下。;
+:但这一冷静，就是永远。;
+:展虎退出了直播间。;
+:陈泽也不再联系。;
+:只剩下我一个人，在空荡荡的房间里。;
+
+:【达成结局：孤身一人】;
+unlockEnding:b1_alone -name:孤身一人 -series:B 线结局;
+end;
+
+; ============================================
+; B2 分手线：巨婴的直播日记
+; ============================================
+
+label:b2_breakup_route;
+setVar:b2_route=true;
+
+:展虎愣住了，眼里的光一点点暗下去。;
+:他松开我的手，后退了一步。;
+changeFigure:虎担心新.png -center;
+
+展虎:"...是因为陈泽吗？" 
+
+王妍:"不是。是我自己，我还没准备好。" -王女开/不是。是我自己，我还没准备好。.mp3;
+
+:【进入 B2 分手线】;
+
+changeBg:教室早上.png;
+changeFigure:none;
+
+:高中开学第一天，王艳华老师还是把展虎安排在我旁边。;
+:但他一整天都没有和我说话。;
+:我也没有。;
+
+changeBg:学校操场·运动会.png;
+changeFigure:虎担心新.png -right;
+
+:一天放学后，展虎叫住了我。;
+
+展虎:"王妍，我哪里不好，我可以改。"
+
+王妍:"你很好，是我...还没有准备好开始一段感情。" -王女开/你很好，是我...还没有准备好开始一段感情.mp3;
+
+:展虎沉默了很久，最后苦笑了一声。;
+changeFigure:虎担心新.png -right;
+
+展虎:"那祝你幸福。" -展虎/那祝你幸福。.mp3; 
+
+; 【B2 选择 1】
+choose:谢谢:say_thanks|对不起:say_sorry|我们还是朋友:still_friends;
+
+label:say_thanks;
+setVar:zhanhu_fav=zhanhu_fav+3;
+:【展虎好感度增加 3 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"谢谢。"
+:展虎点点头，转身离开了。;
+changeFigure:虎担心.png -right;
+jumpLabel:b2_scene2;
+
+label:say_sorry;
+setVar:zhanhu_fav=zhanhu_fav-3;
+:【展虎好感度降低 3 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"对不起。" -王女开/对不起…….mp3;
+:展虎摇摇头，没有说话。;
+changeFigure:虎担心新.png -right;
+jumpLabel:b2_scene2;
+
+label:still_friends;
+setVar:zhanhu_fav=zhanhu_fav+0;
+:【好感度无变化 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"我们还是朋友。" -王女开/我们还是朋友。.mp3;
+:展虎笑了笑，但笑得很苦。;
+changeFigure:虎担心新.png -right;
+展虎:"嗯，朋友。" -展虎/嗯，朋友。.mp3;
+jumpLabel:b2_scene2;
+
+label:b2_scene2;
+
+changeBg:教室早上.png;
+changeFigure:none;
+
+:日子一天天过去。;
+:我偶尔会注意到角落里的陈泽。;
+
+changeFigure:陈泽第一章正常.png -left;
+
+:他低着头做题，很认真的样子。;
+:我们的目光偶尔会交汇，但都迅速移开。;
+
+:我们之间，隔了多少排座位？;
+
+; 【B2 选择 2】
+choose:走过去打招呼:say_hello|继续看书:continue_reading|偷偷看他:secret_look;
+
+label:say_hello;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度增加 5 | 当前陈泽好感度：{chenze_fav}】;
+:我站起身，走向角落。;
+王妍:"好久不见。" -王女开/好久不见。.mp3;
+:陈泽抬起头，眼里闪过一丝惊喜。;
+changeFigure:陈泽惊讶.png -left;
+陈泽:"好久不见。" -王女开/好久不见。.mp3; 
+jumpLabel:b2_scene3;
+
+label:continue_reading;
+:我低下头，继续看书。;
+:假装没有看到他的目光。;
+jumpLabel:b2_scene3;
+
+label:secret_look;
+setVar:chenze_fav=chenze_fav+2;
+:【陈泽好感度增加 2 | 当前陈泽好感度：{chenze_fav}】;
+:我偷偷看了他一眼。;
+:他正好也在看我，我们迅速移开视线。;
+jumpLabel:b2_scene3;
+
+label:b2_scene3;
+
+changeBg:出租屋·白天.png;
+changeFigure:none;
+
+:大学毕业后，我还是没有找到工作。;
+:决定试试直播。;
+:注册账号时，需要起一个网名。;
+:我想起了和展虎在一起的日子。;
+:那时候他经常带我去吃各种美食。;
+:原本娇小的我，脸上慢慢变得肥嘟嘟的。;
+
+:我在输入框里敲下两个字——巨婴。;
+:自嘲，但也真实。;
+
+jumpLabel:b2_scene4;
+
+label:b2_scene4;
+
+changeBg:出租屋·昏暗.png;
+changeFigure:none;
+
+:深夜，我刷手机，推流了展虎的视频。;
+:他和别的女生一起直播。;
+:看起来很开心的样子。;
+
+:这样也好。;
+
+; 【B2 选择 4】
+choose:划走:scroll_away|看完点个赞:like_video|关掉手机哭一场:cry_alone;
+
+label:scroll_away;
+setVar:zhanhu_fav=zhanhu_fav-5;
+:【展虎好感度降低 5 | 当前展虎好感度：{zhanhu_fav}】;
+:我划走了视频。;
+:不想再看下去。;
+jumpLabel:b2_scene5;
+
+label:like_video;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 心情降低 10 | 当前展虎好感度：{zhanhu_fav}】;
+:我看完视频，点了个赞。;
+:心里酸酸的。;
+jumpLabel:b2_scene5;
+
+label:cry_alone;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【展虎好感度降低 10 | 心情降低 20 | 当前展虎好感度：{zhanhu_fav}】;
+:我关掉手机，躲在被子里哭。;
+:为什么还是会难过呢？;
+jumpLabel:b2_scene5;
+
+label:b2_scene5;
+
+changeBg:库里南背景.png;
+changeFigure:none;
+
+:直到那天，我看到了陈泽传媒的招聘信息。;
+:鬼使神差地，我投了简历。;
+
+changeBg:陈泽老家客厅.png;
+changeFigure:陈泽第一章正常.png -center;
+
+陈泽:"王妍？好久不见。" -陈泽/王妍？好久不见。.mp3;
+陈泽:"你的简历很不错。" -陈泽/你的简历很不错。.mp3; 
+
+:五年了，他不再是那个躲在角落里的男孩。;
+:他是陈泽传媒的 CEO。;
+
+王妍:"谢谢陈总。" 
+
+; 【B2 选择 5】
+choose:保持专业态度:professional|叙旧:catch_up|有些尴尬:awkward;
+
+label:professional;
+setVar:chenze_fav=chenze_fav+5;
+:【陈泽好感度增加 5 | 专业度增加 10 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"我会努力工作的。" -王女开/我会努力工作的。.mp3; 
+:陈泽点点头，露出一个职业化的笑。;
+jumpLabel:b2_scene6;
+
+label:catch_up;
+setVar:chenze_fav=chenze_fav+10;
+:【陈泽好感度增加 10 | 专业度降低 5 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"没想到会在这里见到你。" -王女开/没想到会在这里见到你。.mp3;
+:陈泽眼里闪过一丝光。;
+changeFigure:陈泽第一章开心.png -center;
+陈泽:"是啊，好久不见。"
+jumpLabel:b2_scene6;
+
+label:awkward;
+:【好感度无变化】;
+王妍:"嗯..." 
+:我尴尬地笑了笑。;
+:陈泽也没有再说话。;
+jumpLabel:b2_scene6;
+
+label:b2_scene6;
+
+changeBg:街道·白天.png;
+changeFigure:none;
+
+:入职第一天，陈泽带我熟悉公司环境。;
+
+陈泽:"欢迎加入陈泽传媒，以后有什么不懂的可以问我。"
+
+:手机震动，是展虎发来的消息。;
+:展虎说他觉得这里不适合我。;
+
+; 【B2 最终选择】
+choose:回复"嗯，怎么了":reply_zhanhu|不回复:no_reply|截图发给陈泽:screenshot_chenze;
+
+label:reply_zhanhu;
+setVar:zhanhu_fav=zhanhu_fav+5;
+setVar:chenze_fav=chenze_fav-5;
+:【展虎好感度增加 5 | 陈泽好感度降低 5 | 当前展虎好感度：{zhanhu_fav} | 陈泽好感度：{chenze_fav}】;
+王妍:"嗯，怎么了？" -王女开/嗯，怎么了？.mp3;
+:展虎很快回复了。;
+:展虎说没什么，就是让我小心点。;
+:我笑了笑，把手机放回口袋。;
+changeFigure:none;
+changeBg:black;
+
+:后来，我还是和展虎保持了联系。;
+:偶尔会一起吃饭，像老朋友一样。;
+:陈泽没有再靠近我。;
+:他保持着距离，默默关注着我。;
+
+:【达成结局：未完待续】;
+unlockEnding:b2_open -name:未完待续 -series:B 线结局;
+end;
+
+label:no_reply;
+setVar:zhanhu_fav=zhanhu_fav-5;
+setVar:chenze_fav=chenze_fav+5;
+:【展虎好感度降低 5 | 陈泽好感度增加 5 | 当前展虎好感度：{zhanhu_fav} | 陈泽好感度：{chenze_fav}】;
+:我没有回复展虎。;
+:把手机放回口袋，继续工作。;
+changeFigure:none;
+changeBg:black;
+changeFigure:none;
+
+:后来，展虎没有再发消息来。;
+:陈泽却越来越关心我。;
+:兜兜转转，原来你一直在原地。;
+:角落里的男孩，终于走到了舞台中央。;
+
+陈泽:"王妍，这次...能不能别走了？" -陈泽/王妍，这次...能不能别走了？.mp3;
+
+changeFigure:陈泽成年低头害羞.png -center;
+
+王妍:"嗯。" -王女开/……嗯。.mp3;
+
+changeFigure:陈泽成年开心.png -center;
+:【达成结局：角落到舞台】;
+unlockEnding:b2_chenze -name:角落到舞台 -series:B 线结局;
+end;
+
+label:screenshot_chenze;
+setVar:zhanhu_fav=zhanhu_fav-10;
+setVar:chenze_fav=chenze_fav+10;
+:【展虎好感度降低 10 | 陈泽好感度增加 10 | 当前展虎好感度：{zhanhu_fav} | 陈泽好感度：{chenze_fav}】;
+:我把截图发给了陈泽。;
+
+王妍:"展虎说他觉得这里不适合我。" -王女开/展虎说他觉得这里不适合我。.mp3;
+
+陈泽:"他说的没错。" -陈泽/他说的没错。.mp3;
+陈泽:"但我想让你自己决定。" -陈泽/但我想让你自己决定。.mp3;
+
+:【B2 额外选择】;
+choose:留下来:stay|离开:leave;
+
+label:stay;
+setVar:chenze_fav=chenze_fav+10;
+:【陈泽好感度增加 10 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"我想留下来。" -王女开/我想留下来。.mp3;
+:陈泽笑了，是发自内心的笑。;
+changeFigure:陈泽成年开心.png -center;
+陈泽:"好，那你留下。" -陈泽/好，那你留下。.mp3;
+
+changeBg:black;
+changeFigure:none;
+
+:后来，我和陈泽一起工作。;
+:慢慢地，我们发现彼此都没有变。;
+:他还是那个会在角落里偷偷看我的男孩。;
+:我还是那个会因为他一眼心跳加速的女孩。;
+
+changeFigure:陈泽成年说话.png -center;
+
+陈泽:"王妍，我们重新开始吧。" -陈泽/王妍，我们重新开始吧。.mp3;
+
+王妍:"好。" -陈泽/好。.mp3;
+
+:【达成结局：重新开始】;
+unlockEnding:b2_restart -name:重新开始 -series:B 线结局;
+end;
+
+label:leave;
+setVar:chenze_fav=chenze_fav-10;
+:【陈泽好感度降低 10 | 当前陈泽好感度：{chenze_fav}】;
+王妍:"我想...我还是离开吧。" -王女开/我想...我还是离开吧。.mp3;
+:陈泽眼里的光暗了下去。;
+changeFigure:陈泽成年低头.png -center;
+陈泽:"好，尊重你的决定。"
+
+changeBg:black;
+changeFigure:none;
+
+:后来，我离开了陈泽传媒。;
+:一个人继续做直播。;
+:直播间里，我还是叫自己'巨婴'。;
+:观众说我越来越开朗了。;
+:只有我自己知道，心里空了一块。;
+
+:【达成结局：巨婴女王】;
+unlockEnding:b2_queen -name:巨婴女王 -series:B 线结局;
+end;
+
+; ============================================
+; B3 恨海情天线：转学篇
+; ============================================
+
+label:b3_transfer_route;
+setVar:b3_route=true;
+
+:展虎和陈泽都愣住了。;
+:空气仿佛凝固了。;
+changeFigure:虎一脸不屑.png -center;
+changeFigure:陈泽低头.png -left;
+
+王妍:"对不起，我想转学了。" -王女开/对不起，我想转学了。.mp3; 
+王妍:"我不想再看到你们...因为我而争吵。" -王女开/我不想再看到你们...因为我而争吵。.mp3;
+
+:陈泽从角落里抬起头，脸色苍白。;
+:展虎欲言又止。;
+
+:【进入 B3 恨海情天线】;
+
+changeBg:家里电脑桌·夜晚.png;
+changeFigure:none;
+
+:那个夏天，我转学了。;
+:没有告诉任何人。;
+:展虎打来很多电话，我都没有接。;
+:陈泽发过很多消息，我都没有回。;
+
+:对不起，展虎。对不起，陈泽。;
+
+changeBg:教室早上.png;
+changeFigure:none;
+
+:王妍走后，教室里只剩下我和他。;
+:原本针锋相对的我们，竟然开始变得默契。;
+:这算什么？;
+
+changeBg:学校操场·运动会.png;
+changeFigure:虎正常.png -right;
+
+changeFigure:陈泽第一章正常.png -left;
+
+:没有她的教室，原来也可以这样平静。;
+
+changeFigure:none -right;
+changeFigure:none -left;
+
+展虎:"那个...谢谢你每天陪我。" -展虎/那个...谢谢你每天陪我。.mp3;
+陈泽:"嗯，挺好的。" -陈泽/嗯，挺好的。.mp3; 
+
+:【B3 选择 1】;
+choose:主动坐到他旁边:sit_next|保持距离:keep_distance|问他为什么:ask_why;
+
+label:sit_next;
+setVar:zhanhu_fav=zhanhu_fav+10;
+:【展虎好感度增加 10 | 暧昧值增加 10 | 当前展虎好感度：{zhanhu_fav}】;
+:我收拾书包，坐到了展虎旁边。;
+:他愣了一下，然后笑了。;
+changeFigure:虎开心.png -right;
+展虎:"怎么？舍不得我啊？" -展虎/怎么？舍不得我啊？.mp3; 
+陈泽:"废话真多。" -陈泽/废话真多。.mp3; 
+:但我们都笑了。;
+changeFigure:none -right;
+jumpLabel:b3_scene2;
+
+label:keep_distance;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【展虎好感度降低 10 | B3 线失败 | 当前展虎好感度：{zhanhu_fav}】;
+:我刻意和展虎保持距离。;
+:他察觉到了，再也没有靠近过我。;
+
+changeBg:black;
+changeFigure:none;
+
+:后来，我们成了陌生人。;
+:直到毕业，都没有说过一句话。;
+
+:【达成结局：形同陌路】;
+unlockEnding:b3_stranger -name:形同陌路 -series:B 线结局;
+end;
+
+label:ask_why;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 暧昧值增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+王妍:"为什么？" -王女开/为什么？.mp3; 
+:展虎愣了一下。;
+changeFigure:虎巨愤怒.png -right;
+展虎:"什么为什么？" -展虎/什么为什么？.mp3;
+王妍:"为什么对我这么好？" -王女开/为什么对我这么好？.mp3; 
+:展虎沉默了很久。;
+展虎:"因为...你是你啊。" -展虎/因为...你是你啊。.mp3; 
+changeFigure:none -right;
+jumpLabel:b3_scene2;
+
+label:b3_scene2;
+
+changeBg:教室早上.png;
+changeFigure:none;
+
+:王艳华老师暗示可以调整座位。;
+:展虎可以申请让陈泽坐到他旁边。;
+
+changeFigure:虎双手插兜.png -right;
+changeFigure:陈泽第一章正常.png -left;
+
+展虎:"陈泽，调个座位呗。" -展虎/陈泽，调个座位呗。.mp3; 
+陈泽:"坐你旁边？" -陈泽/坐你旁边？.mp3; 
+展虎:"嗯，帮我补补课。" -展虎/嗯，帮我补补课。.mp3; 
+; 【B3 选择 2】
+choose:接受调座位:accept_seat|拒绝:reject_seat|无所谓:whatever_seat;
+
+label:accept_seat;
+setVar:zhanhu_fav=zhanhu_fav+10;
+:【展虎好感度增加 10 | 当前展虎好感度：{zhanhu_fav}】;
+:陈泽收拾书包，坐到了展虎旁边。;
+changeFigure:陈泽第一章正常.png -left;
+changeFigure:虎邀请.png -right;
+:两个男生对视一眼，都笑了。;
+jumpLabel:b3_scene3;
+
+label:reject_seat;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【展虎好感度降低 10 | B3 线失败 | 当前展虎好感度：{zhanhu_fav}】;
+:陈泽拒绝了。;
+changeFigure:陈泽第一章正常.png -left;
+:他说他喜欢角落。;
+
+changeBg:black;
+changeFigure:none;
+
+:后来，展虎再也没有提起过这件事。;
+:我们依旧只是普通同学。;
+
+:【达成结局：普通朋友】;
+unlockEnding:b3_friend -name:普通朋友 -series:B 线结局;
+end;
+
+label:whatever_seat;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+:陈泽无所谓地点点头。;
+changeFigure:陈泽第一章正常.png -left;
+:坐到了展虎旁边。;
+jumpLabel:b3_scene3;
+
+label:b3_scene3;
+
+changeBg:出租屋·白天.png;
+changeFigure:none;
+
+:我们成了正式同桌。;
+:展虎给我带早餐，我帮他写作业。;
+:有时候，他在我家过夜。;
+:我们睡一张床。;
+
+changeFigure:虎开心.png -right;
+
+展虎:"这样挺好的，不是吗？" -展虎/这样挺好的，不是吗？.mp3; 
+
+:这算什么呢？朋友？还是...更多？;
+
+; 【B3 选择 3】
+choose:觉得这样很好:feel_good|觉得有些不对劲:feel_wrong|刻意保持距离:keep_away;
+
+label:feel_good;
+setVar:zhanhu_fav=zhanhu_fav+10;
+:【展虎好感度增加 10 | 暧昧值增加 10 | 当前展虎好感度：{zhanhu_fav}】;
+:我觉得这样很好。;
+:没有多想，继续和他相处。;
+jumpLabel:b3_scene4;
+
+label:feel_wrong;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 暧昧值增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+:我觉得有些不对劲。;
+:但又说不上来哪里不对。;
+jumpLabel:b3_scene4;
+
+label:keep_away;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【展虎好感度降低 10 | B3 线失败 | 当前展虎好感度：{zhanhu_fav}】;
+:我刻意和他保持距离。;
+:他察觉到了，慢慢疏远了我。;
+
+changeBg:black;
+changeFigure:none;
+
+:后来，我们成了陌生人。;
+:直到毕业，都没有说过一句话。;
+
+:【达成结局：形同陌路】;
+unlockEnding:b3_stranger -name:形同陌路 -series:B 线结局;
+end;
+
+label:b3_scene4;
+
+changeBg:出租屋·昏暗.png;
+changeFigure:none;
+
+:深夜，手机突然响起。;
+:是陈泽。;
+
+陈泽:"喂？"
+
+陈泽:"喂...斩虎吗？"
+陈泽:"我...我喝多了..."
+:他的声音模糊又断断续续。;
+
+; 【B3 选择 4】
+choose:继续接听电话:answer_call|挂断:hang_up|等一会儿再接:wait_answer;
+
+label:answer_call;
+changeFigure:none;
+:我继续接听电话。;
+jumpLabel:b3_scene5;
+
+label:hang_up;
+setVar:zhanhu_fav=zhanhu_fav-10;
+:【展虎好感度降低 10 | B3 线失败 | 当前展虎好感度：{zhanhu_fav}】;
+:我挂断了电话。;
+:展虎没有再打来。;
+changeFigure:虎担心新.png -center;
+changeBg:black;
+changeFigure:none;
+
+:后来，展虎再也没有联系过我。;
+:听说他去了很远的城市。;
+
+:【达成结局：错过的告白】;
+unlockEnding:b3_missed -name:错过的告白 -series:B 线结局;
+end;
+
+label:wait_answer;
+setVar:zhanhu_fav=zhanhu_fav+5;
+:【展虎好感度增加 5 | 当前展虎好感度：{zhanhu_fav}】;
+:我等了一会儿才接起电话。;
+changeFigure:虎担心新.png -center;
+jumpLabel:b3_scene5;
+
+label:b3_scene5;
+
+changeBg:black;
+changeFigure:none;
+
+展虎:"陈泽...你知道吗？" 
+展虎:"其实我从来就没想过和你抢王妍。" 
+
+陈泽:"你说什么？" 
+
+展虎:"你知道吗，其实...其实我一直喜欢的都是..." 
+
+:电话里传来一阵嘈杂音。;
+:最后的名字，我没有听清。;
+
+; 【B3 最终选择】
+choose:我知道:i_know|别说了:dont_say|其实我也喜欢你:i_like_you_too|其实我也...:actually_me_too;
+
+label:i_know;
+:【进入恨海情天结局】;
+changeFigure:虎担心新.png -center;
+changeBg:小区垃圾桶旁·夜晚.png;
+changeFigure:none;
+
+:后来是展虎优先喜欢上了陈泽。;
+:陈泽一直以来也只是把他当做一个哥哥。;
+:展虎表达心意的时候，陈泽一直在吃惊和犹豫。;
+:但是最后还是一试了。;
+:两个人在一起后不被世人理解。;
+:陈泽遭到霸凌，展虎被家里警告。;
+:两个人最后为了对方都能好过，分开了。;
+:做回普通朋友。;
+:但是彼此心里，一直有一道无法跨越的隔阂。;
+
+:【达成结局：恨海情天】;
+unlockEnding:b3_hate -name:恨海情天 -series:B 线结局;
+end;
+
+label:dont_say;
+:【进入朋友以上结局】;
+
+changeBg:上学路上·清晨.png;
+changeFigure:none;
+
+:我没有听清最后的名字。;
+:我只是对着电话说：别说了...;
+:第二天，展虎像什么都没发生一样。;
+:陈泽也默契地没有提起。;
+:他们还是朋友。;
+:最好的朋友。;
+:也...只能是朋友。;
+
+:【达成结局：朋友以上】;
+unlockEnding:b3_friendship -name:朋友以上 -series:B 线结局;
+end;
+
+label:i_like_you_too;
+:【进入禁忌之恋结局】;
+
+changeBg:小区后院黄昏.png;
+changeFigure:none;
+
+:电话那头沉默了很久。;
+:然后传来一声轻笑。;
+
+展虎:"那你现在...想清楚了吗？" 
+
+陈泽:"嗯，想清楚了。" 
+陈泽:"其实我也喜欢你。" 
+
+:不在乎世人的眼光。;
+:不在乎家人的反对。;
+:只要能和你在一起，就够了。;
+
+:【达成结局：禁忌之恋】;
+unlockEnding:b3_forbidden -name:禁忌之恋 -series:B 线结局;
+end;
+
+label:actually_me_too;
+:【进入未说完的话结局】;
+
+changeBg:出租屋·昏暗.png;
+changeFigure:none;
+
+:话没说完，电话挂断了。;
+:或许是醉得不轻，或许是故意挂断。;
+:窗外的路灯亮着。;
+:像极了那年夏天，她和他们表白的那个夜晚。;
+:但现在...;
+:已经回不去了。;
+
+:【达成结局：未说完的话】;
+unlockEnding:b3_unfinished -name:未说完的话 -series:B 线结局;
+end;

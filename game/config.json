@@ -1,0 +1,14 @@
+{
+  "gameName": "完蛋！我被陈泽传媒包围了",
+  "version": "0.2.0",
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "performance": {
+    "enableLazyLoad": true,
+    "preloadSceneOnly": true,
+    "imageCacheSize": 50,
+    "videoPreload": false
+  }
+}

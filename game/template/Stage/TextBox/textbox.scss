@@ -1,0 +1,162 @@
+.TextBox_main {
+  z-index: 3;
+  position: absolute;
+  right: 25px;
+  min-height: 280px;
+  max-height: 280px;
+  border-radius: 24px;
+  bottom: 30px;
+  left: 275px;
+  font-weight: bold;
+  color: white;
+  padding: 1.2em 50px 60px 60px;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  letter-spacing: 0.15em;
+  transition: left 0.33s;
+  overflow: visible;
+}
+
+.TextBox_main_miniavatarOff {
+  left: 30px;
+}
+
+.TextBox_Background {
+  z-index: 2;
+  background: rgba(10, 10, 30, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+@keyframes showSoftly {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.TextBox_textElement_start {
+  position: relative;
+  animation: TextDelayShow 800ms ease-out forwards;
+  opacity: 0;
+}
+
+.outer {
+  position: absolute;
+  white-space: nowrap;
+  left: 0;
+  top: 0;
+  background-image: linear-gradient(180deg, #ffffff 0%, rgba(200, 215, 240, 1) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  z-index: 2;
+}
+
+.inner {
+  white-space: nowrap;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-text-stroke: 0.05em rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.zhanwei {
+  color: transparent;
+  white-space: nowrap;
+}
+
+.TextBox_textElement_Settled {
+  position: relative;
+  opacity: 1;
+}
+
+.TextBox_showName {
+  font-size: 100%;
+  padding: 0 2.2em 0 2.2em;
+  position: absolute;
+  left: 30px;
+  top: -56px;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 14px 14px 0 0;
+  z-index: 4;
+  letter-spacing: 0.25em;
+  min-width: 20%;
+}
+
+.TextBox_ShowName_Background {
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: none;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes TextDelayShow {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.miniAvatarContainer {
+  position: absolute;
+  height: 450px;
+  width: 450px;
+  bottom: 0;
+  left: -250px;
+  border-radius: 100% 0 0 100%;
+  overflow: hidden;
+}
+
+.miniAvatarImg {
+  max-height: 100%;
+  max-width: 100%;
+  position: absolute;
+  bottom: 0;
+  filter: drop-shadow(15px 0 3px rgba(0, 0, 0, 0.5));
+}
+
+.nameContainer {
+  position: absolute;
+  left: 2em;
+  top: -3.5em;
+}
+
+.outerName {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(150deg, #ffffff 0%, #ffffff 40%, rgba(160, 200, 240, 1) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  z-index: 2;
+}
+
+.innerName {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.text {
+  line-height: 1.9em;
+  overflow: hidden;
+}

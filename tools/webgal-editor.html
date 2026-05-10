@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebGal 编辑器 - 陈泽传媒游戏开发工具</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#1a1a2e;--panel-bg:#16213e;--text:#e0e0e0;--accent:#e94560;--accent2:#0f3460;
+  --border:#2a2a4a;--hover:#1f1f3a;--good:#4caf50;--warn:#ff9800;--err:#f44336;
+  --code-bg:#0d1117;--code-text:#c9d1d9;--keyword:#ff7b72;--string:#a5d6ff;
+  --comment:#8b949e;--cmd:#d2a8ff;--label:#7ee787;--var:#ffa657;
+  --figure:#79c0ff;--bgm:#f2cc60;
+}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;}
+/* Header */
+.header{background:var(--panel-bg);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.header h1{font-size:16px;color:var(--accent);}
+.header .actions{display:flex;gap:8px;margin-left:auto;}
+.header .badge{font-size:11px;background:var(--accent2);padding:3px 8px;border-radius:4px;}
+button{cursor:pointer;border:none;padding:6px 14px;border-radius:4px;font-size:12px;font-family:inherit;transition:all .2s;}
+.btn{background:var(--accent2);color:var(--text);}
+.btn:hover{background:#1a4a7a;}
+.btn-accent{background:var(--accent);color:#fff;}
+.btn-accent:hover{background:#d13350;}
+.btn-small{padding:3px 8px;font-size:11px;}
+/* Main layout */
+.main{display:flex;flex:1;overflow:hidden;}
+/* Sidebar */
+.sidebar{width:260px;background:var(--panel-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;}
+.sidebar-header{padding:10px;border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:6px;}
+.file-list{flex:1;overflow-y:auto;padding:4px;}
+.file-item{padding:6px 10px;font-size:12px;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px;}
+.file-item:hover{background:var(--hover);}
+.file-item.active{background:var(--accent2);color:var(--accent);}
+.file-item .icon{width:14px;text-align:center;font-size:11px;}
+.structure-tree{flex:1;overflow-y:auto;padding:4px;border-top:1px solid var(--border);}
+.tree-item{padding:3px 8px;font-size:11px;cursor:pointer;border-radius:2px;display:flex;align-items:center;gap:4px;}
+.tree-item:hover{background:var(--hover);}
+.tree-item .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.tree-item .dot.label{background:var(--label);}
+.tree-item .dot.choice{background:var(--warn);}
+.tree-item .dot.scene{background:var(--accent);}
+.tree-item .dot.dialogue{background:var(--figure);}
+/* Editor area */
+.editor-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.editor-tabs{display:flex;background:var(--panel-bg);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0;}
+.editor-tab{padding:6px 14px;font-size:12px;cursor:pointer;border-right:1px solid var(--border);white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.editor-tab:hover{background:var(--hover);}
+.editor-tab.active{background:var(--bg);color:var(--accent);border-bottom:2px solid var(--accent);}
+.editor-tab .close{margin-left:8px;font-size:14px;opacity:.5;cursor:pointer;line-height:1;}
+.editor-tab .close:hover{opacity:1;}
+.editor-pane{flex:1;display:flex;overflow:hidden;}
+.editor-col{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.editor-col+.editor-col{border-left:1px solid var(--border);}
+.editor-header{background:var(--panel-bg);padding:4px 10px;font-size:11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.editor-header select{font-size:11px;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:2px 6px;border-radius:3px;}
+.code-editor{flex:1;position:relative;overflow:hidden;}
+.code-editor textarea{
+  width:100%;height:100%;background:transparent;color:transparent;caret-color:var(--text);
+  border:none;padding:12px 16px;font-family:'Cascadia Code','Fira Code','Consolas',monospace;
+  font-size:13px;line-height:1.6;resize:none;outline:none;position:absolute;top:0;left:0;
+  z-index:2;tab-size:2;white-space:pre-wrap;word-wrap:break-word;
+}
+.code-editor .highlight{position:absolute;top:0;left:0;width:100%;height:100%;padding:12px 16px;
+  font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:13px;line-height:1.6;
+  white-space:pre-wrap;word-wrap:break-word;overflow:hidden;pointer-events:none;z-index:1;color:var(--code-text);
+}
+/* Right panel */
+.analysis-panel{width:320px;background:var(--panel-bg);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;}
+.analysis-section{border-bottom:1px solid var(--border);flex-shrink:0;}
+.analysis-section-header{padding:8px 10px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+.analysis-section-header:hover{background:var(--hover);}
+.analysis-content{padding:8px 10px;max-height:200px;overflow-y:auto;font-size:11px;}
+.analysis-content.collapsed{display:none;}
+.stat-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px;align-items:center;}
+.stat-row .val{color:var(--accent);font-weight:600;}
+.tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:10px;margin:2px;cursor:pointer;}
+.tag:hover{opacity:.8;}
+.tag.char{background:#1a3a5c;color:var(--figure);}
+.tag.bg{background:#1a3a2c;color:var(--label);}
+.tag.figure{background:#2a1a4c;color:var(--cmd);}
+.tag.bgm{background:#3a2a1a;color:var(--bgm);}
+.tag.choice{background:#3a1a1a;color:var(--warn);}
+.tag.error{background:#3a1010;color:var(--err);}
+/* AI panel */
+.ai-panel{background:var(--panel-bg);border-top:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column;max-height:200px;}
+.ai-header{padding:6px 10px;font-size:12px;font-weight:600;color:var(--accent);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;}
+.ai-messages{flex:1;overflow-y:auto;padding:4px 10px;font-size:11px;}
+.ai-msg{padding:4px 0;border-bottom:1px solid var(--border);line-height:1.5;}
+.ai-msg .role{color:var(--accent);font-weight:600;}
+.ai-input-row{display:flex;padding:6px;gap:4px;border-top:1px solid var(--border);}
+.ai-input-row select{font-size:11px;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:4px;border-radius:3px;width:80px;}
+.ai-input-row input{flex:1;font-size:11px;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:4px 8px;border-radius:3px;font-family:inherit;}
+/* Issues panel */
+.issues-panel{background:var(--panel-bg);border-top:1px solid var(--border);flex-shrink:0;max-height:150px;overflow-y:auto;}
+.issue{padding:5px 10px;font-size:11px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;cursor:pointer;}
+.issue:hover{background:var(--hover);}
+.issue.error .issue-icon{color:var(--err);}
+.issue.warn .issue-icon{color:var(--warn);}
+.issue.info .issue-icon{color:var(--figure);}
+/* Status bar */
+.status-bar{background:var(--panel-bg);border-top:1px solid var(--border);padding:4px 12px;font-size:11px;display:flex;gap:16px;flex-shrink:0;}
+.status-item{display:flex;align-items:center;gap:4px;}
+.status-item .icon{color:var(--accent);}
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:100;display:flex;align-items:center;justify-content:center;}
+.modal{background:var(--panel-bg);border:1px solid var(--border);border-radius:8px;padding:20px;width:600px;max-height:80vh;overflow-y:auto;}
+.modal h3{color:var(--accent);margin-bottom:12px;}
+.modal input,.modal textarea{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:8px;border-radius:4px;margin:4px 0;font-family:inherit;font-size:12px;}
+.modal textarea{min-height:200px;resize:vertical;}
+.modal-actions{display:flex;gap:8px;margin-top:12px;justify-content:flex-end;}
+.graph-container{background:var(--bg);border:1px solid var(--border);border-radius:4px;min-height:300px;position:relative;overflow:auto;}
+.flow-node{position:absolute;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;border:2px solid;min-width:60px;text-align:center;}
+.flow-node:hover{opacity:.8;z-index:10;}
+.flow-node.label{border-color:var(--label);background:rgba(126,231,135,.15);color:var(--label);}
+.flow-node.choice{border-color:var(--warn);background:rgba(255,152,0,.15);color:var(--warn);}
+.flow-node.start{border-color:var(--accent);background:rgba(233,69,96,.15);color:var(--accent);}
+.flow-node.end{border-color:#666;background:rgba(150,150,150,.15);color:#999;}
+.flow-edge{position:absolute;pointer-events:none;}
+.flow-edge line{stroke:var(--comment);stroke-width:1;}
+.flow-edge poly{fill:var(--comment);}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:4px;}
+.resource-item{background:var(--bg);border-radius:4px;padding:4px;text-align:center;font-size:9px;cursor:pointer;border:1px solid var(--border);}
+.resource-item:hover{border-color:var(--accent);}
+.resource-item.missing{border-color:var(--err);opacity:.6;}
+.resource-item .preview{width:100%;height:50px;object-fit:cover;border-radius:2px;margin-bottom:2px;background:var(--code-bg);}
+.resource-item .name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:#555;}
+/* Context menu */
+.context-menu{position:fixed;background:var(--panel-bg);border:1px solid var(--border);border-radius:4px;padding:4px 0;z-index:200;min-width:160px;display:none;}
+.context-menu .menu-item{padding:6px 12px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;}
+.context-menu .menu-item:hover{background:var(--hover);}
+.context-menu .divider{border-top:1px solid var(--border);margin:4px 0;}
+.dialog-builder{padding:12px;}
+.dialog-builder label{font-size:11px;color:var(--comment);display:block;margin-bottom:2px;}
+.dialog-builder .row{display:flex;gap:8px;margin-bottom:8px;}
+.dialog-builder .row>div{flex:1;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📝 WebGal 编辑器</h1>
+  <span class="badge">chENZE-game</span>
+  <div class="actions">
+    <button class="btn" onclick="loadAllSceneFiles()" title="加载所有场景文件">📂 加载场景</button>
+    <button class="btn" onclick="newFile()">📄 新建</button>
+    <button class="btn" onclick="saveCurrentFile()">💾 保存</button>
+    <button class="btn" onclick="toggleAnalyzer()">🔍 分析</button>
+    <button class="btn" onclick="toggleAIPanel()">🤖 AI角色</button>
+    <button class="btn" onclick="toggleFlowGraph()">🕸️ 流程图</button>
+    <button class="btn" onclick="openTemplateEngine()">⚡ 模板</button>
+    <button class="btn-accent" onclick="exportReport()">📊 导出报告</button>
+  </div>
+</div>
+
+<!-- 快捷工具栏 -->
+<div class="toolbar" style="background:var(--panel-bg);border-bottom:1px solid var(--border);padding:6px 10px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex-shrink:0;">
+  <span style="font-size:10px;color:var(--comment);margin-right:4px;">⚡ 快捷插入:</span>
+  <button class="btn btn-small" onclick="quickInsert('changeBg:.png;')" title="切换背景">🏞️ 背景</button>
+  <button class="btn btn-small" onclick="quickInsert('changeFigure:.png -center;')" title="切换立绘">🎭 立绘</button>
+  <button class="btn btn-small" onclick="quickInsert('角色名:;')" title="角色对话">💬 对话</button>
+  <button class="btn btn-small" onclick="quickInsert('choose:选项:label_opt1|选项2:label_opt2;')" title="分支选择">🔀 分支</button>
+  <button class="btn btn-small" onclick="quickInsert('label:label_名称;')" title="创建标签">🏷️ 标签</button>
+  <button class="btn btn-small" onclick="quickInsert('jumpLabel:label_名称;')" title="跳转到标签">↗️ 跳转</button>
+  <button class="btn btn-small" onclick="quickInsert('bgm:.mp3;')" title="背景音乐">🎵 BGM</button>
+  <button class="btn btn-small" onclick="quickInsert('playEffect:.mp3;')" title="播放音效">🔊 音效</button>
+  <button class="btn btn-small" onclick="quickInsert('playVideo:.mp4;')" title="播放视频">🎬 视频</button>
+  <button class="btn btn-small" onclick="quickInsert('setVar:变量名=值;')" title="设置变量">📐 变量</button>
+  <button class="btn btn-small" onclick="quickInsert('wait:1000;')" title="等待(毫秒)">⏱️ 等待</button>
+  <button class="btn btn-small" onclick="quickInsert('intro:行1|行2|行3;')" title="黑屏独白">📜 独白</button>
+  <button class="btn btn-small" onclick="quickInsert('changeScene:.txt;')" title="切换场景">📄 切换场景</button>
+  <button class="btn btn-small" onclick="quickInsert('callScene:.txt;')" title="调用场景">📞 调用场景</button>
+  <button class="btn btn-small" onclick="quickInsert('end;')" title="结束游戏">⏹️ 结束</button>
+  <span style="margin-left:auto;font-size:10px;color:var(--comment);">拖拽.txt文件到页面即可导入</span>
+</div>
+
+<div class="main">
+  <!-- 左侧边栏：文件列表 + 场景结构树 -->
+  <div class="sidebar">
+    <div class="sidebar-header">📁 场景文件</div>
+    <div class="file-list" id="fileList"></div>
+    <div class="sidebar-header">🌲 场景结构</div>
+    <div class="structure-tree" id="structureTree">
+      <div style="padding:20px;color:var(--comment);text-align:center;font-size:11px;">加载文件后显示结构</div>
+    </div>
+  </div>
+
+  <!-- 中间编辑区（双面板） -->
+  <div class="editor-area">
+    <div class="editor-tabs" id="editorTabs">
+      <div class="editor-tab active" data-id="panel1">📝 编辑面板 A</div>
+      <div class="editor-tab" data-id="panel2">📝 编辑面板 B</div>
+    </div>
+    <div class="editor-pane" id="editorPane">
+      <!-- 编辑面板A -->
+      <div class="editor-col" id="colA">
+        <div class="editor-header">
+          <span>📄</span>
+          <select id="fileSelectA" onchange="switchFile('A')">
+            <option>-- 选择文件 --</option>
+          </select>
+          <span style="margin-left:auto;font-size:10px;color:var(--comment);" id="lineCountA">行:0</span>
+        </div>
+        <div class="code-editor">
+          <div class="highlight" id="highlightA"></div>
+          <textarea id="editorA" placeholder="在此编辑 WebGal 脚本..." oninput="onEditorInput('A')" onscroll="syncScroll('A')" onkeydown="onEditorKeydown(event,'A')"></textarea>
+        </div>
+      </div>
+      <!-- 编辑面板B -->
+      <div class="editor-col" id="colB" style="display:none;">
+        <div class="editor-header">
+          <span>📄</span>
+          <select id="fileSelectB" onchange="switchFile('B')">
+            <option>-- 选择文件 --</option>
+          </select>
+          <span style="margin-left:auto;font-size:10px;color:var(--comment);" id="lineCountB">行:0</span>
+        </div>
+        <div class="code-editor">
+          <div class="highlight" id="highlightB"></div>
+          <textarea id="editorB" placeholder="在此编辑 WebGal 脚本..." oninput="onEditorInput('B')" onscroll="syncScroll('B')" onkeydown="onEditorKeydown(event,'B')"></textarea>
+        </div>
+      </div>
+    </div>
+    <!-- 问题面板 -->
+    <div class="issues-panel" id="issuesPanel" style="display:none;"></div>
+    <!-- AI对话面板 -->
+    <div class="ai-panel" id="aiPanel" style="display:none;">
+      <div class="ai-header">🤖 AI 角色扮演</div>
+      <div class="ai-messages" id="aiMessages">
+        <div class="ai-msg"><span class="role">系统：</span>选择角色后可以模拟角色对话，辅助剧本创作。</div>
+      </div>
+      <div class="ai-input-row">
+        <select id="aiRole">
+          <option>陈泽</option><option>王妍</option><option>宁将军</option><option>黑白</option>
+          <option>老崔</option><option>刘军</option><option>荣一鸣</option><option>王展虎</option>
+          <option>王艳华</option><option>王母</option><option>旁白</option>
+        </select>
+        <input type="text" id="aiInput" placeholder="输入对话内容..." onkeydown="if(event.key==='Enter')sendAIMessage()">
+        <button class="btn-small btn" onclick="sendAIMessage()">发送</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧分析面板 -->
+  <div class="analysis-panel" id="analysisPanel">
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">📊 脚本统计 <span>▼</span></div>
+      <div class="analysis-content" id="statsContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">👤 角色 <span>▼</span></div>
+      <div class="analysis-content" id="charsContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">🖼️ 背景 <span>▼</span></div>
+      <div class="analysis-content" id="bgsContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">🎭 立绘 <span>▼</span></div>
+      <div class="analysis-content" id="figuresContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">🎵 音频/BGM <span>▼</span></div>
+      <div class="analysis-content" id="audioContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">🔀 分支与跳转 <span>▼</span></div>
+      <div class="analysis-content" id="branchesContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">📐 变量 <span>▼</span></div>
+      <div class="analysis-content" id="varsContent"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-section-header" onclick="toggleSection(this)">📦 资源引用图谱 <span>▼</span></div>
+      <div class="analysis-content" id="resourceMap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 状态栏 -->
+<div class="status-bar">
+  <span class="status-item" id="statusFile">📄 未加载文件</span>
+  <span class="status-item" id="statusLines">📏 0行</span>
+  <span class="status-item" id="statusIssues">✅ 无问题</span>
+  <span class="status-item" style="margin-left:auto;" id="statusTime"></span>
+</div>
+
+<!-- 拖拽导入覆盖层 -->
+<div class="modal-overlay" id="dropOverlay" style="display:none;">
+  <div style="text-align:center;color:var(--accent);">
+    <div style="font-size:48px;margin-bottom:16px;">📁</div>
+    <div style="font-size:20px;">释放文件以导入</div>
+    <div style="font-size:12px;color:var(--comment);margin-top:8px;">支持 .txt 格式的 WebGal 场景文件</div>
+  </div>
+</div>
+
+<!-- 流程图模态 -->
+<div class="modal-overlay" id="flowGraphModal" style="display:none;">
+  <div class="modal" style="width:800px;">
+    <h3>🕸️ 场景流程图</h3>
+    <div class="graph-container" id="flowGraphContainer" style="min-height:400px;position:relative;">
+      <svg id="flowGraphSvg" width="100%" height="100%" style="position:absolute;top:0;left:0;pointer-events:none;"></svg>
+    </div>
+    <div style="font-size:10px;color:var(--comment);margin-top:8px;">显示当前文件的标签(label)、分支(choose)和跳转(jumpLabel)关系</div>
+    <div class="modal-actions">
+      <button class="btn" onclick="document.getElementById('flowGraphModal').style.display='none'">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 模板引擎模态 -->
+<div class="modal-overlay" id="templateEngineModal" style="display:none;">
+  <div class="modal" style="width:700px;">
+    <h3>⚡ 模板引擎 - 快速生成剧本</h3>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+      <button class="btn" onclick="applyTemplate('dialogue')">💬 对话块</button>
+      <button class="btn" onclick="applyTemplate('choice')">🔀 选择分支</button>
+      <button class="btn" onclick="applyTemplate('scene')">🎬 场景切换</button>
+      <button class="btn" onclick="applyTemplate('figure_change')">🎭 立绘切换</button>
+      <button class="btn" onclick="applyTemplate('bg_change')">🏞️ 背景切换</button>
+      <button class="btn" onclick="applyTemplate('bgm_play')">🎵 BGM播放</button>
+      <button class="btn" onclick="applyTemplate('intro_block')">📜 黑屏独白</button>
+      <button class="btn" onclick="applyTemplate('variable')">📐 变量操作</button>
+    </div>
+    <div class="dialog-builder">
+      <label>模板预览</label>
+      <textarea id="templatePreview" rows="8" readonly style="background:var(--code-bg);font-family:'Cascadia Code',monospace;font-size:12px;color:var(--code-text);"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="document.getElementById('templateEngineModal').style.display='none'">关闭</button>
+      <button class="btn-accent" onclick="insertTemplate()">插入到编辑器</button>
+    </div>
+  </div>
+</div>
+
+<!-- 对话框构建器模态 -->
+<div class="modal-overlay" id="dialogBuilderModal" style="display:none;">
+  <div class="modal">
+    <h3>💬 对话构建器</h3>
+    <div class="dialog-builder">
+      <div class="row">
+        <div><label>角色名</label><input id="dbChar" placeholder="如：陈泽"></div>
+        <div><label>位置</label><select id="dbPos"><option value="">-</option><option>-left</option><option>-right</option><option>-center</option></select></div>
+      </div>
+      <label>对话内容</label>
+      <textarea id="dbText" rows="3" placeholder="对话内容..."></textarea>
+      <div class="row">
+        <div><label>配音文件</label><input id="dbVocal" placeholder="如：陈泽/xxx.mp3"></div>
+        <div><label>立绘文件</label><input id="dbFigure" placeholder="如：陈泽第一章正常.png"></div>
+      </div>
+      <label>参数</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <label style="font-size:11px;"><input type="checkbox" id="dbNext"> -next</label>
+        <label style="font-size:11px;"><input type="checkbox" id="dbNotend"> -notend</label>
+        <label style="font-size:11px;"><input type="checkbox" id="dbConcat"> -concat</label>
+        <label style="font-size:11px;"><input type="checkbox" id="dbClear"> -clear</label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="document.getElementById('dialogBuilderModal').style.display='none'">取消</button>
+        <button class="btn-accent" onclick="buildDialog()">插入对话</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== 全局状态 ====================
+const state = {
+  files: {},           // { filename: content }
+  activeFileA: null,
+  activeFileB: null,
+  analysisResults: null,
+  gameBasePath: 'E:/xiangmu/完蛋 我被陈泽传媒包围了/webgal/WebGal_Terre/public/games/chENZE-game/game',
+  resourceIndex: {}    // { filename: path }
+};
+
+// ==================== 初始化 ====================
+function init() {
+  setupTabs();
+  updateStatusTime();
+  setInterval(updateStatusTime, 30000);
+  loadResourceIndex();
+  loadAllSceneFiles();
+}
+function updateStatusTime() {
+  document.getElementById('statusTime').textContent = new Date().toLocaleString('zh-CN');
+}
+
+// ==================== 资源索引 ====================
+async function loadResourceIndex() {
+  const dirs = ['figure','background','bgm','video','vocal','CG','tex'];
+  for (const dir of dirs) {
+    state.resourceIndex[dir] = [];
+  }
+  document.querySelectorAll('.analysis-content').forEach(el => {
+    el.style.position = 'relative';
+  });
+}
+
+// ==================== 场景文件加载 ====================
+async function loadAllSceneFiles() {
+  try {
+    // 尝试通过相对路径加载
+    const base = '../chENZE-game/game/scene/';
+    // 直接使用已知的文件列表
+    const knownFiles = ['start.txt','diyizhang.txt','dierzhang.txt','jiaocheng.txt','zhanhudiyizhang.txt','bug.txt'];
+    for (const f of knownFiles) {
+      try {
+        const resp = await fetch(base + f);
+        if (resp.ok) {
+          const content = await resp.text();
+          state.files[f] = content;
+        }
+      } catch(e) {
+        console.log(`无法加载: ${f}`, e.message);
+      }
+    }
+    updateFileList();
+    updateFileSelects();
+    // 默认加载第一个文件
+    if (knownFiles.length > 0 && state.files[knownFiles[0]]) {
+      openFileInPanel(knownFiles[0], 'A');
+    }
+    addAIMessage('系统', `已加载 ${Object.keys(state.files).length} 个场景文件`);
+  } catch(e) {
+    addAIMessage('系统', `⚠️ 通过fetch加载失败，请手动粘贴脚本内容。错误：${e.message}`);
+  }
+}
+
+function updateFileList() {
+  const el = document.getElementById('fileList');
+  el.innerHTML = Object.keys(state.files).map(f =>
+    `<div class="file-item" onclick="openFileInPanel('${f}','A')" ondblclick="openFileInPanel('${f}','A')">
+      <span class="icon">📄</span>${f}
+    </div>`
+  ).join('');
+}
+
+function updateFileSelects() {
+  const opts = ['<option>-- 选择文件 --</option>'].concat(
+    Object.keys(state.files).map(f => `<option value="${f}">${f}</option>`)
+  ).join('');
+  document.getElementById('fileSelectA').innerHTML = opts;
+  document.getElementById('fileSelectB').innerHTML = opts;
+}
+
+// ==================== 编辑器操作 ====================
+function openFileInPanel(filename, panel) {
+  if (!state.files[filename]) {
+    // 尝试加载
+    fetch('../chENZE-game/game/scene/' + filename).then(r => r.text()).then(t => {
+      state.files[filename] = t;
+      openFileInPanel(filename, panel);
+      updateFileList();
+      updateFileSelects();
+    }).catch(() => {});
+    return;
+  }
+  if (panel === 'A') {
+    state.activeFileA = filename;
+    document.getElementById('editorA').value = state.files[filename];
+    document.getElementById('fileSelectA').value = filename;
+    highlightCode('A');
+    updateLineCount('A');
+    document.getElementById('statusFile').textContent = '📄 ' + filename;
+  } else {
+    state.activeFileB = filename;
+    document.getElementById('editorB').value = state.files[filename];
+    document.getElementById('fileSelectB').value = filename;
+    highlightCode('B');
+    updateLineCount('B');
+  }
+  analyzeCurrentFile(panel);
+}
+
+function switchFile(panel) {
+  const sel = document.getElementById(panel === 'A' ? 'fileSelectA' : 'fileSelectB');
+  const filename = sel.value;
+  if (filename && filename !== '-- 选择文件 --') {
+    openFileInPanel(filename, panel);
+  }
+}
+
+function onEditorInput(panel) {
+  const ta = document.getElementById('editor'+panel);
+  const fn = panel === 'A' ? state.activeFileA : state.activeFileB;
+  if (fn) state.files[fn] = ta.value;
+  highlightCode(panel);
+  updateLineCount(panel);
+  debounceValidate(panel);
+}
+
+function onEditorKeydown(e, panel) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const ta = e.target;
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    ta.value = ta.value.substring(0,start) + '  ' + ta.value.substring(end);
+    ta.selectionStart = ta.selectionEnd = start + 2;
+    onEditorInput(panel);
+  }
+}
+
+function syncScroll(panel) {
+  const ta = document.getElementById('editor'+panel);
+  const hl = document.getElementById('highlight'+panel);
+  hl.scrollTop = ta.scrollTop;
+  hl.scrollLeft = ta.scrollLeft;
+}
+
+function updateLineCount(panel) {
+  const ta = document.getElementById('editor'+panel);
+  const lines = ta.value.split('\n').length;
+  document.getElementById('lineCount'+panel).textContent = '行:'+lines;
+  if (panel === 'A') document.getElementById('statusLines').textContent = '📏 ' +lines+'行';
+}
+
+// ==================== 语法高亮 ====================
+function highlightCode(panel) {
+  const ta = document.getElementById('editor'+panel);
+  const hl = document.getElementById('highlight'+panel);
+  const text = ta.value;
+  hl.innerHTML = tokenize(text);
+  hl.scrollTop = ta.scrollTop;
+  hl.scrollLeft = ta.scrollLeft;
+}
+
+function tokenize(text) {
+  const lines = text.split('\n');
+  return lines.map(line => {
+    // 注释行
+    if (/^\s*;/.test(line)) {
+      return `<span style="color:var(--comment)">${esc(line)}</span>`;
+    }
+    // 命令高亮
+    let result = line;
+    // 命令
+    const commands = ['changeBg','changeFigure','bgm','playEffect','playVideo','wait',
+      'changeScene','callScene','jumpLabel','label','choose','end',
+      'setVar','intro','setTextbox','filmMode','miniAvatar','unlockBgm','unlockCg',
+      'pixiInit','pixiPerform','setAnimation','setTransform','setTempAnimation',
+      'setTransition','applyStyle','showVars','getUserInput','setComplexAnimation'];
+    commands.forEach(cmd => {
+      result = result.replace(new RegExp(`\\b${cmd}`,`g`), `<span style="color:var(--cmd);font-weight:700">${cmd}</span>`);
+    });
+    // 变量插值 {xxx}
+    result = result.replace(/\{([^}]+)\}/g, `<span style="color:var(--var)">{</span><span style="color:var(--bgm)">$1</span><span style="color:var(--var)">}</span>`);
+    // 参数
+    result = result.replace(/(\s)-(\w+)/g, ` <span style="color:var(--accent)">-$2</span>`);
+    // 冒号后的内容（对话部分）
+    result = result.replace(/^([^:<\n]+?):/gm, (m, name) => {
+      if (name.match(/^(changeBg|changeFigure|bgm|choose|label|jumpLabel|setVar|callScene|changeScene|playVideo|playEffect|wait|intro|setTextbox|filmMode|miniAvatar|unlockBgm|unlockCg|pixiInit|pixiPerform|setAnimation|setTransform|setTempAnimation|setTransition|applyStyle|showVars|getUserInput|end|say)$/)) {
+        return m;
+      }
+      return `<span style="color:var(--figure);font-weight:600">${name}</span>:`;
+    });
+    // label: 特殊
+    result = result.replace(/\blabel:([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">label:</span><span style="color:var(--label);font-weight:700">$1</span>`);
+    // jumpLabel:
+    result = result.replace(/\bjumpLabel:([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">jumpLabel:</span><span style="color:var(--label)">$1</span>`);
+    // changBg/changeFigure 文件引用
+    result = result.replace(/(changeBg:)([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--string)">$2</span>`);
+    result = result.replace(/(changeFigure:)([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--string)">$2</span>`);
+    result = result.replace(/(bgm:)([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--bgm)">$2</span>`);
+    result = result.replace(/(playVideo:)([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--string)">$2</span>`);
+    result = result.replace(/(playEffect:)([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--string)">$2</span>`);
+    // filename references
+    result = result.replace(/(changeScene:|callScene:)([^;\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--label)">$2</span>`);
+    // 数值
+    result = result.replace(/(setVar:\w+=)([\d.]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--var)">$2</span>`);
+    // 字符串
+    result = result.replace(/(setVar:\w+=)([^;\-\n]+)/g, `<span style="color:var(--cmd);font-weight:700">$1</span><span style="color:var(--string)">$2</span>`);
+    // end
+    result = result.replace(/\bend\b\s*;/g, `<span style="color:var(--err);font-weight:700">end</span>;`);
+    return result;
+  }).join('\n');
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ==================== 脚本分析引擎 ====================
+function parseScript(content) {
+  const lines = content.split('\n');
+  const result = {
+    characters: new Set(),
+    backgrounds: [],
+    figures: [],
+    bgms: [],
+    sfx: [],
+    videos: [],
+    labels: [],
+    choices: [],
+    variables: {},
+    sceneChanges: [],
+    dialogueLines: [],
+    narrationLines: [],
+    commands: [],
+    issues: [],
+    lineCount: lines.length,
+  };
+  const charPattern = /^([^\s:]+):(.+)/;
+  const cmdPattern = /^(changeBg|changeFigure|bgm|playEffect|playVideo|wait|changeScene|callScene|jumpLabel|label|choose|end|setVar|intro|setTextbox|filmMode|miniAvatar|unlockBgm|unlockCg|pixiInit|pixiPerform|setAnimation|setTransform|setTempAnimation|setTransition|applyStyle|showVars|getUserInput|setComplexAnimation)\s*:/;
+
+  lines.forEach((line, idx) => {
+    const lnum = idx + 1;
+    const trimmed = line.trim();
+    if (!trimmed || /^\s*;/.test(trimmed)) return;
+
+    // 检查英文冒号
+    if (trimmed.includes('：')) {
+      result.issues.push({type:'error',line:lnum,msg:`第${lnum}行使用了中文冒号「：」，应使用英文冒号「:」`,col:trimmed.indexOf('：')});
+    }
+
+    // 命令匹配
+    const cmdMatch = trimmed.match(cmdPattern);
+    if (cmdMatch) {
+      const cmd = cmdMatch[1];
+      const rest = trimmed.slice(cmdMatch[0].length);
+      switch(cmd) {
+        case 'changeBg':
+          if (rest.startsWith('none')) result.backgrounds.push({file:'none',line:lnum});
+          else { const f = rest.split(/\s|-/)[0].trim(); if(f) result.backgrounds.push({file:f,line:lnum}); }
+          break;
+        case 'changeFigure':
+          if (rest.startsWith('none')) result.figures.push({file:'none',line:lnum});
+          else {
+            const parts = rest.split(/\s-/);
+            const file = parts[0].trim();
+            const pos = rest.includes('-left')?'left':rest.includes('-right')?'right':rest.includes('-center')?'center':'center';
+            const idMatch = rest.match(/-id=(\S+)/);
+            if (file) result.figures.push({file,position:pos,id:idMatch?.[1]||null,line:lnum});
+          }
+          break;
+        case 'bgm':
+          if (rest.startsWith('none')) result.bgms.push({file:'none',line:lnum});
+          else { const f = rest.split(/\s|-/)[0].trim(); if(f) result.bgms.push({file:f,line:lnum}); }
+          break;
+        case 'playEffect':
+          { const f = rest.split(/\s|-/)[0].trim(); if(f) result.sfx.push({file:f,line:lnum}); }
+          break;
+        case 'playVideo':
+          { const f = rest.split(/\s|-/)[0].trim(); if(f) result.videos.push({file:f,line:lnum}); }
+          break;
+        case 'label':
+          { const l = rest.split(';')[0].trim(); if(l) result.labels.push({name:l,line:lnum}); }
+          break;
+        case 'jumpLabel':
+          { const l = rest.split(';')[0].trim(); if(l) result.sceneChanges.push({type:'jump',target:l,line:lnum}); }
+          break;
+        case 'changeScene':
+          { const l = rest.split(';')[0].trim(); if(l) result.sceneChanges.push({type:'changeScene',target:l,line:lnum}); }
+          break;
+        case 'callScene':
+          { const l = rest.split(';')[0].trim(); if(l) result.sceneChanges.push({type:'callScene',target:l,line:lnum}); }
+          break;
+        case 'choose':
+          { // 支持条件语法: (showVar>1)[enableVar>2]->选项:目标
+            const restClean = rest.replace(/\(([^)]+)\)\[([^\]]+)\]->/g, '[条件:$1|启用:$2]→');
+            const parts = restClean.split('|');
+            const opts = parts.map(p => {
+              // 匹配 [条件:xxx|启用:yyy]→选项文本:目标
+              const condMatch = p.match(/^\[条件:([^|]+)\|启用:([^\]]+)\]→\s*(.+?)\s*:\s*(.+?)\s*$/);
+              if (condMatch) return {text:condMatch[3].trim(),target:condMatch[4].trim(),condition:condMatch[1],enable:condMatch[2]};
+              // 普通选项: 选项文本:目标 或 选项文本:label_xxx
+              const m = p.trim().match(/^(.+?)\s*:\s*(.+?)\s*$/);
+              return m ? {text:m[1].trim(),target:m[2].trim()} : null;
+            }).filter(Boolean);
+            result.choices.push({line:lnum,options:opts}); }
+          break;
+        case 'setVar':
+          { const eqIdx = rest.indexOf('=');
+            if (eqIdx>0) { const name = rest.substring(0,eqIdx).trim(); const val = rest.substring(eqIdx+1).split(';')[0].split('-')[0].trim();
+              result.variables[name] = val; }
+            result.commands.push({cmd:'setVar',rest,line:lnum}); }
+          break;
+        case 'end': result.commands.push({cmd:'end',line:lnum}); break;
+        case 'wait': result.commands.push({cmd:'wait',rest,line:lnum}); break;
+        default: result.commands.push({cmd,rest,line:lnum});
+      }
+      return;
+    }
+
+    // 角色对话
+    const charMatch = trimmed.match(charPattern);
+    if (charMatch) {
+      const charName = charMatch[1].trim();
+      const dialogue = charMatch[2].trim();
+      if (charName && !charName.startsWith(';')) {
+        result.characters.add(charName);
+        result.dialogueLines.push({character:charName,text:dialogue,line:lnum});
+      }
+    } else if (/^:/.test(trimmed)) {
+      result.narrationLines.push({text:trimmed.slice(1),line:lnum});
+    }
+  });
+
+  result.characters = [...result.characters];
+  return result;
+}
+
+// ==================== UI更新 ====================
+function analyzeCurrentFile(panel) {
+  const fn = panel === 'A' ? state.activeFileA : state.activeFileB;
+  if (!fn || !state.files[fn]) return;
+  const result = parseScript(state.files[fn]);
+  state.analysisResults = result;
+  updateAnalysisUI(result);
+  updateStructureTree(result);
+  updateIssues(result);
+  validateResources(result);
+}
+
+let analysisTimeout;
+function debounceValidate(panel) {
+  clearTimeout(analysisTimeout);
+  analysisTimeout = setTimeout(() => analyzeCurrentFile(panel), 500);
+}
+
+function updateAnalysisUI(r) {
+  if (!r) return;
+  document.getElementById('statsContent').innerHTML = `
+    <div class="stat-row"><span>总行数</span><span class="val">${r.lineCount}</span></div>
+    <div class="stat-row"><span>角色数</span><span class="val">${r.characters.length}</span></div>
+    <div class="stat-row"><span>对话行数</span><span class="val">${r.dialogueLines.length}</span></div>
+    <div class="stat-row"><span>旁白行数</span><span class="val">${r.narrationLines.length}</span></div>
+    <div class="stat-row"><span>背景引用</span><span class="val">${r.backgrounds.length}</span></div>
+    <div class="stat-row"><span>立绘引用</span><span class="val">${r.figures.length}</span></div>
+    <div class="stat-row"><span>分支选择</span><span class="val">${r.choices.length}</span></div>
+    <div class="stat-row"><span>标签数</span><span class="val">${r.labels.length}</span></div>
+    <div class="stat-row"><span>脚本问题</span><span class="val" style="color:${r.issues.length?'var(--err)':'var(--good)'}">${r.issues.length}</span></div>
+  `;
+
+  document.getElementById('charsContent').innerHTML = r.characters.length ?
+    r.characters.map(c => `<span class="tag char" onclick="locateInEditor('${c}')">👤 ${c}</span>`).join('') :
+    '<span style="color:var(--comment)">未检测到角色</span>';
+
+  document.getElementById('bgsContent').innerHTML = r.backgrounds.length ?
+    r.backgrounds.map(b => `<span class="tag bg" onclick="locateInEditor('${b.file}')">🏞️ ${b.file}</span>`).join('') :
+    '<span style="color:var(--comment)">未检测到背景</span>';
+
+  document.getElementById('figuresContent').innerHTML = r.figures.length ?
+    r.figures.map(f => `<span class="tag figure" onclick="locateInEditor('${f.file}')">🎭 ${f.file}</span>`).join('') :
+    '<span style="color:var(--comment)">未检测到立绘</span>';
+
+  document.getElementById('audioContent').innerHTML = [
+    ...r.bgms.map(b => `<span class="tag bgm">🎵 BGM:${b.file}</span>`),
+    ...r.sfx.map(s => `<span class="tag bgm">🔊 SFX:${s.file}</span>`)
+  ].join('') || '<span style="color:var(--comment)">未检测到音频</span>';
+
+  document.getElementById('branchesContent').innerHTML = [
+    ...r.choices.map(c => `<div style="margin:4px 0;padding:4px;background:var(--bg);border-radius:4px;">
+      <span class="tag choice">🔀 第${c.line}行</span>
+      ${c.options.map(o => `<div style="font-size:10px;padding:2px 0 2px 12px;">→ "${o.text}" ➜ <span style="color:var(--label)">${o.target}</span></div>`).join('')}
+    </div>`),
+    ...r.sceneChanges.map(s => `<div style="font-size:11px;padding:2px 0;">• <span style="color:var(--label)">${s.type}</span> → ${s.target} (行${s.line})</div>`)
+  ].join('') || '<span style="color:var(--comment)">未检测到分支</span>';
+
+  document.getElementById('varsContent').innerHTML = Object.keys(r.variables).length ?
+    Object.entries(r.variables).map(([k,v]) => `<div class="stat-row"><span>${k}</span><span class="val">${v}</span></div>`).join('') :
+    '<span style="color:var(--comment)">未检测到变量</span>';
+
+  // 资源引用图谱
+  const allResources = [...r.backgrounds.map(b => ({type:'bg',name:b.file})), ...r.figures.map(f => ({type:'figure',name:f.file})),
+    ...r.bgms.map(b => ({type:'bgm',name:b.file})), ...r.sfx.map(s => ({type:'sfx',name:s.file})), ...r.videos.map(v => ({type:'video',name:v.file}))];
+  document.getElementById('resourceMap').innerHTML = allResources.length ?
+    `<div class="resource-grid">${allResources.map(r => `<div class="resource-item" title="${r.type}: ${r.name}">
+      <div class="preview" style="display:flex;align-items:center;justify-content:center;font-size:16px;">${r.type==='bg'?'🏞️':r.type==='figure'?'🎭':r.type==='bgm'?'🎵':r.type==='sfx'?'🔊':'🎬'}</div>
+      <div class="name">${r.name}</div>
+    </div>`).join('')}</div>` :
+    '<span style="color:var(--comment)">未检测到资源引用</span>';
+}
+
+function updateStructureTree(r) {
+  const el = document.getElementById('structureTree');
+  if (!r) { el.innerHTML = '<div style="padding:20px;color:var(--comment);text-align:center;font-size:11px;">加载文件后显示结构</div>'; return; }
+  let html = '';
+  r.labels.forEach(l => { html += `<div class="tree-item" onclick="locateLine(${l.line})"><span class="dot label"></span>🏷️ ${l.name} <span style="color:var(--comment);margin-left:auto;">L${l.line}</span></div>`; });
+  r.choices.forEach(c => { html += `<div class="tree-item" onclick="locateLine(${c.line})"><span class="dot choice"></span>🔀 选择分支 <span style="color:var(--comment);margin-left:auto;">L${c.line}</span></div>`; });
+  r.sceneChanges.forEach(s => {
+    html += `<div class="tree-item" onclick="locateLine(${s.line})"><span class="dot scene"></span>${s.type}: ${s.target} <span style="color:var(--comment);margin-left:auto;">L${s.line}</span></div>`;
+  });
+  el.innerHTML = html || '<div style="padding:10px;color:var(--comment);text-align:center;font-size:11px;">无结构节点</div>';
+}
+
+function updateIssues(r) {
+  const el = document.getElementById('issuesPanel');
+  if (!r || r.issues.length === 0) {
+    el.style.display = 'none';
+    document.getElementById('statusIssues').innerHTML = '✅ 无问题';
+    return;
+  }
+  el.style.display = 'block';
+  el.innerHTML = r.issues.map(i =>
+    `<div class="issue ${i.type}" onclick="locateLine(${i.line})">
+      <span class="issue-icon">${i.type==='error'?'❌':i.type==='warn'?'⚠️':'ℹ️'}</span>
+      <span>${i.msg}</span>
+    </div>`
+  ).join('');
+  document.getElementById('statusIssues').innerHTML = `⚠️ ${r.issues.length}个问题`;
+}
+
+function locateLine(lineNum) {
+  const ta = document.getElementById('editorA');
+  const lines = ta.value.split('\n');
+  let pos = 0;
+  for (let i = 0; i < lineNum - 1; i++) pos += lines[i].length + 1;
+  ta.focus();
+  ta.setSelectionRange(pos, pos);
+  ta.blur();
+  ta.focus();
+  // 滚动到目标行
+  const lineHeight = 1.6 * 13; // approx
+  ta.scrollTop = Math.max(0, (lineNum - 5) * lineHeight);
+  syncScroll('A');
+}
+
+function locateInEditor(text) {
+  const ta = document.getElementById('editorA');
+  const idx = ta.value.indexOf(text);
+  if (idx >= 0) {
+    ta.focus();
+    ta.setSelectionRange(idx, idx + text.length);
+    ta.blur();
+    ta.focus();
+  }
+}
+
+function toggleSection(header) {
+  const content = header.nextElementSibling;
+  content.classList.toggle('collapsed');
+  const arrow = header.querySelector('span');
+  arrow.textContent = content.classList.contains('collapsed') ? '▶' : '▼';
+}
+
+// ==================== 双面板 ====================
+function setupTabs() {
+  document.querySelectorAll('.editor-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.editor-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const panelId = tab.dataset.id;
+      document.getElementById('colA').style.display = panelId === 'panel1' ? '' : 'none';
+      document.getElementById('colB').style.display = panelId === 'panel2' ? '' : 'none';
+      if (panelId === 'panel1') {
+        document.getElementById('colA').style.flex = '1';
+      } else {
+        document.getElementById('colB').style.flex = '1';
+      }
+    });
+  });
+}
+
+// ==================== 文件保存 ====================
+function saveCurrentFile() {
+  const fn = state.activeFileA;
+  if (!fn) { alert('请先加载一个文件'); return; }
+  const content = document.getElementById('editorA').value;
+  state.files[fn] = content;
+  // 尝试通过 Blob 下载
+  const blob = new Blob([content], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = fn;
+  a.click();
+  URL.revokeObjectURL(url);
+  addAIMessage('系统', `💾 文件 "${fn}" 已下载`);
+}
+
+function newFile() {
+  const name = prompt('输入文件名（如 xinjuben.txt）：');
+  if (!name) return;
+  state.files[name] = `; ${name}\n; 新场景文件\n\n`;
+  updateFileList();
+  updateFileSelects();
+  openFileInPanel(name, 'A');
+}
+
+// ==================== AI 角色面板 ====================
+function toggleAIPanel() {
+  const el = document.getElementById('aiPanel');
+  el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+
+function sendAIMessage() {
+  const role = document.getElementById('aiRole').value;
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if (!text) return;
+  addAIMessage('你', text);
+  input.value = '';
+
+  // AI扮演角色回复（基于角色设定生成模板回复）
+  const personaReplies = {
+    '陈泽': ['老铁们没毛病！', '哎妈呀，这剧本可以啊', '行，那就这么整', '放心，哥心里有数'],
+    '王妍': ['我相信你', '泽，你一定要注意休息', '我心里有点乱……', '只要你好就行'],
+    '宁将军': ['老弟，你也不行啊', '姐就是看上你了，咋地吧', '我家大业大，你看不上？', '你们这群fw'],
+    '黑白': ['泽哥，交给我', '没问题，最强走砍', '赶紧的，别磨叽', '我背你！'],
+    '老崔': ['行，我知道了', '泽啊，你这事整的', '我简直把他们虐爆了👽'],
+    '刘军': ['老大说的啥啊这是', '咵嚓一下子', '整不明白'],
+    '荣一鸣': ['泽哥好，我是芝士酸奶', '咋了泽哥', '多大点事'],
+    '王展虎': ['你有病吧', '行，你给我等着', '陈泽，你配吗'],
+    '王艳华': ['你这种学生我教不了', '把你家长叫来', '陈泽，你给我出来'],
+    '王母': ['小妍，过来', '妈不是不管你', '记住了，家永远在这'],
+    '旁白': ['夜色渐深……', '时间一点一滴过去', '这是一个不平凡的故事'],
+  };
+  const replies = personaReplies[role] || ['嗯……', '知道了'];
+  const reply = replies[Math.floor(Math.random() * replies.length)];
+
+  setTimeout(() => {
+    addAIMessage(role, reply);
+  }, 500);
+}
+
+function addAIMessage(role, text) {
+  const el = document.getElementById('aiMessages');
+  el.innerHTML += `<div class="ai-msg"><span class="role">${role}：</span>${text}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+// ==================== 对话框构建器 ====================
+function buildDialog() {
+  const char = document.getElementById('dbChar').value;
+  const pos = document.getElementById('dbPos').value;
+  const text = document.getElementById('dbText').value;
+  const vocal = document.getElementById('dbVocal').value;
+  const figure = document.getElementById('dbFigure').value;
+  const opts = [];
+  if (document.getElementById('dbNext').checked) opts.push('-next');
+  if (document.getElementById('dbNotend').checked) opts.push('-notend');
+  if (document.getElementById('dbConcat').checked) opts.push('-concat');
+  if (document.getElementById('dbClear').checked) opts.push('-clear');
+
+  let line = '';
+  if (figure) line += `changeFigure:${figure} ${pos};\n`;
+  line += char ? `${char}:"${text}"${vocal ? ` -vocal=${vocal}` : ''}${opts.length ? ' ' + opts.join(' ') : ''};` : `:"${text}";`;
+
+  const ta = document.getElementById('editorA');
+  const start = ta.selectionStart;
+  ta.value = ta.value.substring(0, start) + '\n' + line + '\n' + ta.value.substring(start);
+  ta.selectionStart = ta.selectionEnd = start + line.length + 2;
+  if (state.activeFileA) state.files[state.activeFileA] = ta.value;
+  highlightCode('A');
+  updateLineCount('A');
+  document.getElementById('dialogBuilderModal').style.display = 'none';
+}
+
+// ==================== 导出报告 ====================
+function exportReport() {
+  const r = state.analysisResults;
+  if (!r) { alert('请先分析一个文件'); return; }
+  let report = `# WebGal 脚本分析报告\n## 文件：${state.activeFileA || '未知'}\n\n`;
+  report += `### 统计\n- 总行数: ${r.lineCount}\n- 角色数: ${r.characters.length}\n- 对话行: ${r.dialogueLines.length}\n`;
+  report += `- 背景: ${r.backgrounds.length}\n- 立绘: ${r.figures.length}\n- 分支: ${r.choices.length}\n\n`;
+  report += `### 角色\n${r.characters.map(c=>'- '+c).join('\n')}\n\n`;
+  report += `### 背景\n${r.backgrounds.map(b=>'- '+b.file+' (行'+b.line+')').join('\n')}\n\n`;
+  report += `### 立绘\n${r.figures.map(f=>'- '+f.file+' ['+f.position+'] (行'+f.line+')').join('\n')}\n\n`;
+  report += `### 问题\n${r.issues.length ? r.issues.map(i=>'- ['+i.type+'] '+i.msg).join('\n') : '无'}\n`;
+  const blob = new Blob([report], {type:'text/markdown'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `分析报告_${state.activeFileA||'unknown'}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+  addAIMessage('系统', '📊 分析报告已导出');
+}
+
+function toggleAnalyzer() {
+  const el = document.getElementById('analysisPanel');
+  el.style.display = el.style.display === 'none' ? '' : 'none';
+}
+
+// ==================== 右键菜单 ====================
+document.addEventListener('contextmenu', (e) => {
+  const ta = e.target.closest('textarea');
+  if (!ta) return;
+  e.preventDefault();
+  const sel = ta.value.substring(ta.selectionStart, ta.selectionEnd);
+  if (sel) {
+    const menu = document.createElement('div');
+    menu.className = 'context-menu';
+    menu.style.display = 'block';
+    menu.style.left = e.pageX + 'px';
+    menu.style.top = e.pageY + 'px';
+    menu.innerHTML = `
+      <div class="menu-item" onclick="wrapText('figure')">🎭 插入立绘引用</div>
+      <div class="menu-item" onclick="wrapText('bg')">🏞️ 插入背景引用</div>
+      <div class="menu-item" onclick="openDialogBuilder()">💬 对话构建器</div>
+      <div class="divider"></div>
+      <div class="menu-item" onclick="wrapText('comment')">💬 注释掉</div>
+    `;
+    document.body.appendChild(menu);
+    const remove = () => { menu.remove(); document.removeEventListener('click', remove); };
+    setTimeout(() => document.addEventListener('click', remove), 10);
+    window._ctxSel = sel;
+  }
+});
+
+function wrapText(type) {
+  const ta = document.getElementById('editorA');
+  const sel = window._ctxSel || ta.value.substring(ta.selectionStart, ta.selectionEnd);
+  let wrapped;
+  switch(type) {
+    case 'figure': wrapped = `changeFigure:${sel} -center;`; break;
+    case 'bg': wrapped = `changeBg:${sel};`; break;
+    case 'comment': wrapped = `; ${sel}`; break;
+  }
+  if (wrapped) {
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    ta.value = ta.value.substring(0,start) + wrapped + ta.value.substring(end);
+    ta.selectionStart = start + wrapped.length;
+    ta.selectionEnd = start + wrapped.length;
+    onEditorInput('A');
+  }
+}
+
+function openDialogBuilder() {
+  document.getElementById('dialogBuilderModal').style.display = 'flex';
+}
+
+// ==================== 快捷键 ====================
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey) {
+    switch(e.key) {
+      case 's': e.preventDefault(); saveCurrentFile(); break;
+      case 'd': e.preventDefault(); openDialogBuilder(); break;
+      case '1': e.preventDefault(); document.querySelector('.editor-tab[data-id="panel1"]').click(); break;
+      case '2': e.preventDefault(); document.querySelector('.editor-tab[data-id="panel2"]').click(); break;
+    }
+  }
+});
+
+
+// ==================== 拖拽导入 ====================
+const dropOverlay = document.getElementById('dropOverlay');
+let dragCounter = 0;
+document.addEventListener('dragenter', (e) => {
+  e.preventDefault();
+  dragCounter++;
+  if (dragCounter === 1) dropOverlay.style.display = 'flex';
+});
+document.addEventListener('dragleave', (e) => {
+  dragCounter--;
+  if (dragCounter === 0) dropOverlay.style.display = 'none';
+});
+document.addEventListener('dragover', (e) => { e.preventDefault(); });
+document.addEventListener('drop', async (e) => {
+  e.preventDefault();
+  dragCounter = 0;
+  dropOverlay.style.display = 'none';
+  const files = e.dataTransfer.files;
+  for (const file of files) {
+    if (file.name.endsWith('.txt') || file.name.endsWith('.ws')) {
+      const content = await file.text();
+      state.files[file.name] = content;
+      addAIMessage('系统', `📥 已导入: ${file.name}`);
+    }
+  }
+  updateFileList();
+  updateFileSelects();
+  if (files.length > 0 && files[0].name.endsWith('.txt')) {
+    openFileInPanel(files[0].name, 'A');
+  }
+});
+
+// ==================== 流程图 ====================
+function toggleFlowGraph() {
+  const modal = document.getElementById('flowGraphModal');
+  if (modal.style.display === 'flex') { modal.style.display = 'none'; return; }
+  modal.style.display = 'flex';
+  setTimeout(() => renderFlowGraph(), 100);
+}
+
+function renderFlowGraph() {
+  const r = state.analysisResults;
+  if (!r) return;
+  const container = document.getElementById('flowGraphContainer');
+  const svg = document.getElementById('flowGraphSvg');
+  svg.innerHTML = '';
+  const nodes = [];
+  let y = 20;
+  // 起始节点
+  nodes.push({type:'start',label:'START',x:400,y:y,line:1});
+  y += 50;
+  // Labels
+  r.labels.forEach((l,i) => {
+    nodes.push({type:'label',label:l.name,x:200+(i%3)*200,y:y+Math.floor(i/3)*50,line:l.line});
+  });
+  y += Math.ceil(r.labels.length/3)*50 + 30;
+  // Choices
+  r.choices.forEach((c,i) => {
+    nodes.push({type:'choice',label:`选择 (L${c.line})`,x:200+(i%2)*400,y:y+Math.floor(i/2)*60,line:c.line});
+  });
+  y += Math.ceil(r.choices.length/2)*60 + 30;
+  // Scene changes/jumps
+  r.sceneChanges.forEach((s,i) => {
+    nodes.push({type:'label',label:`${s.type}:${s.target}`,x:100+(i%4)*200,y:y+Math.floor(i/4)*40,line:s.line});
+  });
+  // End node
+  nodes.push({type:'end',label:'END',x:400,y:y+Math.ceil(r.sceneChanges.length/4)*40+30,line:r.lineCount});
+  // Render
+  let html = '';
+  nodes.forEach(n => {
+    html += `<div class="flow-node ${n.type}" style="left:${n.x-50}px;top:${n.y}px;" title="行${n.line}">${n.label}</div>`;
+  });
+  container.innerHTML = html + '<svg id="flowGraphSvg" width="100%" height="100%" style="position:absolute;top:0;left:0;pointer-events:none;"></svg>';
+  // Adjust container height
+  const lastNode = nodes[nodes.length-1];
+  container.style.minHeight = (lastNode.y + 60) + 'px';
+  // Draw SVG arrows
+  const svg2 = container.querySelector('svg');
+  for (let i = 0; i < nodes.length - 1; i++) {
+    const x1 = nodes[i].x, y1 = nodes[i].y + 20, x2 = nodes[i+1].x, y2 = nodes[i+1].y;
+    svg2.innerHTML += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#555" stroke-width="1" marker-end="url(#arrow)"/>`;
+  }
+  if (nodes.length > 0) {
+    svg2.innerHTML = `<defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><polygon points="0 0, 6 3, 0 6" fill="#555"/></marker></defs>` + svg2.innerHTML;
+  }
+}
+
+// ==================== 模板引擎 ====================
+const templates = {
+  dialogue: `; 角色对话块\n角色名:"对话内容";\n角色名:"继续对话" -notend;\n:旁白文字;`,
+  choice: `; 选择分支\nchoose:选项一:label_opt1|选项二:label_opt2;\nlabel:label_opt1;\n:选择了选项一;\njumpLabel:label_end;\nlabel:label_opt2;\n:选择了选项二;\njumpLabel:label_end;\nlabel:label_end;`,
+  scene: `; 场景跳转\nchangeScene:下一场景.txt;\n; 或调用场景（结束后返回）\n; callScene:子场景.txt;`,
+  figure_change: `; 立绘切换\nchangeFigure:立绘文件.png -left -next;\nchangeFigure:立绘文件2.png -center -next;\nchangeFigure:none -right -next;\n; 清除所有立绘\n; changeFigure:none -left;\n; changeFigure:none;\n; changeFigure:none -right;`,
+  bg_change: `; 背景切换\nchangeBg:背景图片.png;\n; 清除背景\n; changeBg:none;`,
+  bgm_play: `; 背景音乐\nbgm:音乐文件.mp3 -volume=80;\n; 停止BGM\n; bgm:none;\n; 音效\n; playEffect:音效.mp3;`,
+  intro_block: `; 黑屏独白\nintro:第一行文字|第二行文字|第三行文字;\n; 保持独白界面\n; intro:文字 -hold;`,
+  variable: `; 变量操作\nsetVar:变量名=初始值;\n; 全局变量\n; setVar:变量名=值 -global;\n; 随机数\n; setVar:random_val=random(1,10);\n; 显示变量\n; showVars;`,
+};
+
+function openTemplateEngine() {
+  document.getElementById('templateEngineModal').style.display = 'flex';
+  applyTemplate('dialogue');
+}
+
+function applyTemplate(name) {
+  const preview = document.getElementById('templatePreview');
+  preview.value = templates[name] || '未知模板';
+  preview.dataset.template = name;
+}
+
+function insertTemplate() {
+  const preview = document.getElementById('templatePreview');
+  const content = preview.value;
+  const ta = document.getElementById('editorA');
+  const start = ta.selectionStart;
+  ta.value = ta.value.substring(0, start) + '\n' + content + '\n' + ta.value.substring(start);
+  ta.selectionStart = ta.selectionEnd = start + content.length + 2;
+  if (state.activeFileA) state.files[state.activeFileA] = ta.value;
+  highlightCode('A');
+  updateLineCount('A');
+  document.getElementById('templateEngineModal').style.display = 'none';
+}
+
+// ==================== 快捷插入 ====================
+function quickInsert(template) {
+  const ta = document.getElementById('editorA');
+  const start = ta.selectionStart;
+  const line = ta.value.substring(0, start).split('\n').pop();
+  const indent = line.match(/^(\s*)/)[1];
+  ta.value = ta.value.substring(0, start) + '\n' + indent + template + '\n' + ta.value.substring(start);
+  const cursorPos = start + '\n'.length + indent.length + template.indexOf(';');
+  ta.selectionStart = ta.selectionEnd = cursorPos > start ? cursorPos : start + template.length;
+  if (state.activeFileA) state.files[state.activeFileA] = ta.value;
+  highlightCode('A');
+  updateLineCount('A');
+}
+
+// ==================== 资源校检 ====================
+function validateResources(r) {
+  if (!r) return;
+  const allRefs = [
+    ...r.backgrounds.map(b => ({type:'background',name:b.file})),
+    ...r.figures.map(f => ({type:'figure',name:f.file})),
+    ...r.bgms.map(b => ({type:'bgm',name:b.file})),
+    ...r.sfx.map(s => ({type:'sfx',name:s.file})),
+    ...r.videos.map(v => ({type:'video',name:v.file})),
+  ];
+  const knownDirs = {
+    background: 97, figure: 111, bgm: 'audio/', video: 'video/', sfx: 'sfx/'
+  };
+  document.getElementById('resourceMap').innerHTML = `
+    <div style="font-size:11px;color:var(--comment);margin-bottom:4px;">📦 引用了 ${allRefs.length} 个资源文件</div>
+    <div class="resource-grid">${allRefs.map(r => {
+      const exists = r.name === 'none' || true; // 浏览器无法检查文件系统
+      return `<div class="resource-item ${exists?'':'missing'}" title="${r.type}: ${r.name}">
+        <div class="preview" style="display:flex;align-items:center;justify-content:center;font-size:16px;">
+          ${r.type==='background'?'🏞️':r.type==='figure'?'🎭':r.type==='bgm'?'🎵':r.type==='sfx'?'🔊':'🎬'}
+        </div>
+        <div class="name">${r.name}</div>
+        <div style="font-size:8px;color:var(--comment)">${r.type}</div>
+      </div>`;
+    }).join('')}</div>
+    <div style="font-size:10px;color:var(--comment);margin-top:6px;">
+      💡 提示: 运行时请确保 background/、figure/、bgm/ 等目录中存在对应文件
+    </div>
+  `;
+}
+
+// ==================== 启动 ====================
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

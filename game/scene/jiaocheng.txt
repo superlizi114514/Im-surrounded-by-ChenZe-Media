@@ -1,0 +1,512 @@
+; ============================================
+; WebGAL 剧本编写教程
+; 基于《完蛋！我被陈泽传媒包围了》第一章实例
+; ============================================
+;
+; 本教程以实际项目代码为素材，逐层讲解 WebGAL 剧本的编写方法。
+; 所有示例均来自 diyizhang.txt，可直接对照学习。
+;
+
+============================================================
+一、文件基础结构
+============================================================
+
+一个完整的章节脚本通常包含以下区块：
+
+  1. 文件头注释 —— 说明章节名、版本信息
+  2. 变量初始化 —— 好感度、标记位等
+  3. 各幕剧情   —— 用 label 分隔，每幕有独立标签
+  4. 结尾处理   —— 统一收束到 ending 标签
+
+示例（来自 diyizhang.txt 第 1-18 行）：
+
+  ; 完蛋！我被陈泽传媒包围了
+  ; 第一章：陈泽的直播之路（2013-2014）
+  ; 版本：v2.0
+
+  label:start;
+  setVar:baihei_fav=0;
+  setVar:liujun_fav=0;
+  setVar:laocui_fav=0;
+  setVar:rongyiming_fav=0;
+  jumpLabel:scene1;
+
+要点：
+- 用 ; 开头写注释，或写在命令分号后面
+- label 用来创建锚点，配合 jumpLabel 实现跳转
+- 变量用 setVar 初始化，支持数字、字符串、布尔值
+
+
+============================================================
+二、对话系统
+============================================================
+
+2.1 旁白（无说话者）
+
+  :新的一天。;
+  :清晨的上学路上，行人稀少。;
+
+  冒号开头 + 文本 + 英文分号结尾。
+
+2.2 角色对话
+
+  陈泽:"早啊，妍，你可来的真早！" -陈泽/早啊，妍，你可来的真早！.mp3;
+
+  格式：角色名:"对话内容" -配音文件;
+
+2.3 带配音的对话
+
+  陈泽:"我怕你早上没吃饭…给你带的。" -陈泽/我怕你早上没吃饭…给你带的。.mp3;
+
+  -vocal= 也可以指定配音，但本项目直接用 -路径 写法。
+
+2.4 黑屏独白
+
+  intro:第一章 完;
+
+  用竖线 | 分隔多行。
+
+2.5 好感度提示（开发者调试用）
+
+  :          陈泽好感度加 2，当前好感度：{chenze_fav};
+
+  用 {变量名} 插值显示当前值。
+
+
+============================================================
+三、场景与背景
+============================================================
+
+3.1 切换背景
+
+  changeBg:上学路上·清晨.png;
+  changeBg:教室早上.png;
+  changeBg:black;              ; 黑屏
+  changeBg:none;               ; 清除背景
+
+3.2 注意：背景不会自动清除
+
+  切场景时需要手动清除：
+  changeBg:black;
+
+3.3 配合 BGM 使用
+
+  bgm:bw.MP3;
+  bgm:none;    ; 停止音乐
+
+
+============================================================
+四、立绘系统
+============================================================
+
+4.1 基础立绘显示
+
+  changeFigure:陈泽第一章正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+  三个位置：-left（左）、-center（中）、-right（右）
+
+4.2 立绘变换参数 -transform
+
+  -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}}
+
+  常用参数：
+  - scale：缩放 {"x":1.2, "y":1.2}
+  - position：位移 {"x":0, "y":130}
+  - alpha：透明度 0~1
+  - rotation：旋转（弧度）
+
+4.3 同时显示多个人物
+
+  ; 左边陈泽，右边王展虎
+  changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+  changeFigure:虎正常新.png -right -transform={"scale":{"x":2.0,"y":2.0},"position":{"x":0,"y":650}};
+
+4.4 清除立绘
+
+  changeFigure:none -left;     ; 清除左边立绘
+  changeFigure:none -center;   ; 清除中间立绘
+  changeFigure:none -right;    ; 清除右边立绘
+  changeFigure:none;           ; 清除所有位置
+
+4.5 立绘切换（表情变化）
+
+  ; 从正常表情切换到愤怒
+  changeFigure:陈泽第一章愤怒.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+  ; 切换到开心
+  changeFigure:陈泽第一章开心.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+  注意：同位置再次 changeFigure 会替换前一个立绘。
+
+
+============================================================
+五、分支选择系统（重点！）
+============================================================
+
+5.1 基本二选一
+
+  choose:捡起来:pick_up_book|不捡:ignore_book;
+
+  格式：choose:选项1文本:跳转标签1|选项2文本:跳转标签2;
+
+  【致命提醒】必须用英文冒号 : 分隔选项文本和跳转目标！
+
+5.2 三选一
+
+  choose:躲开:dodge|让他拉着:let_pull;
+
+  choose:是我自己想做的:a1_mother_defend|沉默:a1_mother_silent|是他逼我的:a1_mother_blame;
+
+5.3 条件分支（带变量判断）
+
+  setVar:showConditionVar=dream_book;
+  setVar:enableConditionVar=dream_book;
+  choose:(showConditionVar>=1)[enableConditionVar>=1]->进入陈泽的梦:dream_entry|继续主线:scene8_continue;
+
+  格式：choose:(显示条件)[启用条件]->选项文本:跳转标签|...;
+
+  - showConditionVar 控制选项是否显示
+  - enableConditionVar 控制选项是否可点击
+  - 用法：先 setVar 设置条件变量，再 choose 引用
+
+5.4 分支的标准写法模板
+
+  choose:选项A:label_A|选项B:label_B;
+
+  label:label_A;
+  setVar:变量=变量+值;
+  :          好感度提示;
+  :剧情文本A;
+  jumpLabel:公共标签;
+
+  label:label_B;
+  setVar:变量=变量+值;
+  :          好感度提示;
+  :剧情文本B;
+  jumpLabel:公共标签;
+
+  label:公共标签;
+  ; 合流后的公共剧情
+
+  【关键】每个分支结尾必须用 jumpLabel 跳转到公共标签，
+  否则会线性执行到下一个分支的内容！
+
+
+============================================================
+六、变量与好感度系统
+============================================================
+
+6.1 初始化变量
+
+  setVar:chenze_fav=0;
+  setVar:dream_book=0;
+
+6.2 修改变量（增减好感度）
+
+  setVar:chenze_fav=chenze_fav+2;    ; 加 2
+  setVar:chenze_fav=chenze_fav-3;    ; 减 3
+  setVar:chenze_fav=chenze_fav+5;    ; 加 5
+
+6.3 变量插值显示
+
+  :当前好感度：{chenze_fav};
+
+  用花括号 {变量名} 在文本中嵌入变量值。
+
+6.4 读取存档变量
+
+  setVar:parallel_unlock=userData.neck_touch;
+  setVar:parallel_unlock=parallel_unlock||0;
+
+  || 是默认值运算符：如果变量为空则使用 0。
+
+6.5 好感度展示（章末统计）
+
+  :当前陈泽好感度：{chenze_fav};
+  :当前陈志涛好感度：{baihei_fav};
+  :当前荣一鸣好感度：{rongyiming_fav};
+  :当前刘朔军好感度：{liujun_fav};
+  :当前崔立伟好感度：{laocui_fav};
+
+
+============================================================
+七、音效与视频
+============================================================
+
+7.1 播放音效
+
+  playEffect:巴掌.mp3;
+  playEffect:dialog.mp3;
+  playEffect:摔手机.mp3;
+  playEffect:car_crash.mp3;
+
+7.2 播放视频
+
+  playVideo:firstcgone.mp4 -skipOff;
+
+  -skipOff 表示不可跳过。
+  不加 -skipOff 则玩家可以点击跳过。
+
+7.3 背景音乐
+
+  bgm:bw.MP3;          ; 播放
+  bgm:none;            ; 停止
+  bgm:音乐.mp3 -volume=80 -enter=2000;  ; 带参数
+
+
+============================================================
+八、动画与特效
+============================================================
+
+8.1 等待（制造节奏感）
+
+  wait:200;    ; 等待 200 毫秒
+
+  实际运用——拳击动画帧序列：
+
+  changeFigure:陈泽第一章待挥拳.png -left -transform={...};
+  wait:200;
+  changeFigure:陈泽第一章待挥拳中间动作.png -left -transform={...};
+  wait:200;
+  changeFigure:陈泽第一章挥拳.png -left -transform={...};
+  wait:200;
+
+  通过 wait + 立绘切换实现逐帧动画效果。
+
+8.2 预制动画
+
+  setAnimation:shake -target=fig-center;    ; 摇晃
+  setAnimation:enter -target=fig-left;      ; 渐入
+
+
+============================================================
+九、场景跳转与结束
+============================================================
+
+9.1 标签跳转
+
+  label:scene2;
+  ; ... 剧情内容
+
+  jumpLabel:scene2;    ; 跳转到 scene2
+
+9.2 切换场景文件
+
+  changeScene:../start.txt;    ; 跳转到其他场景文件（不保留状态）
+
+9.3 调用场景（可返回）
+
+  callScene:子场景.txt;        ; 调用结束后返回原位置
+
+9.4 结束游戏
+
+  end;
+
+9.5 章节结尾标准写法
+
+  label:ending_ch1;
+  changeFigure:none;
+  changeBg:black;
+  intro:第一章 完;
+  changeScene:../start.txt;
+  end;
+
+
+============================================================
+十、实战结构模板
+============================================================
+
+以下是一个完整的"一幕"结构模板，可直接复制使用：
+
+  ; ============================================
+  ; 第X幕：标题
+  ; ============================================
+
+  label:scene_X;
+
+  ; 1. 设定舞台
+  changeBg:背景图.png;
+  changeFigure:none;
+  bgm:音乐.mp3;
+
+  ; 2. 旁白引入
+  :场景描述。;
+
+  ; 3. 人物登场
+  changeFigure:立绘.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+  ; 4. 对话推进
+  角色:"台词" -配音文件.mp3;
+  :心理活动。;
+
+  ; 5. 玩家选择
+  choose:选项A:label_A|选项B:label_B;
+
+  ; 6. 分支A
+  label:label_A;
+  setVar:fav=fav+2;
+  :好感度加 2;
+  :分支A的剧情;
+  jumpLabel:scene_X_merge;
+
+  ; 7. 分支B
+  label:label_B;
+  setVar:fav=fav-1;
+  :好感度减 1;
+  :分支B的剧情;
+  jumpLabel:scene_X_merge;
+
+  ; 8. 合流
+  label:scene_X_merge;
+  :公共剧情继续;
+
+  ; 9. 过渡到下一幕
+  jumpLabel:scene_X_plus_1;
+
+
+============================================================
+十一、本项目用到的设计模式
+============================================================
+
+模式1：伏笔回收
+
+  早期设置标记变量：
+    setVar:dream_book=1;
+
+  后期条件判断：
+    setVar:showConditionVar=dream_book;
+    choose:(showConditionVar>=1)[...]->进入梦境:dream_entry|继续:continue;
+
+模式2：好感度门槛
+
+  ; 提示玩家好感度不足的后果
+  :好感度需达到 35 才能继续推进主线;
+
+  ; 条件跳转（好感度够了才能继续）
+  jumpLabel:wait -when=chenze_fav>=35;
+  jumpLabel:ending_ch1;   ; 不够则直接结束
+
+模式3：多角色好感度系统
+
+  ; 每个角色独立好感度变量
+  setVar:chenze_fav=0;    ; 陈泽
+  setVar:baihei_fav=0;    ; 黑白（陈志涛）
+  setVar:rongyiming_fav=0; ; 荣一鸣
+  setVar:liujun_fav=0;    ; 刘朔军
+  setVar:laocui_fav=0;    ; 崔立伟
+
+  ; 不同选择影响不同角色好感度
+  choose:握手:a1_baihei_handshake|点头:a1_baihei_nod|不回应:a1_baihei_ignore;
+
+模式4：多结局分支
+
+  ; A1 辍学线 → 直接创业
+  ; A2 校园线 → 继续学业，多年后重逢
+  ; 梦境线   → 隐藏路线
+  ; 平行宇宙 → 彩蛋
+
+  choose:跟他去:live_stream|再等等吧:wait|其实我已经有打算了:solo;
+
+模式5：隐藏结局（BE/NE/OE/特殊）
+
+  :【BE 结局：擦肩而过】;
+  :【NE 结局：各自安好】;
+  :【OE 结局：来日方长】;
+  :【独美结局】;
+  :【梦结局：碌碌无为】;
+  :【达成结局：被宁将军单杀】;
+
+
+============================================================
+十二、常见踩坑与注意事项
+============================================================
+
+1. 【致命】英文冒号
+   choose 命令必须用英文冒号 : 分隔选项和跳转目标
+   错误：choose:选项：目标
+   正确：choose:选项:目标
+
+2. 【致命】英文分号
+   每条命令必须以英文分号 ; 结尾
+   中文分号 ； 会导致解析失败
+
+3. 立绘不会自动清除
+   切场景后需要手动 changeFigure:none
+
+4. BGM 会继承
+   changeScene 后背景音乐不会停止，需要 bgm:none
+
+5. 分支必须 jumpLabel
+   每个分支结尾必须跳转到公共标签，否则会"泄漏"到下一个分支
+
+6. 文件命名用纯英文
+   音频后缀全小写 (.mp3 不用 .MP3)
+   Safari 不支持 ogg 格式，统一用 mp3
+
+7. 条件选择先设变量
+  choose:(条件) 的判断变量必须在 choose 之前用 setVar 设置
+
+8. 变量默认值
+  使用 || 运算符给可能为空的变量设置默认值
+  setVar:parallel_unlock=parallel_unlock||0;
+
+
+============================================================
+十三、完整示例：一幕剧情的编写流程
+============================================================
+
+; 目标：写一段"放学路上"的剧情，包含选择和好感度变化
+
+; --- 设定舞台 ---
+label:after_school;
+changeBg:放学路上.png;
+changeFigure:none;
+bgm:放学bgm.mp3;
+
+; --- 旁白 ---
+:放学了。;
+:夕阳洒在回家的路上，把影子拉得很长。;
+
+; --- 人物登场 ---
+changeFigure:陈泽第一章正常.png -left -transform={"scale":{"x":1.2,"y":1.2},"position":{"x":0,"y":130}};
+
+陈泽:"一起走？" -陈泽/一起走.mp3;
+
+:我点点头，和他并肩走在回家的路上。;
+
+; --- 选择 ---
+choose:聊聊今天的事:chat_about_today|安静地走:walk_silent;
+
+; --- 分支A ---
+label:chat_about_today;
+setVar:chenze_fav=chenze_fav+2;
+:陈泽好感度加 2，当前：{chenze_fav};
+
+:我主动开口，聊起了今天课堂上的趣事。;
+:他听得很认真，时不时笑出声。;
+陈泽:"哈哈，那个老王头真的太搞笑了。" -陈泽/哈哈.mp3;
+jumpLabel:after_school_merge;
+
+; --- 分支B ---
+label:walk_silent;
+setVar:chenze_fav=chenze_fav-1;
+:陈泽好感度减 1，当前：{chenze_fav};
+
+:我没有说话，只是安静地走着。;
+:陈泽看了我一眼，也没开口。;
+:两个人就这样沉默着走完了整条路。;
+jumpLabel:after_school_merge;
+
+; --- 合流 ---
+label:after_school_merge;
+
+:走到路口，该分别了。;
+
+陈泽:"明天见。" -陈泽/明天见.mp3;
+
+changeFigure:none -left;
+
+:我看着他的背影消失在街角。;
+
+; --- 过渡到下一幕 ---
+jumpLabel:next_scene;
