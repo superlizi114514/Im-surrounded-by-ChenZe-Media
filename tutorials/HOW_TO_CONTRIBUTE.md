@@ -1,137 +1,102 @@
-# 如何用 GitHub 提交你的游戏进度
+# 如何提交你的内容到这个仓库
 
-## 为什么要学这个？
-
-做游戏不是一天的事。今天写了一章剧本，明天做了几张立绘，后天加了配音——你需要一个地方**安全地保存进度**，并且**能随时回溯到之前版本**。
-
-GitHub 就是做这个的。免费的，新手也能学会。
+> 目标仓库：[https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media](https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media)
 
 ---
 
-## 第 1 步：安装 Git
+## 方法一：Fork + Pull Request（推荐）
 
-Git 是一个"版本控制工具"，用来记录文件的每次修改。
+适合：你做了新内容（新章节、新立绘、新配音等），想合并到主仓库。
 
-**Windows 用户**：
-- 下载：https://git-scm.com/download/win
-- 安装时一路点"下一步"，全部默认选项即可
-- 安装完成后，在任何文件夹右键 → 选择 **"Open Git Bash here"**
+### 1. Fork 本仓库
 
-验证安装：打开 Git Bash，输入：
-```bash
-git --version
-# 看到 git version 2.xx 就说明装好了
-```
+打开上面链接 → 右上角点 **Fork** → 选你自己的账号。Fork 完成后会跳到你账号下的副本。
 
----
-
-## 第 2 步：注册 GitHub 账号
-
-1. 打开 https://github.com
-2. 点右上角 **Sign up**
-3. 填写用户名、邮箱、密码
-4. 验证邮箱
-
-记住你的用户名，比如 `mygame2025`。
-
----
-
-## 第 3 步：创建你自己的仓库
-
-1. 登录 GitHub，点右上角 **+** → **New repository**
-2. 仓库名：`my-game`（随便起）
-3. 选择 **Public**（公开，别人能看到）
-4. **不要勾选** "Add a README file"（后面自己加）
-5. 点 **Create repository**
-
-创建后会看到一个引导页，上面有命令提示，先别管。
-
----
-
-## 第 4 步：把你的游戏目录变成 Git 仓库
-
-打开 Git Bash，进入你的游戏项目目录：
+### 2. 克隆到本地
 
 ```bash
-cd "你的游戏目录路径"
-# 例如：cd "C:/Users/你的用户名/Documents/my-game"
+git clone https://github.com/你的用户名/Im-surrounded-by-ChenZe-Media.git
+cd Im-surrounded-by-ChenZe-Media
 ```
 
-初始化 Git：
+### 3. 创建你的分支
+
+**分支命名规范**：`作者名/内容简述`
 
 ```bash
-git init
+git checkout -b 你的昵称/新章节第一章
 ```
 
----
-
-## 第 5 步：创建 .gitignore（忽略不需要上传的文件）
-
-在项目根目录新建 `.gitignore` 文件（注意前面有个点），内容：
-
-```
-# 临时文件
-*.tmp
-*.log
-.DS_Store
-Thumbs.db
-```
-
----
-
-## 第 6 步：提交你的第一次进度
-
+例子：
 ```bash
-# 添加所有文件到暂存区
-git add .
-
-# 提交（记录这次改动）
-git commit -m "初始化项目：创建了第一章剧本和基本结构"
-
-# 关联你的 GitHub 仓库
-git remote add origin https://github.com/你的用户名/my-game.git
-
-# 上传到 GitHub
-git branch -M main
-git push -u origin main
+git checkout -b xiaoming/add-chapter2
+git checkout -b zhangsan/new-chenze-sprites
+git checkout -b wangwu/bugfix-audio
 ```
 
-推送成功后，刷新 GitHub 页面，你的文件就在网上了！
+### 4. 修改 + 提交
 
----
-
-## 日常使用：改一点 → 存一点
-
-每次做了一些修改后（比如写了一幕新剧情、加了张立绘），执行：
-
+做了内容后：
 ```bash
 git add .
-git commit -m "新增：第二章第三幕 - 教室吵架事件"
-git push
+git commit -m "新增：第一章第二幕 - 教室日常"
+git push -u origin 你的昵称/新章节第一章
 ```
 
-养成习惯：**每做一点就 commit 一次**。这样万一回头觉得某段写得不好，可以随时找回之前的版本。
+### 5. 发起 Pull Request
+
+回到 GitHub 上你的 Fork 仓库 → 点 **Pull Request** → **New Pull Request**。
+
+**PR 标题格式**：`[类型] 简要描述`
+
+**PR 描述模板**（复制填写）：
+```
+## 作者
+你的昵称
+
+## 内容
+简要说明做了什么改动
+
+## 是否允许协作
+- [ ] 允许其他人基于此分支继续开发
+- [ ] 仅由本人维护
+```
+
+### 6. 等待合入
+
+我会审阅后合并。如果有修改建议会在 PR 里讨论。
 
 ---
 
-## 想给这个项目贡献？
+## 方法二：直接在 issue 里提交
 
-1. 在 GitHub 上打开本仓库：https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media
-2. 点右上角 **Fork**（复制到你自己的账号下）
-3. 在你 Fork 的仓库里修改（改剧本、加配音、画立绘等）
-4. 修改完成后，回到原仓库 → 点 **Pull Request** → **New Pull Request** → 选择你的改动
-5. 写清楚你改了啥，提交
+适合：你不会用 Git，但有剧本/图片/配音想分享。
 
-我会审阅后合并进来。你的名字会出现在贡献者名单里。
+在 [Issues](https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media/issues) 页面点 **New Issue**，标题写清楚内容，正文贴链接或直接贴文本，上传附件。我帮你整合进仓库。
 
 ---
 
-## 如果想把自己的项目也开源出来
+## 分支协作规则
 
-和上面步骤一样，只是：
-- 仓库名用你自己的项目名
-- 写一个 README.md 说明你的游戏（参考本仓库的 README）
-- 选择合适的 License（MIT 最宽松）
+| 规则 | 说明 |
+|------|------|
+| **命名格式** | `作者名/内容简述` |
+| **作者标记** | PR 描述中必须写明作者昵称 |
+| **允许他人协作** | PR 描述中勾选是否开放协作 |
+| **开放协作** | 勾选后，其他人可以在你的分支上继续加内容 |
+| **仅本人维护** | 勾选后，只有你能 push，其他人想参与需新开分支 |
+
+---
+
+## 内容规范
+
+提交前确认：
+- 图片文件不太大（单张 < 5MB）
+- 立绘用 PNG 透明背景，背景图 1920×1080
+- 配音用 MP3，命名用台词内容（方便识别）
+- 剧本用 `.txt` 文件，放 `game/scene/`
+- 不要提交 `.zip` `.rar` `.7z` 等压缩包
+- 不要提交 `node_modules/` 和临时文件
 
 ---
 
@@ -139,18 +104,11 @@ git push
 
 | 问题 | 解决 |
 |------|------|
-| push 报错"Permission denied" | 检查远程地址，确认用的是你的仓库地址 |
-| push 报错"failed to push" | `git pull origin main --rebase` 再试 |
-| 不小心提交了不该提交的文件 | `git rm --cached 文件名`，然后重新 commit |
-| 想回到之前的版本 | `git log` 找到版本号，`git reset --hard 版本号`（谨慎） |
-| 忘了自己改了什么 | `git status` 看当前状态，`git diff` 看具体改动 |
+| 不会装 Git | 在 Issues 里直接提交，我来处理 |
+| Fork 找不到原仓库 | 确保登录状态，点本仓库链接再 Fork |
+| PR 被拒了 | 看 PR 里的 Review 意见，改完再推 |
+| 想和别人的分支合并 | 在 PR 里 @ 对方，商量好再操作 |
 
 ---
 
-> **GitHub 就像游戏存档——你永远可以读档回去。大胆折腾。**
-
----
-
-- Git 官方教程：https://git-scm.com/book/zh/v2
-- GitHub 帮助：https://docs.github.com
-- 本仓库 Wiki：https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media/wiki
+> **不会写代码也能做游戏，不会用 Git 也能贡献。写剧本、画立绘、配语音——总有一块你能参与。**
