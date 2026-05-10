@@ -35,6 +35,70 @@
 - 视频插入（动画过场）
 - 条件分支选择
 
+## 制作过程一览（不用下载也能看）
+
+这个项目是怎么从 0 做出来的？下面是完整制作流程：
+
+### 1. 写剧本
+
+先用 Markdown 写剧情脚本（在 `docs/story/` 里），包含：
+- 角色台词 + 旁白
+- 选项分支设计
+- 好感度变化节点
+- 多线叙事结构（甜宠线 / 分手线 / 展虎线）
+
+### 2. AI 生图
+
+使用 **即梦** + **Banana** 生成角色立绘和背景：
+- 角色立绘：正面站立、多种表情差分
+- 背景图：东北小城场景、学校、网吧、家里等
+- 三视图：正面 + 侧面，保持角色一致性
+- 生图教程见 [tutorials/IMAGE_GENERATION.md](./tutorials/IMAGE_GENERATION.md)
+
+### 3. 用 ComfyUI 本地部署调优
+
+参考 [啦啦啦的小黄瓜 (B站)](https://space.bilibili.com/219572544) 的教程，本地部署 **ComfyUI** + **Stable Diffusion**：
+- ControlNet 控制姿势
+- AnimateDiff 生成视频
+- 本地工作流无限生成，不怕限制
+- 教程见 [tutorials/COMFYUI_SETUP.md](./tutorials/COMFYUI_SETUP.md)
+
+### 4. AI 配音
+
+使用 TTS 工具生成角色配音：
+- 按台词逐条生成
+- 导出为 MP3 + FLAC 双格式
+- 按角色分目录管理
+- 细节见 [tutorials/VOICE_DUBBING.md](./tutorials/VOICE_DUBBING.md)
+
+### 5. 视频制作
+
+- ComfyUI + AnimateDiff 生成过场动画
+- 部分视频用 **Banana** 生成
+- 注意：字节跳动即梦的人脸处理目前有限制，主要用其他方案
+
+### 6. 游戏开发（WebGAL 引擎）
+
+用 [WebGAL](https://github.com/OpenWebGAL/WebGAL) 开源引擎组装：
+- 用 WebGAL Script 写剧本（scene/\*.txt）
+- 挂载立绘、背景、配音、视频
+- 配置选项分支和好感度变量
+- WebGAL 语法参考 [tutorials/WEBGAL_ENGINE.md](./tutorials/WEBGAL_ENGINE.md)
+
+### 7. 全部资源汇总
+
+| 阶段 | 工具 | 产出 |
+|------|------|------|
+| 剧本 | Markdown | 50+ 文档在 `docs/story/` |
+| 生图 | 即梦 / Banana | 立绘 110+ 张、背景 90+ 张 |
+| 本地调优 | ComfyUI + SD | 批量精修、视频生成 |
+| 配音 | TTS | 500+ 条配音（按角色分目录）|
+| 视频 | AnimateDiff | 7 个过场视频 |
+| 引擎 | WebGAL | 完整交互游戏 |
+| 三视图 | AI 生成 | 6 角色三视图模板 |
+
+以上所有素材和工具都收录在本仓库中，无需额外下载即可查阅。
+
 ## 当前进度
 
 ### 已完成
