@@ -1,41 +1,18 @@
 # 完蛋！我被陈泽传媒包围了
 
-> 一款基于 [WebGAL](https://github.com/OpenWebGAL/WebGAL) 引擎的 Galgame 恋爱视觉小说
->
-> 角色原型：陈泽（抖音博主）
+> 基于 [WebGAL](https://github.com/OpenWebGAL/WebGAL) 引擎的 Galgame 开发全记录，包含完整项目源码、素材与教程
 
-## 项目导航
+## 仓库导航
 
 | 目录 | 说明 |
 |------|------|
-| [game/](./game/) | **游戏主体** - WebGAL 引擎完整游戏（可直接运行） |
-| [assets/](./assets/) | **素材总汇** - 游戏内素材 + 额外素材（原图、三视图、语音等） |
-| [tools/](./tools/) | **工具汇** - 开发工具、脚本合集 |
-| [tutorials/](./tutorials/) | **教程** - 生图、配音、视频制作、引擎使用等教程 |
+| [game/](./game/) | **游戏主体** - WebGAL 引擎完整游戏 |
+| [assets/](./assets/) | **素材总汇** - 游戏内素材 + 额外素材 |
+| [tools/](./tools/) | **工具汇** - 编辑器、脚本合集 |
+| [tutorials/](./tutorials/) | **教程** - 生图、配音、视频、引擎使用 |
 | [docs/](./docs/) | **文档** - 剧本、游戏设计文档 |
 
-## 项目简介
-
-玩家扮演陈泽的青梅竹马王女开（王妍），在陈泽传媒公司与陈泽、黑白、老崔、刘军等人展开一段暧昧纠缠的恋爱故事。
-
-### 核心设定
-
-- **你**：陈泽的青梅竹马，从小一起长大，暧昧不清
-- **陈泽**：公司老板 / 主播，有领导力、重情义
-- **黑白（陈志涛）**：当家主播，高冷型男
-- **老崔（崔立伟）**：公司元老，幽默接地气
-- **刘朔军**：黑白介绍的朋友，可靠温暖的前辈
-- **展虎（王展虎）**：情敌/同学，强势直接
-
-### 游戏截图
-
-游戏基于 WebGAL 引擎，1920x1080 分辨率，完整支持：
-- 选项分支 / 好感度系统
-- 配音 / BGM / 音效
-- 视频插入（动画过场）
-- 条件分支选择
-
-## 制作过程一览（不用下载也能看）
+## 开发教程（不用下载也能看）
 
 这个项目是怎么从 0 做出来的？下面是完整制作流程：
 
@@ -118,28 +95,31 @@
 - [ ] 更多 CG 图片
 - [ ] 完善配音覆盖
 
-## 快速开始
+## 注意事项
 
-### WebGAL 版（推荐）
+### AI 生图
+- **即梦**（字节跳动）：人脸生成有限制，适合背景/道具
+- **Banana**：在线生图/视频，无限制
+- **ComfyUI**：本地部署 Stable Diffusion，推荐 [啦啦啦的小黄瓜](https://space.bilibili.com/219572544) 教程
 
-```bash
-# 1. 安装 WebGAL Terre 编辑器
-# 下载：https://github.com/OpenWebGAL/WebGAL_Terre/releases
+### AI 配音
+- 使用 TTS 工具生成，导出 MP3/FLAC 双格式
+- 本仓库已附批量转换脚本 `tools/scripts/`
 
-# 2. 打开编辑器，导入 game/ 目录
+### 视频生成
+- ComfyUI + AnimateDiff 本地生成过场动画
+- 部分用 Banana 生成
 
-# 3. 点击运行即可游玩
-```
-
-或者直接打开 `game/index.html` 在浏览器中运行。
+### 版权
+- 角色原型为现实人物，同人创作仅供学习交流
+- 游戏引擎 [WebGAL](https://github.com/OpenWebGAL/WebGAL) 基于 MIT 协议开源
 
 ### 技术栈
-
-- **引擎**：[WebGAL](https://github.com/OpenWebGAL/WebGAL)（开源 Web 视觉小说引擎）
-- **脚本**：WebGAL Script（文本文档语法）
+- **引擎**：[WebGAL](https://github.com/OpenWebGAL/WebGAL)
+- **脚本**：WebGAL Script
 - **分辨率**：1920x1080
 
-## 项目文件结构
+### 项目文件结构
 
 ```
 GITHUBOPEN/
