@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>中转站 · 完蛋！我被陈泽传媒包围了</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root{
+  --bg:#f4f0eb;--card:#fffefa;--text:#2c2420;--muted:#8a7e76;--border:#ddd5cb;
+  --accent:#c25141;--accent-soft:#fbf0ed;
+  --tag-bg:#ece7e0;--tag-text:#6d5f55;
+  --radius:3px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.7;
+  background-image:
+    radial-gradient(circle at 95% 5%,rgba(194,81,65,.04) 0%,transparent 50%),
+    radial-gradient(circle at 5% 90%,rgba(194,81,65,.03) 0%,transparent 40%);
+}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+a:hover{border-bottom-color:var(--accent)}
+
+/* ---- top ---- */
+.head{
+  max-width:680px;margin:0 auto;padding:56px 24px 40px;
+  border-bottom:1px solid var(--border);
+}
+.head h1{
+  font-size:28px;font-weight:800;letter-spacing:1px;
+  margin-bottom:6px;color:var(--text);
+}
+.head h1 em{font-style:normal;color:var(--accent)}
+.head .tagline{
+  font-size:14px;color:var(--muted);margin-bottom:22px;
+  font-weight:400;line-height:1.8;
+}
+.head .steps{
+  display:flex;gap:6px;flex-wrap:wrap;list-style:none;
+}
+.head .steps li{
+  position:relative;padding-left:20px;font-size:13px;color:var(--text);
+}
+.head .steps li::before{
+  content:attr(data-n);position:absolute;left:0;top:0;
+  font-weight:700;color:var(--accent);font-size:13px;
+}
+.head .steps li a{font-weight:500}
+
+/* ---- main ---- */
+.main{max-width:680px;margin:0 auto;padding:8px 24px 64px}
+
+.sec{margin-top:40px}
+.sec-head{
+  font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+  padding-bottom:6px;border-bottom:1px solid var(--border);
+}
+.sec-head span{color:var(--accent);margin-right:4px;font-size:11px}
+
+/* tutorial grid */
+.tut-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.tut-grid{grid-template-columns:1fr}}
+.tut{
+  display:block;padding:14px 16px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--radius);
+  transition:background .15s;text-decoration:none;color:var(--text);
+  border-bottom:2px solid transparent;
+}
+.tut:hover{background:var(--accent-soft);border-bottom-color:var(--accent);text-decoration:none}
+.tut b{display:block;font-size:14px;font-weight:600;margin-bottom:2px}
+.tut small{font-size:12px;color:var(--muted);line-height:1.5}
+.tut .tut-tag{
+  display:inline-block;font-size:10px;padding:1px 6px;border-radius:2px;
+  background:var(--tag-bg);color:var(--tag-text);margin-top:6px;font-weight:500;
+}
+
+/* link list */
+.links{list-style:none}
+.links li{
+  border-bottom:1px solid var(--border);
+}
+.links li:last-child{border-bottom:none}
+.links li a{
+  display:flex;align-items:baseline;gap:8px;padding:9px 2px;
+  text-decoration:none;color:var(--text);transition:background .15s;
+  border-bottom:none;
+}
+.links li a:hover{color:var(--accent)}
+.links li a .path{
+  font-size:11px;color:var(--muted);font-family:Consolas,Monaco,monospace;
+  margin-left:auto;flex-shrink:0;
+}
+
+/* cat tabs */
+.cats{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.cats button{
+  padding:4px 10px;font-size:12px;background:none;border:1px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;font-family:inherit;color:var(--muted);
+  transition:all .15s;
+}
+.cats button:hover{border-color:var(--accent);color:var(--accent)}
+.cats button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* search */
+.search{
+  width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:14px;font-family:inherit;background:var(--card);margin-bottom:18px;
+  outline:none;transition:border-color .2s;
+}
+.search:focus{border-color:var(--accent)}
+.search::placeholder{color:#b8b0a8}
+
+/* steps row (quick start) */
+.quick-row{
+  display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;
+}
+.quick-row a{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:7px 14px;font-size:13px;font-weight:600;
+  background:var(--accent);color:#fff;border-radius:var(--radius);
+  text-decoration:none;border-bottom:none;transition:opacity .15s;
+}
+.quick-row a:hover{opacity:.85;border-bottom:none;color:#fff}
+.quick-row a.ghost{
+  background:none;color:var(--accent);font-weight:500;
+  border:1px solid var(--border);
+}
+.quick-row a.ghost:hover{border-color:var(--accent)}
+
+/* faq */
+.faq{border-top:1px solid var(--border)}
+.faq summary{
+  padding:10px 2px;font-size:13px;font-weight:600;cursor:pointer;
+  list-style:none;display:flex;align-items:center;gap:6px;
+}
+.faq summary::before{content:'+';font-size:13px;color:var(--muted);width:14px;text-align:center}
+.faq[open] summary::before{content:'−'}
+.faq summary:hover{color:var(--accent)}
+.faq .a{padding:0 2px 12px 20px;font-size:13px;color:var(--muted);line-height:1.8}
+.faq .a code{
+  background:var(--tag-bg);padding:1px 5px;border-radius:2px;font-size:12px;
+  font-family:Consolas,Monaco,monospace;
+}
+
+/* ---- md viewer ---- */
+.md-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:none;
+  align-items:flex-start;justify-content:center;padding:32px 16px;overflow-y:auto;
+}
+.md-overlay.show{display:flex}
+.md-panel{
+  background:var(--card);width:100%;max-width:720px;
+  border-radius:var(--radius);box-shadow:0 12px 40px rgba(0,0,0,.18);
+  animation:mdIn .2s ease;
+}
+@keyframes mdIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.md-bar{
+  padding:12px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;position:sticky;top:0;background:var(--card);z-index:2;
+}
+.md-bar .md-path{font-size:12px;color:var(--muted);font-family:Consolas,Monaco,monospace;flex:1}
+.md-bar button{
+  border:none;background:none;cursor:pointer;font-size:16px;padding:4px 8px;
+  border-radius:var(--radius);color:var(--muted);transition:background .15s;
+}
+.md-bar button:hover{background:var(--tag-bg)}
+.md-body{
+  padding:24px 28px 32px;font-size:14px;line-height:1.85;color:var(--text);
+}
+.md-body h1{font-size:20px;font-weight:800;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+.md-body h2{font-size:17px;font-weight:700;margin:24px 0 6px}
+.md-body h3{font-size:14px;font-weight:700;margin:18px 0 4px;color:var(--muted)}
+.md-body p{margin:8px 0}
+.md-body code{
+  background:var(--tag-bg);padding:1px 5px;border-radius:2px;font-size:13px;
+  font-family:Consolas,Monaco,monospace;
+}
+.md-body pre{
+  background:#2a1f1a;color:#e6ddd0;padding:14px 16px;border-radius:var(--radius);
+  overflow-x:auto;font-size:13px;line-height:1.6;margin:10px 0;
+}
+.md-body pre code{background:none;padding:0;color:inherit}
+.md-body table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13px}
+.md-body th,.md-body td{padding:6px 10px;border:1px solid var(--border);text-align:left}
+.md-body th{background:var(--bg);font-weight:600;font-size:12px}
+.md-body blockquote{
+  border-left:3px solid var(--accent);padding:8px 14px;margin:10px 0;
+  background:var(--accent-soft);font-size:13px;
+}
+.md-body ul,.md-body ol{padding-left:22px;margin:6px 0}
+.md-body li{margin:2px 0}
+.md-body hr{margin:18px 0;border:none;border-top:1px solid var(--border)}
+.md-body a{color:var(--accent)}
+
+/* responsive */
+@media(max-width:640px){
+  .head{padding:36px 16px 28px}
+  .head h1{font-size:22px}
+  .tut-grid{grid-template-columns:1fr}
+  .md-panel{max-width:100%}
+  .md-body{padding:16px}
+}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#c8bfb4;border-radius:3px}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <h1>完蛋！<em>我</em>被陈泽传媒包围了</h1>
+  <p class="tagline">你会写故事，就能做游戏。这个仓库是一个用 WebGAL 引擎从零搓出来的 Galgame——剧本、立绘、配音、视频，全部开源在这里。双击本文件就能打开这个页面，所有教程和文档一键直达。</p>
+  <ul class="steps">
+    <li data-n="1."><a href="https://github.com/OpenWebGAL/WebGAL_Terre/releases" target="_blank">下载 WebGAL Terre</a></li>
+    <li data-n="2."><a href="game/" target="_blank">用编辑器打开 game/ 跑起来</a></li>
+    <li data-n="3."><a href="#" onclick="openMarkdown('tutorials/WEBGAL_ENGINE.md');return false">读入门手册</a></li>
+    <li data-n="4.">用记事本写 .txt 剧本</li>
+    <li data-n="5.">拖进编辑器，点运行</li>
+    <li data-n="6."><a href="#" onclick="openMarkdown('tutorials/HOW_TO_CONTRIBUTE.md');return false">提交到 GitHub</a></li>
+  </ul>
+</header>
+
+<div class="main">
+
+<input class="search" type="text" id="searchInput" placeholder="搜索教程、文档、剧本..." oninput="doSearch()">
+
+<!-- 教程 -->
+<section class="sec" id="tutorials">
+  <div class="sec-head"><span>§</span>教程</div>
+  <div class="tut-grid" id="tutorialGrid">
+    <a class="tut" href="#" onclick="openMarkdown('tutorials/WEBGAL_ENGINE.md');return false" data-search="入门 引擎 WebGAL 剧本 语法 新手">
+      <b>WebGAL 完全入门手册</b>
+      <small>从零写剧本、语法速查、范例、8 类问题排查</small>
+      <span class="tut-tag">必读</span>
+    </a>
+    <a class="tut" href="#" onclick="openMarkdown('tutorials/IMAGE_GENERATION.md');return false" data-search="生图 AI 绘画 立绘 背景 提示词">
+      <b>AI 生图教程</b>
+      <small>Prompt 模板、工具对比、角色一致性</small>
+      <span class="tut-tag">素材</span>
+    </a>
+    <a class="tut" href="#" onclick="openMarkdown('tutorials/VOICE_DUBBING.md');return false" data-search="配音 语音 TTS MP3">
+      <b>配音制作教程</b>
+      <small>AI 合成 / 真人录制、Audacity 后期</small>
+      <span class="tut-tag">素材</span>
+    </a>
+    <a class="tut" href="#" onclick="openMarkdown('tutorials/VIDEO_GENERATION.md');return false" data-search="视频 AnimateDiff 过场">
+      <b>视频生成教程</b>
+      <small>AnimateDiff、规格参数、剧本调用</small>
+      <span class="tut-tag">素材</span>
+    </a>
+    <a class="tut" href="#" onclick="openMarkdown('tutorials/COMFYUI_SETUP.md');return false" data-search="ComfyUI 部署 安装 本地">
+      <b>ComfyUI 部署教程</b>
+      <small>安装步骤、工作流、模型推荐</small>
+      <span class="tut-tag">环境</span>
+    </a>
+    <a class="tut" href="#" onclick="openMarkdown('tutorials/HOW_TO_CONTRIBUTE.md');return false" data-search="GitHub 提交 协作 上传">
+      <b>如何提交你的进度</b>
+      <small>Fork → Clone → Commit → PR 全流程</small>
+      <span class="tut-tag">协作</span>
+    </a>
+  </div>
+</section>
+
+<!-- 游戏开发 -->
+<section class="sec" id="gamedev">
+  <div class="sec-head"><span>§</span>游戏</div>
+  <ul class="links">
+    <li><a href="tools/webgal-editor.html" target="_blank">WebGal 文本编辑器<span class="path">tools/webgal-editor.html</span></a></li>
+    <li><a href="game/" target="_blank">游戏项目目录<span class="path">game/</span></a></li>
+    <li><a href="game/scene/" target="_blank">剧本文件<span class="path">game/scene/</span></a></li>
+    <li><a href="#" onclick="openMarkdown('game/README.md');return false">游戏目录说明<span class="path">game/README.md</span></a></li>
+  </ul>
+</section>
+
+<!-- 工具 -->
+<section class="sec" id="tools">
+  <div class="sec-head"><span>§</span>工具</div>
+  <ul class="links">
+    <li><a href="tools/webgal-editor.html" target="_blank">WebGal 编辑器<span class="path">tools/</span></a></li>
+    <li><a href="#" onclick="openMarkdown('tools/README.md');return false">推荐工具清单<span class="path">tools/README.md</span></a></li>
+    <li><a href="tools/scripts/" target="_blank">音频转换脚本<span class="path">tools/scripts/</span></a></li>
+  </ul>
+</section>
+
+<!-- 素材 -->
+<section class="sec" id="assets">
+  <div class="sec-head"><span>§</span>素材</div>
+  <ul class="links">
+    <li><a href="#" onclick="openMarkdown('assets/README.md');return false">素材总汇说明<span class="path">assets/README.md</span></a></li>
+    <li><a href="assets/in-game/figures/" target="_blank">角色立绘<span class="path">figures/  111+</span></a></li>
+    <li><a href="assets/in-game/backgrounds/" target="_blank">场景背景<span class="path">backgrounds/  90+</span></a></li>
+    <li><a href="assets/in-game/vocals/" target="_blank">角色配音<span class="path">vocals/  500+</span></a></li>
+    <li><a href="assets/in-game/cg/" target="_blank">事件 CG<span class="path">cg/</span></a></li>
+    <li><a href="assets/extra/three-view/" target="_blank">角色三视图<span class="path">extra/three-view/</span></a></li>
+  </ul>
+</section>
+
+<!-- 剧本与设定 -->
+<section class="sec" id="story">
+  <div class="sec-head"><span>§</span>剧本与设定</div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:8px">50+ 篇剧情文档，点击文件名查看。用上方搜索框可快速定位。</p>
+  <div class="cats">
+    <button class="on" onclick="filterDocs('all',this)">全部</button>
+    <button onclick="filterDocs('overview',this)">总览</button>
+    <button onclick="filterDocs('chapter',this)">章节</button>
+    <button onclick="filterDocs('branch',this)">分支</button>
+    <button onclick="filterDocs('chenze',this)">陈泽</button>
+    <button onclick="filterDocs('childhood',this)">童年</button>
+    <button onclick="filterDocs('prompt',this)">提示词</button>
+    <button onclick="filterDocs('asset-spec',this)">规范</button>
+  </div>
+  <ul class="links" id="storyList"></ul>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+  <div class="sec-head"><span>§</span>常见问题</div>
+  <details class="faq" data-search="立绘 不显示">
+    <summary>立绘不显示</summary>
+    <div class="a">检查三点：① 文件格式必须是 PNG；② 文件名和剧本中写的完全一致（包括大小写）；③ 文件放在 <code>game/figure/</code> 目录里。</div>
+  </details>
+  <details class="faq" data-search="背景 变形">
+    <summary>背景图片变形</summary>
+    <div class="a">背景必须严格 <strong>1920 x 1080</strong>，否则会拉伸。用画图或 PS 裁剪到正确尺寸。</div>
+  </details>
+  <details class="faq" data-search="语音 不播放">
+    <summary>语音不播放</summary>
+    <div class="a">确认：① 音频是 MP3 格式；② 文件名和路径与剧本一致；③ 放在 <code>game/vocal/</code> 目录。</div>
+  </details>
+  <details class="faq" data-search="中文 方框 字体">
+    <summary>中文显示成方框</summary>
+    <div class="a">缺少中文字体。在 <code>game/gui/font/</code> 放一个中文字体文件（如思源黑体 .ttf），config.txt 里指定。</div>
+  </details>
+  <details class="faq" data-search="编辑器 打不开">
+    <summary>编辑器打不开项目</summary>
+    <div class="a">选的是项目<strong>根目录</strong>（包含 <code>game/</code> 的那层），不要选 <code>game/scene/</code> 子目录。</div>
+  </details>
+  <details class="faq" data-search="GitHub">
+    <summary>GitHub 不会用</summary>
+    <div class="a">看这篇教程：<a href="#" onclick="openMarkdown('tutorials/HOW_TO_CONTRIBUTE.md');return false">如何提交进度到 GitHub</a>，从安装到提交全流程。</div>
+  </details>
+  <details class="faq" data-search="分支 选项">
+    <summary>怎么做选项分支</summary>
+    <div class="a">用 <code>choose</code> 命令：<code>choose:去教室:label_a|去网吧:label_b;</code>，然后在对应 label 处写不同走向。详见入门手册的"分支与跳转"。</div>
+  </details>
+  <details class="faq" data-search="表情 差分 立绘">
+    <summary>角色怎么切换表情</summary>
+    <div class="a">不同表情用不同文件名（<code>陈泽_正常.png</code>、<code>陈泽_害羞.png</code>），剧本中用 <code>changeFigure:陈泽_害羞.png;</code> 切换。</div>
+  </details>
+</section>
+
+</div>
+
+<!-- md viewer -->
+<div class="md-overlay" id="mdOverlay" onclick="closeMd(event)">
+  <div class="md-panel" onclick="event.stopPropagation()">
+    <div class="md-bar">
+      <span class="md-path" id="mdTitle"></span>
+      <button onclick="closeMd()" title="关闭">Esc</button>
+    </div>
+    <div class="md-body" id="mdBody"></div>
+  </div>
+</div>
+
+<script>
+const storyDocs=[
+  {file:'docs/story/完整剧情设定 v7.md',cat:'overview',title:'完整剧情设定 v7',desc:'最终版世界观与剧情总纲'},
+  {file:'docs/story/世界线.md',cat:'overview',title:'世界线',desc:'各分支世界线的宏观描述'},
+  {file:'docs/story/剧本.md',cat:'overview',title:'剧本',desc:'剧本总纲'},
+  {file:'docs/story/台词.md',cat:'overview',title:'台词',desc:'台词整理'},
+  {file:'docs/story/多线叙事设计.md',cat:'overview',title:'多线叙事设计',desc:'总体设计方案'},
+  {file:'docs/story/多线叙事详细设计.md',cat:'overview',title:'多线叙事详细设计',desc:'每条线路的详细设计'},
+  {file:'docs/story/完整剧情线路图 v3.md',cat:'overview',title:'完整剧情线路图 v3',desc:'可视化分支线路图'},
+  {file:'docs/story/配音.md',cat:'overview',title:'配音方案',desc:'配音需求与方案'},
+  {file:'docs/story/陈泽.md',cat:'chenze',title:'陈泽',desc:'角色设定'},
+  {file:'docs/story/黑白.md',cat:'overview',title:'黑白',desc:'角色设定'},
+  {file:'docs/story/序章剧本.md',cat:'chapter',title:'序章剧本',desc:''},
+  {file:'docs/story/序章剧本 - 角色台词整理.md',cat:'chapter',title:'序章 · 角色台词整理',desc:''},
+  {file:'docs/story/第一章第一幕.md',cat:'chapter',title:'第一章第一幕',desc:''},
+  {file:'docs/story/第一章第二幕.md',cat:'chapter',title:'第一章第二幕',desc:''},
+  {file:'docs/story/第一章第三幕 A.md',cat:'chapter',title:'第一章第三幕 A',desc:''},
+  {file:'docs/story/A1 第三幕.md',cat:'chapter',title:'A1 第三幕',desc:''},
+  {file:'docs/story/第一章 甜宠线 - 教室日常与冲突.md',cat:'chapter',title:'第一章 甜宠线',desc:'教室日常与冲突'},
+  {file:'docs/story/A1 辍学线.md',cat:'branch',title:'A1 辍学线',desc:''},
+  {file:'docs/story/A1+2.md',cat:'branch',title:'A1+2 线路',desc:''},
+  {file:'docs/story/A2 校园线.md',cat:'branch',title:'A2 校园线',desc:''},
+  {file:'docs/story/B 线共同剧情段 - 初中篇.md',cat:'branch',title:'B线共同剧情 · 初中篇',desc:''},
+  {file:'docs/story/B 线路总入口与分支设计.md',cat:'branch',title:'B线总入口与分支',desc:''},
+  {file:'docs/story/B1 甜宠线 - 展虎王妍.md',cat:'branch',title:'B1 甜宠线',desc:''},
+  {file:'docs/story/B2 分手线 - 巨婴直播.md',cat:'branch',title:'B2 分手线',desc:''},
+  {file:'docs/story/B3 触发结局 - 恨海情天.md',cat:'branch',title:'B3 恨海情天',desc:''},
+  {file:'docs/story/陈泽完整成长史 - 时间线终极版.md',cat:'chenze',title:'成长史 · 时间线终极版',desc:''},
+  {file:'docs/story/陈泽完整成长史 - 黑白加入篇.md',cat:'chenze',title:'成长史 · 黑白加入篇',desc:''},
+  {file:'docs/story/陈泽成长史 - 1103 分天使传说.md',cat:'chenze',title:'成长史 · 1103分天使传说',desc:''},
+  {file:'docs/story/陈泽成长史 - 天使凯南的诞生.md',cat:'chenze',title:'成长史 · 天使凯南的诞生',desc:''},
+  {file:'docs/story/陈泽成长史 - 无敌天使凯尔.md',cat:'chenze',title:'成长史 · 无敌天使凯尔',desc:''},
+  {file:'docs/story/陈泽童年回忆 - 完整事件线（修正版）.md',cat:'childhood',title:'童年 · 完整事件线',desc:''},
+  {file:'docs/story/陈泽童年回忆 - 网吧偷钱事件.md',cat:'childhood',title:'童年 · 网吧偷钱事件',desc:''},
+  {file:'docs/story/陈泽童年回忆 - 网吧偷钱事件（翻盖手机版）.md',cat:'childhood',title:'童年 · 网吧偷钱事件（翻盖手机版）',desc:''},
+  {file:'docs/story/童年回忆剧本优化.md',cat:'childhood',title:'童年回忆剧本优化',desc:''},
+  {file:'docs/story/AI 绘画提示词清单.md',cat:'prompt',title:'AI 绘画提示词清单',desc:''},
+  {file:'docs/story/AI 绘画提示词清单（中文版）.md',cat:'prompt',title:'AI 提示词清单（中文版）',desc:''},
+  {file:'docs/story/AI 绘画提示词 - 序章场景道具.md',cat:'prompt',title:'序章场景道具提示词',desc:''},
+  {file:'docs/story/AI 生成提示词 - 序章场景道具.md',cat:'prompt',title:'序章场景道具（生图版）',desc:''},
+  {file:'docs/story/完整素材清单.md',cat:'asset-spec',title:'完整素材清单',desc:''},
+  {file:'docs/story/素材需求清单.md',cat:'asset-spec',title:'素材需求清单',desc:''},
+  {file:'docs/story/序章素材需求清单.md',cat:'asset-spec',title:'序章素材需求清单',desc:''},
+  {file:'docs/story/序章素材需求清单 -AI 提示词.md',cat:'asset-spec',title:'序章素材需求 · AI提示词',desc:''},
+  {file:'docs/story/章节素材对应规范.md',cat:'asset-spec',title:'章节素材对应规范',desc:''},
+  {file:'docs/story/素材使用检查清单.md',cat:'asset-spec',title:'素材使用检查清单',desc:''},
+  {file:'docs/story/素材规范实施说明.md',cat:'asset-spec',title:'素材规范实施说明',desc:''},
+  {file:'docs/story/道具素材清单.md',cat:'asset-spec',title:'道具素材清单',desc:''},
+  {file:'docs/story/报错.md',cat:'asset-spec',title:'报错记录',desc:''},
+];
+
+function renderStoryDocs(cat){
+  const ul=document.getElementById('storyList');
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const filtered=storyDocs.filter(d=>{
+    if(cat!=='all'&&d.cat!==cat)return false;
+    if(q&&!(d.title.toLowerCase().includes(q)||d.desc.toLowerCase().includes(q)||d.file.toLowerCase().includes(q)))return false;
+    return true;
+  });
+  if(!filtered.length){ul.innerHTML='<li style="padding:20px 2px;color:var(--muted);font-size:13px;text-align:center">没有匹配的文档</li>';return}
+  const tagMap={overview:'总览',chapter:'章节',branch:'分支',chenze:'陈泽',childhood:'童年',prompt:'提示词','asset-spec':'规范'};
+  ul.innerHTML=filtered.map(d=>`<li><a href="#" onclick="openMarkdown('${d.file}');return false">${d.title}<span class="path">${d.file}</span></a></li>`).join('');
+}
+renderStoryDocs('all');
+
+function filterDocs(cat,btn){
+  document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderStoryDocs(cat);
+}
+
+function doSearch(){
+  const cat=document.querySelector('.cats button.on');
+  const catMap={'全部':'all','总览':'overview','章节':'chapter','分支':'branch','陈泽':'chenze','童年':'childhood','提示词':'prompt','规范':'asset-spec'};
+  const activeCat=cat?catMap[cat.textContent]||'all':'all';
+  renderStoryDocs(activeCat);
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.tut,.links li,.faq').forEach(el=>{
+    if(!q){el.style.opacity='1';return}
+    const s=el.getAttribute('data-search')||'';
+    if(s.toLowerCase().includes(q)||el.textContent.toLowerCase().includes(q))el.style.opacity='1';
+    else el.style.opacity='.3';
+  });
+}
+
+// === md viewer ===
+const EMBEDDED_MD={};
+let renderedCache={};
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('script[type="text/markdown"]').forEach(el=>{EMBEDDED_MD[el.dataset.src]=el.textContent.trim()});
+  if(typeof marked!=='undefined')preRenderAll();
+  else window.addEventListener('load',()=>{setTimeout(preRenderAll,500)});
+});
+function preRenderAll(){
+  if(typeof marked==='undefined')return;
+  for(const[f,m]of Object.entries(EMBEDDED_MD))renderedCache[f]=marked.parse(m);
+}
+
+let currentMdFile=null;
+function openMarkdown(file){
+  const o=document.getElementById('mdOverlay'),t=document.getElementById('mdTitle'),b=document.getElementById('mdBody');
+  o.classList.add('show');
+  t.textContent=file;
+  b.innerHTML='';
+  currentMdFile=file;
+  if(renderedCache[file]){b.innerHTML=renderedCache[file];b.scrollTop=0;return}
+  if(EMBEDDED_MD[file]){b.innerHTML='<pre style="white-space:pre-wrap;font-family:inherit;padding:16px;line-height:1.8;font-size:14px;color:var(--text)">'+escapeHtml(EMBEDDED_MD[file])+'</pre>';b.scrollTop=0;return}
+  b.textContent='加载中...';
+  (async()=>{
+    try{
+      if(typeof marked==='undefined')throw 0;
+      const r=await fetch(file);if(!r.ok)throw 0;
+      b.innerHTML=marked.parse(await r.text());b.scrollTop=0;
+    }catch(e){
+      b.innerHTML='<p style="color:var(--muted);text-align:center;padding:32px 0">此文档未内置到页面中。<br>当前浏览模式无法在线加载，请直接用文本编辑器打开：<br><code style="background:var(--tag-bg);padding:2px 6px;font-size:13px">'+escapeHtml(file)+'</code></p>';
+    }
+  })();
+}
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function closeMd(e){
+  if(e&&e.target!==document.getElementById('mdOverlay'))return;
+  document.getElementById('mdOverlay').classList.remove('show');currentMdFile=null;
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeMd();
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('searchInput').focus()}
+});
+</script>
+
+<script type="text/markdown" data-src="tutorials/WEBGAL_ENGINE.md"># 萌新也能看懂的 WebGAL 引擎完全入门手册
+
+## 0. 先记住一句话
+
+> **WebGAL 剧本就是一个 `.txt` 文本文件。你会打字，就会写 WebGAL 剧本。**
+
+不需要编程基础，不需要英语，用记事本打开，打字，保存，放进编辑器——你的 Galgame 就跑起来了。
+
+---
+
+## 1. 下载工具（5 分钟）
+
+### 1.1 WebGAL Terre 编辑器
+
+这是官方图形化编辑器，用来管理项目和运行游戏。
+
+- 下载：https://github.com/OpenWebGAL/WebGAL_Terre/releases
+- 下载 `WebGAL_Terre-win32-x64.zip`，解压，双击 `WebGAL_Terre.exe` 启动
+
+### 1.2 准备图片
+
+你需要两类图片（没有就先用纯色图代替）：
+
+- **立绘**：角色 PNG 图，建议 800×1600（放在 `game/figure/`）
+- **背景**：场景 PNG/JPG 图，必须 1920×1080（放在 `game/background/`）
+
+---
+
+## 2. 新建项目（3 分钟）
+
+```
+第 1 步：新建一个文件夹，比如叫 my-game/
+第 2 步：在里面新建 config.json（复制下面内容）
+第 3 步：在里面新建 scene/ 文件夹
+第 4 步：在 scene/ 里新建 start.txt
+第 5 步：用 WebGAL Terre 打开 my-game/ 目录
+```
+
+### config.json（复制这个）
+
+```json
+{
+  "gameName": "我的第一个游戏",
+  "version": "0.1.0",
+  "resolution": { "width": 1920, "height": 1080 }
+}
+```
+
+---
+
+## 3. 写下你的第一句台词（立刻见效）
+
+打开 `scene/start.txt`，输入：
+
+```webgal
+; 分号开头是注释，游戏里不会显示
+; ========== 我的第一个剧本 ==========
+
+label:start;
+
+changeBg:black;
+
+:你好，世界。;
+:这就是我的第一个游戏。;
+
+:做游戏，其实很简单对吧？;
+
+end;
+```
+
+保存，在编辑器里点 ▶ 运行。黑屏上依次显示三句话——你的第一个 WebGAL 游戏诞生了。
+
+---
+
+## 4. 语法速查（所有常用命令）
+
+### 4.1 显示文字
+
+```webgal
+; 旁白（冒号开头）
+:这是旁白，用来讲剧情。;
+
+; 角色对话
+陈泽:"今天天气真好。";
+
+; 角色对话 + 配音
+陈泽:"你好啊。" -chenze_hello.mp3;
+```
+
+### 4.2 背景
+
+```webgal
+changeBg:教室.png;              ; 切换背景
+changeBg:教室.png -next;        ; 等玩家点击后再切
+changeBg:black;                 ; 黑屏（常用于转场）
+```
+
+### 4.3 立绘
+
+```webgal
+changeFigure:陈泽_正常.png -center;   ; 居中显示
+changeFigure:陈泽_开心.png -left;     ; 左边显示
+changeFigure:陈泽_愤怒.png -right;    ; 右边显示
+changeFigure:none -center;            ; 隐藏居中立绘
+changeFigure:none -all;               ; 隐藏全部立绘
+```
+
+### 4.4 选项分支
+
+```webgal
+; 基础选项
+choose:去教室:label_classroom|去网吧:label_netbar;
+
+; 带条件的好感度选项
+; (显示条件)[启用条件]->选项文字:跳转标签
+choose:(love>=10)[love>=5]->抱住他:love_route|离开:cold_route;
+```
+
+### 4.5 变量（好感度等）
+
+```webgal
+setVar:love=0;              ; 初始化
+setVar:love=love+5;         ; 加 5
+:【好感度：{love}】;         ; 在屏幕上显示变量值
+```
+
+### 4.6 跳转和标签
+
+```webgal
+label:my_label;             ; 定义一个标签（跳转目标）
+jumpLabel:my_label;         ; 跳转到标签
+```
+
+### 4.7 音乐和音效
+
+```webgal
+bgm:bgm_01.mp3;             ; 播放背景音乐
+bgm:none;                   ; 停止
+playEffect:敲门声.mp3;      ; 播放音效
+```
+
+### 4.8 视频
+
+```webgal
+playVideo:开场动画.mp4 -volume=100;        ; 播放视频
+playVideo:名场面.mp4 -skipOff;             ; 不允许跳过
+```
+
+### 4.9 场景切换
+
+```webgal
+changeScene:chapter1.txt#scene1;  ; 跳到另一章的某个标签
+end;                               ; 结束当前场景
+```
+
+### 4.10 等待
+
+```webgal
+wait:3000;        ; 等待 3 秒（3000 毫秒）
+wait:click;       ; 等待玩家点击
+```
+
+---
+
+## 5. 完整范例：写一个有分支的小故事
+
+```webgal
+; ========== 放学后 ==========
+
+label:start;
+
+changeBg:学校门口.png;
+
+:放学铃响了。;
+
+changeFigure:陈泽_正常.png -center;
+
+陈泽:"一起回家吗？";
+
+choose:好啊:label_yes|我还有事:label_no;
+
+label:label_yes;
+setVar:love=love+5;
+:【好感度 +5 | 当前：{love}】;
+changeFigure:陈泽_开心.png -center;
+陈泽:"嘿嘿，走吧。";
+jumpLabel:end_story;
+
+label:label_no;
+changeFigure:陈泽_低落.png -center;
+陈泽:"哦...那明天见。";
+jumpLabel:end_story;
+
+label:end_story;
+changeBg:black;
+:这条路，不知道还能走多久。;
+end;
+```
+
+---
+
+## 6. 不用 AI 的纯手动工作流
+
+| 步骤 | 怎么做 | 工具 |
+|------|--------|------|
+| 写剧本 | 打开记事本，打字 | 记事本/VSCode |
+| 做立绘 | 手绘或拼素材 | Photoshop/SAI/画图 |
+| 做背景 | 拍照/手绘/免费素材站 | bg-mania.jp |
+| 做配音 | 麦克风录音 | Audacity（免费） |
+| 做音乐 | 免费音乐网站 | DOVA-S / 魔王魂 |
+| 做视频 | 剪辑软件剪 | 剪映 / Premiere |
+| 跑游戏 | 拖入 Terre 编辑器 | WebGAL Terre |
+
+**你不需要 AI，你只需要想一个故事。**
+
+---
+
+## 7. 常见问题排查
+
+### 画面类
+| 问题 | 原因 | 解决 |
+|------|------|------|
+| 立绘不显示 | 不是 PNG 或放错目录 | 用 PNG 格式，放 `figure/`，剧本里用 `changeFigure:文件名.png -center` |
+| 立绘一闪就消失 | 后面紧跟了 `changeFigure:none` 或切换背景 | 检查立绘命令后面的代码 |
+| 背景变形/拉伸 | 不是 1920×1080 | 必须裁切到 1920×1080，否则会拉伸 |
+| 背景切换很卡 | 图片文件太大 | 压缩到 500KB 以内，用 webp 格式 |
+| 多个立绘重叠 | 没指定位置 | 分别用 `-left` 和 `-right` 分开放 |
+
+### 音频类
+| 问题 | 原因 | 解决 |
+|------|------|------|
+| 语音不播放 | 文件不存在或不是 MP3 | 检查 `vocal/` 目录，用 MP3 格式 |
+| BGM 突然停了 | 用了 `bgm:none` 或切换场景 | 每个场景单独设置 BGM |
+| 音效和 BGM 混在一起听不清 | 音量没有区分 | BGM 音量设小，音效适当加大 |
+| 配音文件太大 | 未压缩 | 用 Audacity 导出 MP3 128kbps |
+
+### 编辑器类
+| 问题 | 原因 | 解决 |
+|------|------|------|
+| 编辑器打不开项目 | 选了子目录 | 选项目根目录（有 `game/` 的目录） |
+| 点运行没反应 | 剧本可能有语法错误 | 检查分号 `;` 和引号 `"` 是否成对 |
+| 编辑器闪退 | 图片尺寸太大 | 压缩图片到合理大小 |
+
+### 剧本类
+| 问题 | 原因 | 解决 |
+|------|------|------|
+| 选项不生效 | 语法错误 | 格式：`choose:选项文字:标签名\|选项文字:标签名;` |
+| 好感度不变化 | 没初始化变量 | 在剧本开头加 `setVar:love=0;` |
+| 跳转后立绘还在 | 跨场景没隐藏 | 跳转前加 `changeFigure:none -all;` |
+| 中文乱码/方块 | 缺少中文字体 | `gui/font/` 放入中文字体 ttf |
+| 换行位置不对 | 一句太长 | 把长对话拆成多句 |
+
+### 部署类
+| 问题 | 原因 | 解决 |
+|------|------|------|
+| 导出的 HTML 打不开 | 浏览器安全限制 | 用 WebGAL Terre 的导出功能 |
+| GitHub Pages 不更新 | 缓存问题 | 等 1-2 分钟，或强制刷新 `Ctrl+F5` |
+
+---
+
+## 8. 进阶技巧
+
+### 多场景切换
+```webgal
+; start.txt
+changeScene:chapter1.txt#start;
+
+; chapter1.txt（新文件）
+label:start;
+changeBg:新场景.png;
+:切换到第一章了。;
+```
+
+### 条件好感度锁
+```webgal
+; 只有好感度 >= 10 才能选
+choose:(love>=10)[love>=10]->告白:confession|:|end;  ; 第二个为空表示不够条件时的选项
+```
+
+### 全屏特效/滤镜
+```webgal
+filmMode:oldFilm;         ; 老电影滤镜
+filmMode:shake;           ; 抖动效果
+filmMode:none;            ; 关闭
+```
+
+### 转场动画
+```webgal
+setTransition:fade -duration=1000;   ; 1 秒淡入淡出
+setTransition:slideLeft;             ; 左滑切换
+```
+
+---
+
+## 8. 本项目实际剧本参考
+
+本仓库 `game/scene/` 下就是实际运行的剧本，直接用记事本打开看：
+
+- `start.txt` — 序章（网吧偷钱、楼下偶遇、QQ头像、KTV邀约、表白）
+- `diyizhang.txt` — 第一章（甜宠线）
+- `dierzhang.txt` — 第二章
+- `zhanhudiyizhang.txt` — 展虎线第一章
+
+打开它，对照上面的语法参考，你就能看懂整个游戏是怎么写的。
+
+---
+
+## 9. 下一步
+
+1. 新建你的第一个 `.txt` 剧本
+2. 用 AI 生成几张立绘和背景放进去
+3. 跑起来，截图发朋友圈
+4. 继续写剧情，添加配音和 BGM
+5. 做到一半迷茫了？回来看这个项目找灵感
+
+> **做游戏最好的时机是十年前，其次是现在。打开记事本，打字吧。**
+
+---
+
+- WebGAL 官方文档：https://docs.openwebgal.com/
+- WebGAL GitHub：https://github.com/OpenWebGAL/WebGAL
+- 本仓库 Wiki：https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media/wiki</script>
+
+<script type="text/markdown" data-src="tutorials/HOW_TO_CONTRIBUTE.md"># 如何提交你的内容到这个仓库
+
+> 目标仓库：[https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media](https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media)
+
+---
+
+## 方法一：Fork + Pull Request（推荐）
+
+适合：你做了新内容（新章节、新立绘、新配音等），想合并到主仓库。
+
+### 1. Fork 本仓库
+
+打开上面链接 → 右上角点 **Fork** → 选你自己的账号。Fork 完成后会跳到你账号下的副本。
+
+### 2. 克隆到本地
+
+```bash
+git clone https://github.com/你的用户名/Im-surrounded-by-ChenZe-Media.git
+cd Im-surrounded-by-ChenZe-Media
+```
+
+### 3. 创建你的分支
+
+**分支命名规范**：`作者名/内容简述`
+
+```bash
+git checkout -b 你的昵称/新章节第一章
+```
+
+例子：
+```bash
+git checkout -b xiaoming/add-chapter2
+git checkout -b zhangsan/new-chenze-sprites
+git checkout -b wangwu/bugfix-audio
+```
+
+### 4. 修改 + 提交
+
+做了内容后：
+```bash
+git add .
+git commit -m "新增：第一章第二幕 - 教室日常"
+git push -u origin 你的昵称/新章节第一章
+```
+
+### 5. 发起 Pull Request
+
+回到 GitHub 上你的 Fork 仓库 → 点 **Pull Request** → **New Pull Request**。
+
+**PR 标题格式**：`[类型] 简要描述`
+
+**PR 描述模板**（复制填写）：
+```
+## 作者
+你的昵称
+
+## 内容
+简要说明做了什么改动
+
+## 是否允许协作
+- [ ] 允许其他人基于此分支继续开发
+- [ ] 仅由本人维护
+```
+
+### 6. 等待合入
+
+我会审阅后合并。如果有修改建议会在 PR 里讨论。
+
+---
+
+## 方法二：直接在 issue 里提交
+
+适合：你不会用 Git，但有剧本/图片/配音想分享。
+
+在 [Issues](https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media/issues) 页面点 **New Issue**，标题写清楚内容，正文贴链接或直接贴文本，上传附件。我帮你整合进仓库。
+
+---
+
+## 分支协作规则
+
+| 规则 | 说明 |
+|------|------|
+| **命名格式** | `作者名/内容简述` |
+| **作者标记** | PR 描述中必须写明作者昵称 |
+| **允许他人协作** | PR 描述中勾选是否开放协作 |
+| **开放协作** | 勾选后，其他人可以在你的分支上继续加内容 |
+| **仅本人维护** | 勾选后，只有你能 push，其他人想参与需新开分支 |
+
+---
+
+## 内容规范
+
+提交前确认：
+- 图片文件不太大（单张 < 5MB）
+- 立绘用 PNG 透明背景，背景图 1920×1080
+- 配音用 MP3，命名用台词内容（方便识别）
+- 剧本用 `.txt` 文件，放 `game/scene/`
+- 不要提交 `.zip` `.rar` `.7z` 等压缩包
+- 不要提交 `node_modules/` 和临时文件
+
+---
+
+## 常见问题
+
+| 问题 | 解决 |
+|------|------|
+| 不会装 Git | 在 Issues 里直接提交，我来处理 |
+| Fork 找不到原仓库 | 确保登录状态，点本仓库链接再 Fork |
+| PR 被拒了 | 看 PR 里的 Review 意见，改完再推 |
+| 想和别人的分支合并 | 在 PR 里 @ 对方，商量好再操作 |
+
+---
+
+> **不会写代码也能做游戏，不会用 Git 也能贡献。写剧本、画立绘、配语音——总有一块你能参与。**</script>
+
+<script type="text/markdown" data-src="tutorials/IMAGE_GENERATION.md"># AI 生图教程
+
+## 推荐工具对比
+
+| 工具 | 类型 | 优点 | 缺点 | 适合 |
+|------|------|------|------|------|
+| **即梦** | 在线 | 中文友好、上手快、质量高 | 人脸有限制 | 背景/道具/场景概念图 |
+| **Banana** | 在线/API | 无限制、多模型 | 英文界面 | 角色立绘/批量生图 |
+| **ComfyUI** | 本地 | 完全可控、无限生成 | 需配置环境 | 精细控制/批量/视频 |
+
+## 角色立绘 Prompt 参考
+
+### 陈泽（少年版 2012 年）
+
+```
+young chinese boy, 14 years old, school uniform,
+short black hair, cute face, shy expression,
+anime style, full body portrait, white background,
+clean lines, --ar 9:16
+```
+
+### 陈泽（青年主播版）
+
+```
+young chinese man, 20 years old, media company CEO,
+business casual outfit, confident smile,
+anime style, half body portrait --ar 9:16
+```
+
+### 东北小城背景
+
+```
+small county town in Heilongjiang, China,
+early 2010s, old residential buildings, summer,
+green trees, cloudy sky, game background,
+photorealistic --ar 16:9
+```
+
+### 道具素材
+
+```
+red landline telephone, old style, isolated on white,
+product photography style, high detail
+```
+
+## 本项目的生图全流程
+
+```
+第 1 步：确定需求
+   → 需要什么角色/场景/道具
+   → 参考 docs/story/ 中的剧本确定场景
+   
+第 2 步：编写 Prompt
+   → 参考上面的模板
+   → 调整关键词直到出图满意
+   
+第 3 步：批量生成
+   → 同一 Prompt 生成 4-8 张
+   → 筛选最符合的 1-2 张
+   
+第 4 步：后期处理
+   → Photoshop 去背景（立绘需透明 PNG）
+   → 调色统一风格
+   → 裁剪到 1920x1080（背景）或合适尺寸（立绘）
+   
+第 5 步：命名规范
+   → 立绘：角色名_表情.png（如：陈泽_开心.png）
+   → 背景：场景名_时间.png（如：教室_白天.png）
+   
+第 6 步：放入游戏目录
+   → 立绘 → game/figure/
+   → 背景 → game/background/
+```
+
+## 角色一致性技巧
+
+1. **固定 Seed 值**：用相同 Prompt + Seed 生成同角色多表情
+2. **图生图**：先用一张满意的图为基础，微调生成变体
+3. **ControlNet**：用 OpenPose 控制姿势，Canny 控制边缘
+4. **LoRA**：训练角色 LoRA 实现高度一致性</script>
+
+<script type="text/markdown" data-src="tutorials/VOICE_DUBBING.md"># 配音制作教程
+
+## 配音文件规范
+
+| 项目 | 要求 |
+|------|------|
+| 格式 | MP3（兼容最好）或 FLAC（无损） |
+| 采样率 | 44100Hz |
+| 声道 | 单声道（游戏配音） |
+| 命名 | `角色名/台词内容.mp3` |
+| 目录 | `game/vocal/角色名/` |
+
+## 完整制作流程
+
+### 方法一：AI 语音合成（高速）
+
+```
+第 1 步：整理台词
+   → 从剧本中提取所有角色台词
+   → 按角色分文件整理
+
+第 2 步：选择 TTS 工具
+   → 在线：火山引擎 TTS、讯飞、Azure
+   → 本地：VITS、GPT-SoVITS
+
+第 3 步：逐条生成
+   → 一次生成一句台词
+   → 检查发音和语气
+   → 不满意的重新生成
+
+第 4 步：后期处理（Audacity）
+   → 降噪（Noise Reduction）
+   → 统一音量（Normalize）
+   → 裁剪首尾空白（Truncate Silence）
+
+第 5 步：导出命名
+   → 格式：MP3 320kbps
+   → 命名：完整的台词文字.mp3（方便识别）
+   
+第 6 步：放入游戏
+   → 放到 game/vocal/对应角色目录/
+   → 在剧本中用 -语音文件.mp3 关联
+```
+
+### 方法二：真人录制（高质量）
+
+```
+第 1 步：找配音演员
+   → 朋友/配音社团/配音平台
+   
+第 2 步：录制
+   → 安静环境，电容麦克风
+   → 一人分饰多角录多遍
+   
+第 3 步：后期
+   → 同 AI 方案的 Audacity 流程
+```
+
+## 剧本中关联配音
+
+```webgal
+; 语法：角色名:"台词" -语音文件.mp3;
+陈泽:"今天天气真好。" -陈泽/今天天气真好。.mp3;
+
+; 不带语音
+陈泽:"这是一句没有语音的台词。";
+
+; 旁白没有语音
+:这是一段旁白。;
+```
+
+## 本项目配音目录结构
+
+```
+game/vocal/
+├── 陈泽/            # 100+ 条
+│   ├── 你好.mp3
+│   ├── 再见.mp3
+│   └── ...
+├── 黑白/            # 20+ 条
+├── 展虎/            # 30+ 条
+├── 崔立伟/
+├── 刘朔军/
+├── 王女开/          # 女主角
+├── 配角/            # 奶奶/妈妈/老师等
+└── ...
+```
+
+## 批量转换脚本
+
+本仓库提供了 FLAC → MP3 的批量转换脚本：
+
+- `tools/scripts/convert_flac_to_mp3.bat`（Windows）
+- `tools/scripts/convert_flac_to_mp3.py`（Python）
+
+## 注意事项
+
+- AI 语音合成目前不会有肖像权问题（仅音频）
+- 长句子建议分段生成，语气更自然
+- 关键情绪台词（哭、笑、怒吼）建议真人录制
+- 语音文件大小尽量控制在 200KB 以内
+- 文件名不要包含特殊字符 `\/:*?"<>|`</script>
+
+<script type="text/markdown" data-src="tutorials/VIDEO_GENERATION.md"># 视频生成教程
+
+## 视频在游戏中的作用
+
+WebGAL 支持在剧本中插入 MP4 视频作为过场动画，用于：
+- 开场动画（展示标题/氛围）
+- 关键剧情演出（摔手机、表白等名场面）
+- 结局动画（HE/NE/BE 分歧演出）
+
+## 视频规格
+
+| 参数 | 要求 |
+|------|------|
+| 分辨率 | 1920x1080（16:9） |
+| 格式 | MP4（H.264 编码） |
+| 时长 | 5-30 秒 |
+| 码率 | 8-15 Mbps |
+| 帧率 | 24/30 fps |
+
+## 剧本中调用视频
+
+```webgal
+; 基础播放
+playVideo:开场动画.mp4;
+
+; 带音量控制
+playVideo:过场.mp4 -volume=100;
+
+; 不可跳过（适合关键剧情）
+playVideo:表白.mp4 -skipOff;
+
+; 音量 50%，不可跳过
+playVideo:结局.mp4 -volume=50 -skipOff;
+```
+
+## 生成方案对比
+
+### 方案 1：ComfyUI + AnimateDiff（推荐）
+
+功能最强，完全本地运行，可精确控制。
+
+- **教程**：B站 [啦啦啦的小黄瓜](https://space.bilibili.com/219572544)
+- **适合**：角色动态、精细动画
+- **工作流**：Prompt → ControlNet (姿势) → AnimateDiff → 输出 MP4
+
+### 方案 2：Banana
+
+在线 API，无需部署。
+
+- **适合**：简单场景动画、快速出片
+- **操作**：上传图片 → 选择模型 → 生成
+
+### 方案 3：即梦
+
+字节跳动出品，部分功能有人脸限制。
+
+- **适合**：无人物场景、风景动画
+- **注意**：目前人脸相关的生成有限制
+
+## 视频后期处理
+
+```
+生成原始视频
+    ↓
+剪映/Premiere 剪辑
+    ↓ 裁剪到 1920x1080
+    ↓ 调色统一风格
+    ↓ 添加字幕/特效
+    ↓ 导出 H.264 MP4
+放入 game/video/
+```
+
+## 本项目现有视频
+
+| 文件 | 用途 | 时长 |
+|------|------|------|
+| `序章开场.mp4` | 序章开场动画 | ~10s |
+| `陈泽摔手机原片.mp4` | 序章关键剧情 | ~5s |
+| `没分手.mp4` | 甜宠线结局 | ~10s |
+| `分手.mp4` | 分手线结局 | ~10s |
+| `买大房子.mp4` | 未来规划场景 | ~5s |
+| `荣一鸣奔现.mp4` | 配角过场 | ~5s |</script>
+
+<script type="text/markdown" data-src="tutorials/COMFYUI_SETUP.md"># ComfyUI 本地部署教程
+
+## 什么是 ComfyUI？
+
+ComfyUI 是一个基于节点的 Stable Diffusion 工作流工具。相比 WebUI 的整合界面，ComfyUI 以流程图（节点图）的方式组织 AI 生图流程，控制更精细、效率更高。
+
+## 安装步骤
+
+```
+第 1 步：安装 Python 3.10+
+   → 官网下载 python.org
+   → 安装时勾选 "Add Python to PATH"
+
+第 2 步：安装 Git
+   → 官网下载 git-scm.com
+
+第 3 步：克隆 ComfyUI
+   → git clone https://github.com/comfyanonymous/ComfyUI.git
+   → cd ComfyUI
+
+第 4 步：安装依赖
+   → pip install -r requirements.txt
+
+第 5 步：下载模型
+   → 将 checkpoint 模型放到 models/checkpoints/
+   → 推荐：Anything V5、Counterfeit（二次元风格）
+
+第 6 步：启动
+   → python main.py
+   → 浏览器打开 http://127.0.0.1:8188
+```
+
+## 本项目常用工作流
+
+### 1. 文生图（角色立绘）
+
+```
+Checkpoint → 正面 Prompt → 负面 Prompt → Empty Latent Image
+                                                      ↓
+                                            KSampler → VAE Decode → Save Image
+```
+
+### 2. 图生图（基于已有图做变体）
+
+```
+Load Image → VAE Encode → KSampler → VAE Decode → Save Image
+```
+
+### 3. ControlNet（控制角色姿势）
+
+```
+Load Image（姿势参考图）
+    ↓
+OpenPose Pose 提取姿势
+    ↓
+ControlNet Apply → KSampler → 输出
+```
+
+### 4. AnimateDiff（视频生成）
+
+```
+Checkpoint + Prompt → ControlNet → AnimateDiff → VAE Decode → Save Video
+```
+
+## 推荐模型
+
+| 模型 | 用途 | 下载 |
+|------|------|------|
+| Anything V5 | 二次元立绘 | Hugging Face |
+| Counterfeit | 高质量二次元 | Hugging Face |
+| Realistic Vision | 写实背景 | CivitAI |
+| 各种 LoRA | 角色/风格控制 | CivitAI |
+
+## 教程推荐
+
+B 站 [啦啦啦的小黄瓜](https://space.bilibili.com/219572544) 有完整的 ComfyUI 入门到进阶系列：
+1. 安装与配置
+2. 基础文生图
+3. 图生图
+4. ControlNet 姿势控制
+5. AnimateDiff 视频
+6. 角色一致性控制
+
+## 本项目的 ComfyUI 应用
+
+- 角色立绘批量生成（同一角色多表情）
+- 背景图生成与变体
+- 过场动画视频
+- CG 图片
+- 三视图模板生成
+
+## 常见问题
+
+**Q: 显存不够？**
+A: 降低图片尺寸（512x768），使用 --lowvram 参数启动
+
+**Q: 出图慢？**
+A: 减少步数（20→15），使用 xformers 加速
+
+**Q: 角色不像？**
+A: 训练或下载角色 LoRA，配合 ControlNet</script>
+
+</body>
+</html>
