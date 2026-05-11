@@ -12,6 +12,8 @@
 
 > 💡 **第一次来？** 双击仓库根目录的 `index.html`，打开「中转站」页面——教程、剧本、工具、素材一键直达，小白也能 3 分钟上手。
 
+> 🔧 **贡献不设门槛**：不用做出完整的剧情线。修一个 bug、改一句台词、加一张立绘、录一条配音，哪怕只是提个 issue 指出哪里不对劲——都是贡献。你不会所有事情，但总有你能做的一件事。详见 [如何提交你的进度](https://github.com/superlizi114514/Im-surrounded-by-ChenZe-Media/blob/main/tutorials/HOW_TO_CONTRIBUTE.md)。
+
 ---
 
 ## 教程索引入口
