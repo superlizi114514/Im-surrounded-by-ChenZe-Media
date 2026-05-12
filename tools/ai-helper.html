@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 剧本助手</title>
+<style>
+:root{--bg:#fff;--tx:#1e293b;--muted:#94a3b8;--pri:#2563eb;--bd:#e2e8f0;--good:#16a34a;--bad:#dc2626;--warn:#d97706;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font:13px/1.6 system-ui,sans-serif;background:#f1f5f9;color:var(--tx);min-height:100vh}
+.head{background:var(--bg);border-bottom:1px solid var(--bd);padding:8px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.head h1{font-size:14px;color:var(--pri)}
+.head .st{font-size:11px;color:var(--muted);margin-left:auto;display:flex;align-items:center;gap:6px}
+.head .dot{width:7px;height:7px;border-radius:50%}
+.dot.ok{background:var(--good)}.dot.off{background:var(--bad)}
+.btn{padding:5px 12px;border:1px solid var(--bd);border-radius:5px;background:var(--bg);cursor:pointer;font-size:12px;font-family:inherit;transition:.12s;color:var(--tx)}
+.btn:hover{background:#eff6ff;border-color:var(--pri)}
+.btn.a{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn.a:hover{background:#1d4ed8}
+.main{max-width:800px;margin:0 auto;padding:16px}
+.panel{background:var(--bg);border:1px solid var(--bd);border-radius:8px;margin-bottom:12px;overflow:hidden}
+.phead{padding:8px 12px;font-size:11px;font-weight:600;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;background:#fafbfc}
+.pbody{padding:12px}
+select,input[type=text]{padding:6px 10px;border:1px solid var(--bd);border-radius:4px;font-size:12px;font-family:inherit}
+textarea{width:100%;padding:10px;border:1px solid var(--bd);border-radius:4px;font-size:12px;font-family:Consolas,Monaco,monospace;resize:vertical;min-height:60px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.hint{font-size:11px;color:var(--muted);margin:4px 0}
+.out{background:#f8fafc;border:1px solid var(--bd);border-radius:4px;padding:10px;font:12px/1.6 Consolas,Monaco,monospace;min-height:48px;max-height:300px;overflow-y:auto;white-space:pre-wrap}
+.out:empty::after{content:'AI 生成的脚本会显示在这里';color:var(--muted)}
+.tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;margin:2px}
+.tag.c{background:#eff6ff;color:var(--pri)}.tag.f{background:#f0fdf4;color:var(--good)}.tag.w{background:#fffbeb;color:var(--warn)}
+.cfg{display:none}
+.cfg.show{display:block}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>AI 剧本助手</h1>
+  <span style="font-size:11px;color:var(--muted)">配合 WebGal 编辑器使用</span>
+  <div class="st">
+    <span id="svStatus">服务</span><div class="dot off" id="svDot"></div>
+    <span id="aiStatus" style="margin-left:8px">AI</span><div class="dot off" id="aiDot"></div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- 文件选择 -->
+<div class="panel">
+  <div class="phead">当前剧本</div>
+  <div class="pbody">
+    <div class="row">
+      <select id="fileSelect" onchange="loadSelected()">
+        <option value="">点击「刷新」加载文件列表...</option>
+      </select>
+      <button class="btn" onclick="loadFiles()" style="flex:0">刷新</button>
+    </div>
+    <div class="hint" id="fileHint">先启动 server.js 才能获取文件列表</div>
+  </div>
+</div>
+
+<!-- AI 生成 -->
+<div class="panel">
+  <div class="phead">AI 生成</div>
+  <div class="pbody">
+    <div class="row">
+      <select id="aiBackend" onchange="switchBackend()" style="flex:1">
+        <option value="chrome">Chrome 内置 (离线)</option>
+        <option value="api">API (DeepSeek/OpenAI)</option>
+      </select>
+      <button class="btn" onclick="toggleCfg()" style="flex:0">设置</button>
+    </div>
+    <div class="cfg" id="aiCfg">
+      <div class="row" style="margin-top:6px">
+        <input type="text" id="aiKey" placeholder="API Key (sk-...)" style="flex:1">
+        <input type="text" id="aiEndpoint" placeholder="https://api.openai.com/v1" style="flex:1">
+      </div>
+      <div class="hint">默认兼容 OpenAI / DeepSeek。Key 自动保存在浏览器本地。</div>
+    </div>
+    <textarea id="aiPrompt" rows="2" placeholder="描述想你写的剧情，例如：陈泽在教室里向王妍道歉，两人和好..." style="margin-top:8px"></textarea>
+    <div class="hint">
+      快捷：<a href="#" onclick="fillPrompt('表白')" style="color:var(--pri)">表白</a>
+      <a href="#" onclick="fillPrompt('吵架和好')" style="color:var(--pri)">吵架和好</a>
+      <a href="#" onclick="fillPrompt('搞笑日常')" style="color:var(--pri)">搞笑日常</a>
+      <a href="#" onclick="fillPrompt('选项分支')" style="color:var(--pri)">选项分支</a>
+      <a href="#" onclick="checkSyntax()" style="color:var(--warn)">语法检查</a>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <button class="btn a" onclick="callAI()" style="flex:1">生成</button>
+      <button class="btn" onclick="appendToFile()">追加到剧本末尾</button>
+      <button class="btn" onclick="insertAtCursor()">插入光标位置</button>
+    </div>
+    <div class="out" id="aiOut"></div>
+  </div>
+</div>
+
+<!-- 预览 -->
+<div class="panel">
+  <div class="phead">剧本预览 <span class="tag c" id="lineCount"></span></div>
+  <div class="pbody">
+    <pre id="preview" style="font:12px/1.6 Consolas,Monaco,monospace;max-height:320px;overflow-y:auto;white-space:pre-wrap;margin:0">选择一个剧本文件...</pre>
+  </div>
+</div>
+
+</div>
+
+<script>
+const API='http://localhost:3003';
+let aiOutput='',currentFile='',currentContent='';
+
+// ==== 文件操作 ====
+async function api(url,opts={}){
+  const r=await fetch(API+url,{headers:{'Content-Type':'application/json'},...opts});
+  return r.json();
+}
+async function loadFiles(){
+  try{
+    const d=await api('/api/files');
+    if(!d.success)throw new Error(d.error);
+    setOnline(true);
+    document.getElementById('fileHint').textContent=d.files.length+' 个场景文件';
+    const sel=document.getElementById('fileSelect');
+    sel.innerHTML='<option value="">选择文件...</option>'+d.files.map(f=>`<option>${f.name}</option>`).join('');
+  }catch(e){setOnline(false);document.getElementById('fileHint').textContent='无法连接 server.js (端口 3003)'}
+}
+async function loadSelected(){
+  const fn=document.getElementById('fileSelect').value;
+  if(!fn)return;
+  const d=await api('/api/read?file='+encodeURIComponent(fn));
+  if(d.success){
+    currentFile=fn;currentContent=d.content;
+    document.getElementById('preview').textContent=d.content;
+    document.getElementById('lineCount').textContent=d.content.split('\n').length+' 行';
+  }
+}
+async function saveFile(content){
+  if(!currentFile){alert('先选择一个剧本文件');return false}
+  const d=await api('/api/save',{method:'POST',body:JSON.stringify({file:currentFile,content})});
+  return d.success;
+}
+
+// ==== 连接状态 ====
+function setOnline(v){
+  const d=document.getElementById('svDot'),s=document.getElementById('svStatus');
+  d.className=v?'dot ok':'dot off';s.textContent=v?'已连接':'离线';
+}
+
+// ==== AI ====
+const WGS=`你是 WebGAL 脚本专家。根据用户描述生成 WebGAL 剧本片段。语法：
+;注释 | :旁白; | 角色名:"台词"; | 角色名:"台词" -配音.mp3;
+changeBg:背景.png; | changeFigure:立绘.png -center|-left|-right;
+choose:选项A:labelA|选项B:labelB; | label:名称; | jumpLabel:名称;
+setVar:love=0; | setVar:love=love+5; | bgm:音乐.mp3;
+playVideo:视频.mp4; | wait:1000; | end; | changeScene:文件名.txt;
+只输出脚本不要解释。`;
+
+function fillPrompt(type){
+  const m={
+    '表白':'写一段陈泽向王妍表白的剧情，有紧张感和甜蜜感',
+    '吵架和好':'写一段两个角色吵架后其中一人道歉和好的剧情',
+    '搞笑日常':'写一段角色遇到手机没电、忘带钥匙等搞笑日常',
+    '选项分支':'写一段有两个选项分支的剧情，包含好感度变化',
+  };
+  document.getElementById('aiPrompt').value=m[type]||'';
+}
+
+async function callAI(){
+  const prompt=document.getElementById('aiPrompt').value.trim();
+  if(!prompt)return;
+  const out=document.getElementById('aiOut');
+  out.textContent='生成中...';
+  const ctx=currentContent?`\n当前剧本（供参考风格）:\n${currentContent.slice(-1000)}`:'';
+  const sys=WGS+ctx;
+
+  const bk=document.getElementById('aiBackend').value;
+  if(bk==='chrome'){
+    try{
+      if(!window.ai)throw 0;
+      const s=await window.ai.createTextSession();
+      aiOutput=(await s.prompt(`${sys}\n用户需求：${prompt}`)).trim();
+      out.textContent=aiOutput;return;
+    }catch(e){out.textContent='Chrome 内置 AI 不可用，请切换到 API 模式';}
+  }
+
+  const key=localStorage.getItem('ai_key')||'';
+  const ep=localStorage.getItem('ai_endpoint')||'https://api.openai.com/v1';
+  const model=localStorage.getItem('ai_model')||'gpt-3.5-turbo';
+  if(!key){out.textContent='请先在「设置」中填写 API Key';return}
+  try{
+    const r=await fetch(ep+'/chat/completions',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model,messages:[{role:'system',content:sys},{role:'user',content:prompt}],temperature:.7,max_tokens:800})
+    });
+    const d=await r.json();
+    if(d.error)throw new Error(d.error.message);
+    aiOutput=d.choices[0].message.content.trim();
+    out.textContent=aiOutput;
+  }catch(e){out.textContent='错误: '+e.message}
+}
+
+async function checkSyntax(){
+  if(!currentContent){alert('先选择一个剧本文件');return}
+  const out=document.getElementById('aiOut');
+  out.textContent='检查中...';
+  const sys='你是 WebGAL 语法检查器。指出脚本的语法问题。没有问题时回复"✓ 无问题"。只输出结果。';
+  // 直接用上面的 callAI 逻辑，但 system prompt 不同
+  const bk=document.getElementById('aiBackend').value;
+  if(bk==='chrome'){
+    try{const s=await window.ai.createTextSession();aiOutput=(await s.prompt(`${sys}\n${currentContent}`)).trim();out.textContent=aiOutput;return}catch(e){}
+  }
+  const key=localStorage.getItem('ai_key')||'';
+  const ep=localStorage.getItem('ai_endpoint')||'https://api.openai.com/v1';
+  const model=localStorage.getItem('ai_model')||'gpt-3.5-turbo';
+  if(!key){out.textContent='请设置 API Key';return}
+  try{
+    const r=await fetch(ep+'/chat/completions',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model,messages:[{role:'system',content:sys},{role:'user',content:currentContent}],temperature:0,max_tokens:500})
+    });
+    const d=await r.json();
+    aiOutput=d.choices[0].message.content.trim();
+    out.textContent=aiOutput;
+  }catch(e){out.textContent='错误: '+e.message}
+}
+
+function appendToFile(){
+  if(!aiOutput)return;
+  const c=currentContent+'\n'+(aiOutput.startsWith(';')||aiOutput.startsWith(':')||aiOutput.startsWith('change')||aiOutput.startsWith('label')||aiOutput.startsWith('choose')||aiOutput.startsWith('setVar')?aiOutput:'; '+aiOutput)+'\n';
+  writeBack(c);
+}
+function insertAtCursor(){appendToFile()}
+async function writeBack(content){
+  if(await saveFile(content)){
+    currentContent=content;
+    document.getElementById('preview').textContent=content;
+    document.getElementById('lineCount').textContent=content.split('\n').length+' 行';
+    document.getElementById('aiOut').textContent='已保存 ✓';
+    setTimeout(()=>document.getElementById('aiOut').textContent=aiOutput,1500);
+  }
+}
+
+// ==== 设置 ====
+function toggleCfg(){document.getElementById('aiCfg').classList.toggle('show')}
+function switchBackend(){
+  const bk=document.getElementById('aiBackend').value;
+  document.getElementById('aiCfg').classList.toggle('show',bk==='api');
+}
+document.getElementById('aiKey').addEventListener('change',function(){
+  localStorage.setItem('ai_key',this.value);
+  document.getElementById('aiDot').className='dot ok';
+});
+document.getElementById('aiEndpoint').addEventListener('change',function(){
+  localStorage.setItem('ai_endpoint',this.value);
+});
+
+// ==== 初始化 ====
+(async function init(){
+  loadFiles();
+  // 检测 AI
+  const ad=document.getElementById('aiDot');
+  if(window.ai && window.ai.createTextSession){
+    try{const s=await window.ai.createTextSession();const r=await s.prompt('hi');if(r){ad.className='dot ok';return}}catch(e){}
+  }
+  if(localStorage.getItem('ai_key')){ad.className='dot ok';return}
+  ad.className='dot off';
+  // 恢复设置
+  if(localStorage.getItem('ai_key'))document.getElementById('aiKey').value=localStorage.getItem('ai_key');
+  if(localStorage.getItem('ai_endpoint'))document.getElementById('aiEndpoint').value=localStorage.getItem('ai_endpoint');
+})();
+
+// 定时刷新连接
+setInterval(loadFiles,30000);
+</script>
+</body>
+</html>
